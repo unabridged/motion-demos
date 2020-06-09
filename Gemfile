@@ -42,3 +42,4 @@ group :development do
 end
 
 gem "motion", path: "../motion"
+gem "view_component"
