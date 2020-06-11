@@ -16,10 +16,11 @@
 
 .calc-grid {
   display: grid;
-  width: 300px;
+  width: 400px;
   height: 500px;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(6, 1fr);
+  font-family: Helvetica;
 }
 
 .buffer {
@@ -28,4 +29,28 @@
 
 .zero-button {
   grid-column: span 2;
+}
+
+.buffer-area {
+  background-color: #555;
+  color: white;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  font-size: 3rem;
+  padding: 8px;
+}
+
+.number-btn {
+  background-color: #CCC;
+}
+
+.op-btn {
+  background-color: #f5923e;
+  color: white;
+}
+
+.calc-grid button {
+  border: 1px solid #888;
+  font-size: 2rem;
 }

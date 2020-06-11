@@ -1,33 +1,33 @@
 <div class="calc-grid">
-  <span class="buffer">
+  <div class="buffer buffer-area">
     <% if buffering %>
       <%= buffer %>
     <% else %>
       <%= total %>
     <% end %>
-  </span>
+  </div>
 
-  <%= button_tag "C", data: { motion: "clear" } %>
-  <%= button_tag "+/-", data: { motion: "change_sign" } %>
-  <%= button_tag "%", data: { motion: "percent" } %>
-  <%= button_tag "÷", data: { motion: "divide" } %>
+  <%= button_tag "C", class: "number-btn", data: { motion: "clear" } %>
+  <%= button_tag "+/-", class: "number-btn", data: { motion: "change_sign" } %>
+  <%= button_tag "%", class: "number-btn", data: { motion: "percent" } %>
+  <%= button_tag "÷", class: "op-btn", data: { motion: "divide" } %>
 
-  <%= button_tag "7", data: { motion: "seven" } %>
-  <%= button_tag "8", data: { motion: "eight" } %>
-  <%= button_tag "9", data: { motion: "nine" } %>
-  <%= button_tag "X", data: { motion: "multiply" } %>
+  <%= button_tag "7", class: "number-btn", data: { motion: "seven" } %>
+  <%= button_tag "8", class: "number-btn", data: { motion: "eight" } %>
+  <%= button_tag "9", class: "number-btn", data: { motion: "nine" } %>
+  <%= button_tag "X", class: "op-btn", data: { motion: "multiply" } %>
 
-  <%= button_tag "4", data: { motion: "four" } %>
-  <%= button_tag "5", data: { motion: "five" } %>
-  <%= button_tag "6", data: { motion: "six" } %>
-  <%= button_tag "-", data: { motion: "subtract" } %>
+  <%= button_tag "4", class: "number-btn", data: { motion: "four" } %>
+  <%= button_tag "5", class: "number-btn", data: { motion: "five" } %>
+  <%= button_tag "6", class: "number-btn", data: { motion: "six" } %>
+  <%= button_tag "-", class: "op-btn", data: { motion: "subtract" } %>
 
-  <%= button_tag "1", data: { motion: "one" } %>
-  <%= button_tag "2", data: { motion: "two" } %>
-  <%= button_tag "3", data: { motion: "three" } %>
-  <%= button_tag "+", data: { motion: "add" } %>
+  <%= button_tag "1", class: "number-btn", data: { motion: "one" } %>
+  <%= button_tag "2", class: "number-btn", data: { motion: "two" } %>
+  <%= button_tag "3", class: "number-btn", data: { motion: "three" } %>
+  <%= button_tag "+", class: "op-btn", data: { motion: "add" } %>
 
-  <%= button_tag "0", class: "zero-button", data: { motion: "zero" } %>
-  <%= button_tag ".", data: { motion: "decimal" } %>
-  <%= button_tag "=", data: { motion: "equals" } %>
+  <%= button_tag "0", class: "number-btn zero-button", data: { motion: "zero" } %>
+  <%= button_tag ".", class: "number-btn", data: { motion: "decimal" } %>
+  <%= button_tag "=", class: "op-btn", data: { motion: "equals" } %>
 </div>
