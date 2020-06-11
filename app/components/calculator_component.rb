@@ -1,7 +1,7 @@
 class CalculatorComponent < ViewComponent::Base
   include Motion::Component
 
-  attr_reader :buffer, :buffering, :op, :total, :operand_one, :next_number
+  attr_reader :buffer, :buffering, :op, :operand_one, :next_number
 
   map_action :clear
 
@@ -28,9 +28,8 @@ class CalculatorComponent < ViewComponent::Base
   map_action :decimal
 
   def initialize(total: 0)
-    @total = total
-    @buffering = true
-    @buffer = ""
+    @buffer = total.to_s
+    @buffering = false
     @next_number = false
   end
 
@@ -46,50 +45,14 @@ class CalculatorComponent < ViewComponent::Base
   def zero; add_to_buffer("0"); end
   def decimal; add_to_buffer("."); end
 
-  def add_to_buffer(str)
-    if next_number
-      @buffer = str
-      @next_number = false
-    else
-      @buffer << str
-    end
-  end
-
-  def add
-    @operand_one = @buffer.to_f
-    @op = :+
-    @next_number = true
-  end
-
-  def subtract
-    @operand_one = @buffer.to_f
-    @op = :-
-    @next_number = true
-  end
-
-  def multiply
-    @operand_one = @buffer.to_f
-    @op = :*
-    @next_number = true
-  end
-
-  def divide
-    @operand_one = @buffer.to_f
-    @op = :/
-    @next_number = true
-  end
+  def add; set_op(:+); end
+  def subtract; set_op(:-); end
+  def multiply; set_op(:*); end
+  def divide; set_op(:/); end
 
   def change_sign
     amt = (@buffer.to_f * -1)
     @buffer = drop_decimals(amt).to_s
-  end
-
-  def drop_decimals(num)
-    if num == num.to_i
-      num.to_i
-    else
-      num
-    end
   end
 
   def percent
@@ -102,7 +65,7 @@ class CalculatorComponent < ViewComponent::Base
   end
 
   def equals
-    @total =
+    total =
       case op
       when :+
         operand_one + @buffer.to_f
@@ -114,17 +77,47 @@ class CalculatorComponent < ViewComponent::Base
         operand_one / @buffer.to_f
       end
 
-    @total = drop_decimals(@total)
+    @buffer = drop_decimals(total)
 
     @buffering = false
   end
 
   def clear
-    @total = 0
-    @buffering = true
+    @buffering = false
     @op = nil
     @operand_one = nil
-    @buffer = ""
+    @buffer = "0"
     @next_number = false
   end
+
+  private
+
+  def add_to_buffer(str)
+    if !buffering
+      @buffer = ""
+      @buffering = true
+    end
+
+    if next_number
+      @buffer = str
+      @next_number = false
+    else
+      @buffer << str
+    end
+  end
+
+  def set_op(operation)
+    @operand_one = @buffer.to_f
+    @op = operation
+    @next_number = true
+  end
+
+  def drop_decimals(num)
+    if num == num.to_i
+      num.to_i
+    else
+      num
+    end
+  end
+
 end
