@@ -5,25 +5,25 @@
 
   <%= button_tag "C", class: "number-btn", data: { motion: "clear" } %>
   <%= button_tag "+/-", class: "number-btn", data: { motion: "change_sign" } %>
-  <%= button_tag "%", class: "number-btn", data: { motion: "percent" } %>
-  <%= button_tag "÷", class: "op-btn", data: { motion: "divide" } %>
+  <%= button_tag "%", class: "number-btn", data: { motion: "operation", op: "%" } %>
+  <%= button_tag "÷", class: "op-btn", data: { motion: "operation", op: "/" } %>
 
-  <%= button_tag "7", class: "number-btn", data: { motion: "seven" } %>
-  <%= button_tag "8", class: "number-btn", data: { motion: "eight" } %>
-  <%= button_tag "9", class: "number-btn", data: { motion: "nine" } %>
-  <%= button_tag "X", class: "op-btn", data: { motion: "multiply" } %>
+  <%= button_tag "7", class: "number-btn", data: { motion: "add_char", char: "7" } %>
+  <%= button_tag "8", class: "number-btn", data: { motion: "add_char", char: "8" } %>
+  <%= button_tag "9", class: "number-btn", data: { motion: "add_char", char: "9" } %>
+  <%= button_tag "X", class: "op-btn", data: { motion: "operation", op: "*" } %>
 
-  <%= button_tag "4", class: "number-btn", data: { motion: "four" } %>
-  <%= button_tag "5", class: "number-btn", data: { motion: "five" } %>
-  <%= button_tag "6", class: "number-btn", data: { motion: "six" } %>
-  <%= button_tag "-", class: "op-btn", data: { motion: "subtract" } %>
+  <%= button_tag "4", class: "number-btn", data: { motion: "add_char", char: "4" } %>
+  <%= button_tag "5", class: "number-btn", data: { motion: "add_char", char: "5" } %>
+  <%= button_tag "6", class: "number-btn", data: { motion: "add_char", char: "6" } %>
+  <%= button_tag "-", class: "op-btn", data: { motion: "operation", op: "-" } %>
 
-  <%= button_tag "1", class: "number-btn", data: { motion: "one" } %>
-  <%= button_tag "2", class: "number-btn", data: { motion: "two" } %>
-  <%= button_tag "3", class: "number-btn", data: { motion: "three" } %>
-  <%= button_tag "+", class: "op-btn", data: { motion: "add" } %>
+  <%= button_tag "1", class: "number-btn", data: { motion: "add_char", char: "1" } %>
+  <%= button_tag "2", class: "number-btn", data: { motion: "add_char", char: "2" } %>
+  <%= button_tag "3", class: "number-btn", data: { motion: "add_char", char: "3" } %>
+  <%= button_tag "+", class: "op-btn", data: { motion: "operation", op: "+" } %>
 
-  <%= button_tag "0", class: "number-btn zero-button", data: { motion: "zero" } %>
-  <%= button_tag ".", class: "number-btn", data: { motion: "decimal" } %>
+  <%= button_tag "0", class: "number-btn zero-button", data: { motion: "add_char", char: "0" } %>
+  <%= button_tag ".", class: "number-btn", data: { motion: "add_char", char: "." } %>
   <%= button_tag "=", class: "op-btn", data: { motion: "equals" } %>
 </div>
