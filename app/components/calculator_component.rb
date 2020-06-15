@@ -6,6 +6,7 @@ class CalculatorComponent < ViewComponent::Base
   map_motion :clear
   map_motion :change_sign
   map_motion :percent
+  map_motion :equals
   map_motion :add_char
   map_motion :operation
 
@@ -16,7 +17,7 @@ class CalculatorComponent < ViewComponent::Base
   end
 
   def add_char(event)
-    str = event.element.dataset("char")
+    str = event.target.data[:char]
 
     if !buffering
       @buffer = ""
@@ -33,7 +34,7 @@ class CalculatorComponent < ViewComponent::Base
 
   def operation(event)
     @operand_one = buffer.to_f
-    @op = event.element.dataset("op").to_sym
+    @op = event.target.data[:op].to_sym
     @next_number = true
   end
 
@@ -82,5 +83,4 @@ class CalculatorComponent < ViewComponent::Base
       num
     end
   end
-
 end
