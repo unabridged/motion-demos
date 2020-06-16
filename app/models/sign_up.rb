@@ -6,7 +6,7 @@ class SignUp
   attribute :email, :string
   attribute :favorite_color, :string
   attribute :plan, :integer
-  attribute :accept, :boolean
+  attribute :terms, :boolean
   attribute :birthday, :date
   attribute :comments, :string
 
@@ -15,6 +15,6 @@ class SignUp
   validates :favorite_color, inclusion: { in: %w(pink yellow) }
   validates :birthday, presence: true
   validates :plan, inclusion: { in: [1, 2] }
-  validates :accept, acceptance: true
+  validates :terms, acceptance: true
   validates :comments, length: { minimum: 10 }
 end
