@@ -7,12 +7,20 @@ class FormComponent < ViewComponent::Base
 
   def initialize
     @signup = SignUp.new
+    @changed = Set.new
   end
 
   def validate(event)
-    kvs = event.form_data
-
-    signup.assign_attributes(kvs)
+    @changed << event.target.data[:field].to_sym
+    signup.assign_attributes(signup_attributes(event.form_data))
     signup.validate
+  end
+
+  private
+
+  def signup_attributes(params)
+    params.
+      require(:sign_up).
+      permit(:name, :email, :favorite_color, :birthday, :plan, :accept, :comments)
   end
 end

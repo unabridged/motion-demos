@@ -2,28 +2,32 @@
   <div class="form-group row">
     <%= f.label :name, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :name, class: "form-control", data: { motion: "blur->validate" } %>
+      <%= f.text_field :name, class: "form-control #{helpers.valid_class(@changed, f.object, :name)}", data: { motion: "blur->validate", field: :name } %>
+      <%= helpers.validation_messages f.object, :name %>
     </div>
   </div>
 
   <div class="form-group row">
     <%= f.label :email, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.email_field :email, class: "form-control", data: { motion: "blur->validate" } %>
+      <%= f.email_field :email, class: "form-control #{helpers.valid_class(@changed, f.object, :email)}", data: { motion: "blur->validate", field: :email } %>
+      <%= helpers.validation_messages f.object, :email %>
     </div>
   </div>
 
   <div class="form-group row">
     <%= f.label :favorite_color, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.select :favorite_color, [:pink, :green, :red, :purple, :yellow, :blue], {}, class: "form-control", data: { motion: "validate" } %>
+      <%= f.select :favorite_color, [:pink, :green, :red, :purple, :yellow, :blue], {}, class: "form-control #{helpers.valid_class(@changed, f.object, :favorite_color)}", data: { motion: "validate", field: :favorite_color } %>
+      <%= helpers.validation_messages f.object, :favorite_color %>
     </div>
   </div>
 
   <div class="form-group row">
     <%= f.label :birthday, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.date_field :birthday, class: "form-control", data: { motion: "validate" } %>
+      <%= f.date_field :birthday, class: "form-control #{helpers.valid_class(@changed, f.object, :birthday)}", data: { motion: "validate", field: :birthday } %>
+      <%= helpers.validation_messages f.object, :birthday %>
     </div>
   </div>
 
@@ -33,24 +37,25 @@
 
       <div class="col-sm-10">
         <div class="form-check">
-          <%= f.radio_button :plan, 1, checked: true, class: "form-check-input" %>
-          <%= f.label :plan_1, class: "form-check-label", data: { motion: "validate" } do %>
+          <%= f.radio_button :plan, 1, checked: true, class: "form-check-input #{helpers.valid_class(@changed, f.object, :plan)}", data: { motion: "validate", field: :plan } %>
+          <%= f.label :plan_1, class: "form-check-label" do %>
             Basic
           <% end %>
         </div>
 
         <div class="form-check">
-          <%= f.radio_button :plan, 2, class: "form-check-input" %>
-          <%= f.label :plan_2, class: "form-check-label", data: { motion: "validate" } do %>
+          <%= f.radio_button :plan, 2, class: "form-check-input #{helpers.valid_class(@changed, f.object, :plan)}", data: { motion: "validate", field: :plan } %>
+          <%= f.label :plan_2, class: "form-check-label" do %>
             Standard
           <% end %>
         </div>
 
         <div class="form-check">
-          <%= f.radio_button :plan, 3, class: "form-check-input" %>
-          <%= f.label :plan_3, class: "form-check-label", data: { motion: "validate" } do %>
-            Advanced
+          <%= f.radio_button :plan, 3, class: "form-check-input #{helpers.valid_class(@changed, f.object, :plan)}", data: { motion: "validate", field: :plan } %>
+          <%= f.label :plan_3, class: "form-check-label" do %>
+            Advanced (not available yet)
           <% end %>
+          <%= helpers.validation_messages f.object, :plan %>
         </div>
       </div>
     </div>
@@ -60,8 +65,9 @@
     <div class="col-sm-2">Terms of Service</div>
     <div class="col-sm-10">
       <div class="form-check">
-        <%= f.check_box :accept, class: "form-check-input" %>
-        <%= f.label :accept, "Accept Terms", class: "form-check-label", data: { motion: "validate" } %>
+        <%= f.check_box :accept, class: "form-check-input #{helpers.valid_class(@changed, f.object, :accept)}", data: { motion: "validate", field: :accept } %>
+        <%= f.label :accept, "Accept Terms", class: "form-check-label" %>
+        <%= helpers.validation_messages f.object, :accept %>
       </div>
     </div>
   </div>
@@ -69,7 +75,8 @@
   <div class="form-group row">
     <%= f.label :comments, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.text_area :comments, class: "form-control", data: { motion: "blur->validate" } %>
+      <%= f.text_area :comments, class: "form-control #{helpers.valid_class(@changed, f.object, :comments)}", data: { motion: "blur->validate", field: :comments } %>
+      <%= helpers.validation_messages f.object, :comments %>
     </div>
   </div>
 
