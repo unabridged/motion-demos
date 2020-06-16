@@ -2,7 +2,7 @@
   <div class="form-group row">
     <%= f.label :name, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :name, class: "form-control #{helpers.valid_class(@changed, f.object, :name)}", data: { motion: "blur->validate", field: :name } %>
+      <%= f.text_field :name, class: "form-control #{helpers.valid_class(@changed, f.object, :name)}", data: { motion: "validate", field: :name } %>
       <%= helpers.validation_messages f.object, :name %>
     </div>
   </div>
@@ -10,7 +10,7 @@
   <div class="form-group row">
     <%= f.label :email, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.email_field :email, class: "form-control #{helpers.valid_class(@changed, f.object, :email)}", data: { motion: "blur->validate", field: :email } %>
+      <%= f.email_field :email, class: "form-control #{helpers.valid_class(@changed, f.object, :email)}", data: { motion: "validate", field: :email } %>
       <%= helpers.validation_messages f.object, :email %>
     </div>
   </div>
@@ -75,7 +75,7 @@
   <div class="form-group row">
     <%= f.label :comments, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= f.text_area :comments, class: "form-control #{helpers.valid_class(@changed, f.object, :comments)}", data: { motion: "blur->validate", field: :comments } %>
+      <%= f.text_area :comments, class: "form-control #{helpers.valid_class(@changed, f.object, :comments)}", data: { motion: "validate", field: :comments } %>
       <%= helpers.validation_messages f.object, :comments %>
     </div>
   </div>
