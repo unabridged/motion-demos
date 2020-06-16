@@ -1,6 +1,8 @@
 class FormComponent < ViewComponent::Base
   include Motion::Component
 
+  delegate :validation_messages, :valid_class, to: :helpers
+
   attr_reader :signup
 
   map_motion :validate
