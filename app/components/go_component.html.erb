@@ -1,0 +1,5 @@
+<div class="board <%= @current %>">
+  <% @positions.each_with_index do |v,i| %>
+    <%= button_tag "", class: v.to_s, data: { motion: "place", index: i.to_s } %>
+  <% end %>
+</div>
