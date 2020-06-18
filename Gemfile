@@ -43,3 +43,5 @@ end
 
 gem "motion", path: "../motion"
 gem "view_component"
+
+gem "bootstrap", "~> 4.5"

@@ -1,7 +1,5 @@
-<div class="calc-grid">
-  <div class="buffer buffer-area">
-    <%= buffer %>
-  </div>
+<main class="calc-grid">
+  <div class="buffer buffer-area"> <%= buffer %> </div>
 
   <%= button_tag "C", class: "number-btn", data: { motion: "clear" } %>
   <%= button_tag "+/-", class: "number-btn", data: { motion: "change_sign" } %>
@@ -26,4 +24,4 @@
   <%= button_tag "0", class: "number-btn zero-button", data: { motion: "add_char", char: "0" } %>
   <%= button_tag ".", class: "number-btn", data: { motion: "add_char", char: "." } %>
   <%= button_tag "=", class: "op-btn", data: { motion: "equals" } %>
-</div>
+</main>
