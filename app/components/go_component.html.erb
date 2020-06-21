@@ -1,5 +1,20 @@
-<div class="board <%= @current %>">
-  <% @positions.each_with_index do |v,i| %>
+<div class="go">
+  <div class="captures">
+    <div>
+      <% @game.captures[:black].times do %>
+      <span class="black"></span>
+      <% end %>
+    </div>
+    <div>
+      <% @game.captures[:white].times do %>
+      <span class="white"></span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="board <%= @current %>">
+    <% @board.each_with_index do |v,i| %>
     <%= button_tag "", class: v.to_s, data: { motion: "place", index: i.to_s } %>
-  <% end %>
+    <% end %>
+  </div>
 </div>

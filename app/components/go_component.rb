@@ -4,19 +4,20 @@ class GoComponent < ViewComponent::Base
   map_motion :place
 
   def initialize
-    @positions = (1..81).map { |_| nil }
-    @current = :black
+    @game = GoGame.new
+    @board = @game.display
+    @current = @game.current
   end
 
   def place(event)
     index = event.target.data[:index].to_i
-    @positions[index] = @current
-    @current = next_player
-  end
+    pos = GoGame::Pos.new((index / 9), index.modulo(9))
 
-  private
+    @game.place(pos)
+    @board = @game.display
 
-  def next_player
-    @current == :black ? :white : :black
+    @game.next_player
+    @current = @game.current
   end
 end
+
