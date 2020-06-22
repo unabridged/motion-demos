@@ -5,6 +5,6 @@ Rails.application.routes.draw do
   get "/form", to: "demos#form", as: :form_demo
 
   resources :clicker_games, only: [:show, :create, :index] do
-    get :join, on: :collection
+    post :join, on: :collection
   end
 end
