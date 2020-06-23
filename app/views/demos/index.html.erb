@@ -1,8 +1,21 @@
 <h1>Motion Demos</h1>
-<p>Motion is a Ruby and JavaScript library that allows you to build reactive frontend UI components in your Rails application using pure Ruby.</p>
+<p>Motion is a library that allows you to build reactive frontend UI components in your Rails application using pure Ruby.</p>
 
-<ul class="list-group">
-  <li class="list-group-item"><%= link_to "Calculator", calculator_demo_path %></li>
-  <li class="list-group-item"><%= link_to "Form Validation", form_demo_path %></li>
-  <li class="list-group-item"><%= link_to "Clicker Game", clicker_games_path %></li>
+<h2>All Demos</h2>
+<ul class="list-group col-8">
+  <%= link_to calculator_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
+    <h4>Calculator</h4>
+    <p>Allow complex frontend user interactions to generate results in real time with zero JS.</p>
+  <% end %>
+
+  <%= link_to form_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
+    <h4>Form Validation</h4>
+    <p>Validate user input in real time with no JS and no repeated code from server to client.</p>
+  <% end %>
+
+  <%= link_to clicker_games_path, class: "list-group-item list-group-item-action pt-4" do %>
+    <h4>Clicker Game</h4>
+    <p>Multi-user game streaming real-time events between all players and updating UI accordingly.</p>
+  <% end %>
+
 </ul>
