@@ -1,22 +1,13 @@
-<div class="container mt-4">
-  <div class="row">
-    <div class="col">
-      <h1>Clicker Game</h1>
-      <p>Clicker game is a race to see who can click the most. Play by yourself or with as many friends as you want!</p>
+<fieldset class="mb-4">
+  <legend>Create Game</legend>
+  <%= button_to "Create Clicker Game", clicker_games_path, class: "btn btn-primary" %>
+</fieldset>
 
-      <fieldset class="mb-4">
-        <legend>Create Game</legend>
-        <%= button_to "Create Clicker Game", clicker_games_path, class: "btn btn-primary" %>
-      </fieldset>
-
-      <fieldset>
-        <legend>Join Game</legend>
-        <%= form_with url: join_clicker_games_path do |f| %>
-          <%= f.label :id, "Game ID" %>
-          <%= f.text_field :id %>
-          <%= f.submit "Join Game", class: "btn btn-primary" %>
-        <% end %>
-      </fieldset>
-    </div>
-  </div>
-</div>
+<fieldset>
+  <legend>Join Game</legend>
+  <%= form_with url: join_clicker_games_path do |f| %>
+    <%= f.label :id, "Game ID" %>
+    <%= f.text_field :id %>
+    <%= f.submit "Join Game", class: "btn btn-primary" %>
+  <% end %>
+</fieldset>

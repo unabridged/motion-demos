@@ -3,11 +3,7 @@ class ClickerGamesController < ApplicationController
 
   helper_method :key
 
-  def index
-  end
-
-  def show
-  end
+  layout "clicker"
 
   def create
     key = SecureRandom.hex(5)

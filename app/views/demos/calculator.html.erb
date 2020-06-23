@@ -1,1 +1,13 @@
-<%= render CalculatorComponent.new(total: 0) %>
+<%= link_to "Back to All Demos", root_path %>
+<h1>Motion Demos - Calculator</h1>
+<p>A pure-Ruby implementation of the <a href="https://ahfarmer.github.io/calculator/">React calculator demo</a> (<a href="https://reactjs.org/community/examples.html">referenced here</a>). Some interesting features:</p>
+
+<ul>
+  <li>No JS is used to execute calculator logic, only Ruby</li>
+  <li>The page is never reloaded</li>
+  <li>No frontend model/store/reducer required, all state is managed in a Ruby class on the server</li>
+</ul>
+
+<main class="my-4">
+  <%= render CalculatorComponent.new(total: 0) %>
+</main>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Motion Demos - Clicker Game</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col">
+        <%= link_to "Back to All Demos", root_path %>
+        <h1>Motion Demos - Clicker Game</h1>
+        <p>Clicker game is a race to see who can get the most points. Click by yourself or with friends!</p>
+
+        <ul>
+          <li>Multi-player clicker, challenge as many friends as you want by sharing a link</li>
+          <li>No JS, all Ruby!</li>
+          <li>Scores are shown and updated in real-time</li>
+          <li>Games are ephemeral and only last as long as at least 1 player is in the game</li>
+        </ul>
+
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
