@@ -922,6 +922,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
+"@unabridged/motion@../motion/client":
+  version "0.0.1"
+  dependencies:
+    "@rails/actioncable" ">= 6.0"
+    morphdom "^2.6.1"
+    stimulus ">= 1.1"
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -4514,13 +4521,6 @@ morphdom@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.6.1.tgz#e868e24f989fa3183004b159aed643e628b4306e"
   integrity sha512-Y8YRbAEP3eKykroIBWrjcfMw7mmwJfjhqdpSvoqinu8Y702nAwikpXcNFDiIkyvfCLxLM9Wu95RZqo4a9jFBaA==
-
-motion-client@../motion/client:
-  version "0.0.1"
-  dependencies:
-    "@rails/actioncable" ">= 6.0"
-    morphdom "^2.6.1"
-    stimulus ">= 1.1"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
