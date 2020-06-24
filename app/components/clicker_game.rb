@@ -17,8 +17,17 @@ class ClickerGame < ViewComponent::Base
     @game = { player => 0 }
 
     stream_from game_channel, :player_click
+    stream_from disconnect_game_channel, :player_disconnected
 
     track_score
+  end
+
+  def disconnected
+    ActionCable.server.broadcast(disconnect_game_channel, player)
+  end
+
+  def player_disconnected(player)
+    game.delete(JSON.parse(player))
   end
 
   def click(event)
@@ -38,6 +47,10 @@ class ClickerGame < ViewComponent::Base
 
   def game_channel
     "clicker:#{key}"
+  end
+
+  def disconnect_game_channel
+    "clicker:#{key}:disconnect"
   end
 
   def track_score
