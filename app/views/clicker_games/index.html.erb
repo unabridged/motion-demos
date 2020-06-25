@@ -1,0 +1,17 @@
+<fieldset class="mb-4">
+  <legend>Create Game</legend>
+  <%= button_to "Create Clicker Game", clicker_games_path, class: "btn btn-primary" %>
+</fieldset>
+
+<fieldset>
+  <legend>Join Game</legend>
+  <%= form_with url: join_clicker_games_path do |f| %>
+    <div class="form-group row">
+      <%= f.label :id, "Game ID", class: "col-sm-2 col-form-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :id, class: "form-control" %>
+      </div>
+    </div>
+    <%= f.submit "Join Game", class: "btn btn-primary" %>
+  <% end %>
+</fieldset>

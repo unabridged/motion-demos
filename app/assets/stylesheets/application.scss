@@ -2,7 +2,6 @@
 
 .calc-grid {
   display: grid;
-  width: 400px;
   height: 500px;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(6, 1fr);

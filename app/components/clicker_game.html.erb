@@ -1,0 +1,25 @@
+<div id="clicker-game">
+  <div class="card p-3">
+    <div class="card-body">
+      <ul>
+        <% game.sort_by{|x, y| y}.reverse.each do |(other_player, score)| %>
+          <li>
+            <% if other_player == player %>
+              <strong><%= player %> (you)</strong>: <%= score %>
+            <% else %>
+              <%= other_player %>: <%= score %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+
+      <%= button_tag "Click", class: "btn btn-primary", data: { motion: "click", amt: 1 } %>
+      <% if score > 10 %>
+        <%= button_tag "Click 5", class: "btn btn-primary", data: { motion: "click", amt: 5 } %>
+      <% end %>
+      <% if score > 100 %>
+        <%= button_tag "Click 55", class: "btn btn-primary", data: { motion: "click", amt: 55 } %>
+      <% end %>
+    </div>
+  </div>
+</div>
