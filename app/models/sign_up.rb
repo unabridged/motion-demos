@@ -10,6 +10,8 @@ class SignUp
   attribute :plan, :integer
   attribute :terms, :boolean
   attribute :birthday, :date
+  attribute :country, :string
+  attribute :state, :string
   attribute :comments, :string
 
   validates :name, presence: true
@@ -19,4 +21,6 @@ class SignUp
   validates :plan, inclusion: { in: [1, 2], message: "is unavailable" }
   validates :terms, acceptance: true
   validates :comments, length: { minimum: 10 }
+  validates :country, presence: true
+  validates :state, presence: true
 end

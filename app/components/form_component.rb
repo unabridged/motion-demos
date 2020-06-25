@@ -1,7 +1,8 @@
 class FormComponent < ViewComponent::Base
   include Motion::Component
 
-  delegate :validation_messages, :valid_class, to: :helpers
+  delegate :validation_messages, :valid_class, :state_options,
+    :country_options, to: :helpers
 
   attr_reader :signup, :disabled
 
@@ -19,11 +20,15 @@ class FormComponent < ViewComponent::Base
     @disabled = !signup.valid?
   end
 
+  def state_select?
+    signup.errors[:country].empty?
+  end
+
   private
 
   def signup_attributes(params)
     params.
       require(:sign_up).
-      permit(:name, :email, :favorite_color, :birthday, :plan, :terms, :comments)
+      permit(:name, :email, :favorite_color, :birthday, :plan, :terms, :comments, :country, :state)
   end
 end
