@@ -1,16 +1,5 @@
-class SignUp
-  include ActiveModel::Model
-  include ActiveModel::Attributes
-
+class Signup < ApplicationRecord
   COLORS = %w(pink yellow)
-
-  attribute :name, :string
-  attribute :email, :string
-  attribute :favorite_color, :string
-  attribute :plan, :integer
-  attribute :terms, :boolean
-  attribute :birthday, :date
-  attribute :comments, :string
 
   validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -19,4 +8,14 @@ class SignUp
   validates :plan, inclusion: { in: [1, 2], message: "is unavailable" }
   validates :terms, acceptance: true
   validates :comments, length: { minimum: 10 }
+  validates :country, presence: true
+  validates :state, presence: true
+
+  before_save :clear_state
+
+  def clear_state
+    if country_changed? && !country_was.nil?
+      self.state = nil
+    end
+  end
 end
