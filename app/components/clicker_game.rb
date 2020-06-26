@@ -27,7 +27,7 @@ class ClickerGame < ViewComponent::Base
   end
 
   def player_disconnected(player)
-    game.delete(JSON.parse(player))
+    game.delete(player)
   end
 
   def click(event)
@@ -38,9 +38,7 @@ class ClickerGame < ViewComponent::Base
   end
 
   def player_click(message)
-    msg = ActiveSupport::JSON.decode(message)
-
-    game[msg["player"]] = msg["score"].to_i
+    game[message["player"]] = message["score"].to_i
   end
 
   private
