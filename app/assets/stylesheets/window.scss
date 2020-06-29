@@ -1,0 +1,28 @@
+.window {
+  position: absolute;
+  height: 50em;
+  width: 30em;
+  top: 0;
+  border: 2em solid $light-gray;
+  overflow: hidden;
+  transition: background-color 2s;
+}
+
+.sun {
+  position: absolute;
+  width: 6em;
+  height: 6em;
+  left: 50%;
+  border-radius: 100%;
+  background-color: #FF4B3E;
+  transition: bottom 4s ease-in, background-color 2s;
+}
+
+.moon {
+  height: 6em;
+  width: 6em;
+  background: radial-gradient(ellipse farthest-corner at 33% 100%, rgb(35, 31, 32) 45%, rgb(161, 159, 160) 47%);
+  background-size: 150% 100%;
+  border: 0.25em solid rgb(29, 27, 28);
+  border-radius: 50%;
+}

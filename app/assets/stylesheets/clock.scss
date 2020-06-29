@@ -1,0 +1,94 @@
+@import "_variables";
+
+.clock-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 70vh;
+  opacity: 1;
+
+  .time-display {
+    width: 100%;
+    position: relative;
+    text-align: center;
+  }
+
+  button {
+    background-color: $primary-color;
+    color: $light-gray;
+    border-radius: 0.5em;
+    border: none;
+
+    &.selected {
+      border: 0.5em solid white;
+    }
+
+    &:focus {
+      outline: 0.25em dotted;
+    }
+  }
+}
+
+.face {
+  position: relative;
+  width: 24em;
+  height: 24em;
+  border-radius: 100%;
+  background: #ffffff;
+  border: 0.5em solid $primary-color-dark;
+  box-shadow: inset 2px 3px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+.hands {
+  position: absolute;
+  width: 0.25em;
+  height: 9em;
+  margin: auto;
+  top: calc(0px - 9em); // minus height
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: $primary-color;
+  transform-origin: bottom center;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  transition: transform 0.25s;
+}
+
+.hour {
+  height: 6em;
+  top: calc(0px - 6em);
+}
+
+.second {
+  height: 9.5em;
+  top: calc(0px - 10em); // minus height
+  background: $red;
+}
+
+.center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 100%;
+  background: white;
+  border: 2px solid $primary-color;
+  border-radius: 100px;
+  margin: auto;
+  z-index: 1;
+}
+
+.progress {
+  height: 20px;
+  width: 400px;
+  z-index: 1;
+
+  .progress-bar {
+    background-color: $primary-color;
+  }
+}

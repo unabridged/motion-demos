@@ -1,0 +1,32 @@
+<div class="clock-body">
+
+  <%= render Clocks::WindowComponent.new(time: @time, timezone: @timezone) %>
+
+  <div class="clock">
+    <div class="face">
+      <span class="hands hour" style="transform: rotate(<%= hour_rotation %>deg)"></span>
+      <span class="hands minute" style="transform: rotate(<%= minute_rotation %>deg)"></span>
+      <span class="hands second" style="transform: rotate(<%= second_rotation %>deg)"></span>
+      <span class="center"></span>
+    </div>
+  </div>
+  <div class="time-display">
+    <p>
+      <%= time_display %>
+      <%= @timezone %>
+    </p>
+    <div class="timezone-select">
+
+      <%= button_tag "Chicago", data: { motion: "update_timezone", value: "America/Chicago" } %>
+      <%= button_tag "London", data: { motion: "update_timezone", value: "Europe/London" } %>
+      <%= button_tag "Mumbai", data: { motion: "update_timezone", value: "Mumbai" } %>
+      <%= button_tag "Tokyo", data: { motion: "update_timezone", value: "Asia/Tokyo" } %>
+      <%= button_tag "Sidney", data: { motion: "update_timezone", value: "Australia/Sydney" } %>
+    </div>
+  </div>
+
+
+  <div class="progress">
+    <div class="progress-bar" style="width:<%= percent_completed %>%"><%= time_remaining %></div>
+  </div>
+</div>
