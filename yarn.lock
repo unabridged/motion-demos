@@ -922,14 +922,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
-"@unabridged/motion@0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@unabridged/motion/-/motion-0.1.2.tgz#a19ad367d2ab72fea561c1d34b952a373457c121"
-  integrity sha512-o/BOlmLFTg1sKQAYKopn32aMKqNXHBAaiS7JItcpRHOmJEywAX6zAd4SFN0Yu3AR8EPuAmg8K+KYwZJ/6SsVPg==
+"@unabridged/motion@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@unabridged/motion/-/motion-0.2.0.tgz#46e394f0221b6ccac28111edeb475331f6f611f4"
+  integrity sha512-v9Bn8s6XFBsNXBi1dqxEgAaPyzxu49dI+HPHeUklgzxOqMC/mRN8Ax4kuws3i8px7tXQ17BaWZIYLOVMuxD0Mg==
   dependencies:
     "@rails/actioncable" ">= 6.0"
     morphdom "^2.6.1"
-    stimulus ">= 1.1"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -6772,7 +6771,7 @@ stdout-stream@^1.4.0:
   dependencies:
     readable-stream "^2.0.1"
 
-"stimulus@>= 1.1", stimulus@^1.1.1:
+stimulus@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stimulus/-/stimulus-1.1.1.tgz#53c2fded6849e7b85eed3ed8dd76e33abd74bec5"
   integrity sha512-R0mBqKp48YnRDZOxZ8hiOH4Ilph3Yj78CIFTBkCwyHs4iGCpe7xlEdQ7cjIxb+7qVCSxFKgxO+mAQbsNgt/5XQ==
