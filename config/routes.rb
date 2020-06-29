@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   resources :clicker_games, only: [:show, :create, :index] do
     post :join, on: :collection
   end
+
+  get "/restoration", to: "demos#restoration", as: :restoration_game
 end
