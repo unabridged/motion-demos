@@ -16,6 +16,10 @@ class Clocks::WindowComponent < ViewComponent::Base
     time.hour
   end
 
+  def last_hour
+    (hour - 1) % 24
+  end
+
   def dawn_or_dusk?
     hour == MORNING_HOUR || hour == EVENING_HOUR
   end
@@ -25,9 +29,9 @@ class Clocks::WindowComponent < ViewComponent::Base
   end
 
   def sky_style
-    return "background-color: #{sky_color};" unless dawn_or_dusk?
+    color1, color2 = hour_colors
 
-    "background: linear-gradient(0, #{dawn_color} 0%, #{sky_color} 100%);"
+    "background: linear-gradient(0, #{color1} 0%, #{color2} 100%);"
   end
 
   def dawn_color
@@ -38,7 +42,13 @@ class Clocks::WindowComponent < ViewComponent::Base
     SUN_COLORS[hour]
   end
 
-  def sky_color
+  def hour_colors
+    return [dawn_color, sky_color(hour)] if dawn_or_dusk?
+
+    [sky_color(hour), sky_color(last_hour)]
+  end
+
+  def sky_color(hour)
     SKY_COLORS[hour]
   end
 
