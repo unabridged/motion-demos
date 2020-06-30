@@ -48,7 +48,11 @@ class ClockComponent < ViewComponent::Base
   end
 
   def hour_rotation
-    hour * (DEGREES / HOURS)
+    (hour + minute_percent) * (DEGREES / HOURS).to_f
+  end
+
+  def minute_percent
+    time.min / MINUTES.to_f
   end
 
   def minute_rotation
