@@ -17,12 +17,13 @@ class ClockComponent < ViewComponent::Base
     @timezone = "Etc/UTC"
     @timestart = @time
     @to_time = @time + duration
-    stream_from time_updated_channel, :handle_time
 
     trigger_timer(@to_time, time_updated_channel)
   end
 
   def trigger_timer(to_time, channel)
+    stream_from channel, :handle_time
+
     Thread.new(to_time, channel) do |to_time, channel|
       while Time.now <= to_time
         sleep 1
