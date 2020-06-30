@@ -6,7 +6,7 @@ class RestorationSelector < ViewComponent::Base
   def initialize
   end
 
-  def change_selected(value)
-    @selected = value
+  def change_selected(event)
+    @selected = event.target.data[:value]
   end
 end

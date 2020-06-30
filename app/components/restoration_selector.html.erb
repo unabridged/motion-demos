@@ -1,3 +1,8 @@
-<main class="selector">
-  <%= button_tag "C", class: "number-btn", data: { motion: "change_selected" } %>
+<main>
+  <section>
+    <%= render RestorationGame.new(selected: @selected) %>
+  </section>
+  <section>
+    <%= button_tag "C", class: "number-btn", data: { motion: "change_selected", value: "1" } %>
+  </section>
 </main>

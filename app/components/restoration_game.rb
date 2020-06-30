@@ -1,9 +1,7 @@
 class RestorationGame < ViewComponent::Base
   include Motion::Component
 
-  @selected = 0
-  map_motion :do_stuff
-
-  def initialize
+  def initialize(selected: 0)
+    @selected = selected
   end
 end
