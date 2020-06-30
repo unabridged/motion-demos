@@ -27,7 +27,7 @@ class Clocks::WindowComponent < ViewComponent::Base
   def sky_style
     return "background-color: #{sky_color};" unless dawn_or_dusk?
 
-    "background-color: linear-gradient(0, #{dawn_color} 0%, #{sky_color} 100%);"
+    "background: linear-gradient(0, #{dawn_color} 0%, #{sky_color} 100%);"
   end
 
   def dawn_color
