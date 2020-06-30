@@ -25,8 +25,15 @@
     </div>
   </div>
 
+  <div class="progress-display">
+    <% if completed? %>
+      <h2>Time's up!</h2>
+      <p>Countdown started at  <%= timestart_display %> and lasted for <%= duration_display %>.</p>
 
-  <div class="progress">
-    <div class="progress-bar" style="width:<%= percent_completed %>%"><%= time_remaining %></div>
+    <% else %>
+      <div class="progress">
+        <div class="progress-bar" style="width:<%= percent_completed %>%"><%= time_remaining %></div>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -10,6 +10,7 @@
 
   .time-display {
     width: 100%;
+    max-width: 20rem;
     position: relative;
     text-align: center;
   }
@@ -87,12 +88,19 @@
   z-index: 1;
 }
 
-.progress {
-  height: 20px;
-  width: 400px;
+.progress-display {
+  width: 100%;
+  max-width: 20rem;
   z-index: 1;
 
-  .progress-bar {
-    background-color: $primary-color;
+  // Bootstrap classes
+  .progress {
+    width: 100%;
+    height: 20px;
+
+    .progress-bar {
+      background-color: $primary-color;
+      transition: width 0.25s;
+    }
   }
 }

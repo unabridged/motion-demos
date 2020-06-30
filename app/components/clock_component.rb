@@ -4,6 +4,7 @@ class ClockComponent < ViewComponent::Base
   MINUTES = 60
   SECONDS = 60
   DEGREES = 360
+  DATE_FORMAT = "%I:%M:%S%p %Z"
 
   stream_from "time:updated", :handle_time
   attr_reader :timezone
@@ -15,17 +16,19 @@ class ClockComponent < ViewComponent::Base
     @time = time
     @theme = :light
     @timezone = "Etc/UTC"
-    trigger_timer
-  end
-
-  def trigger_timer
+    @timestart = @time
     @to_time = @time + duration
 
-    Thread.new do
-      while Time.now < @to_time
-        ActionCable.server.broadcast("time:updated", { time: Time.now.utc })
+    trigger_timer(@to_time)
+  end
+
+  def trigger_timer(to_time)
+    Thread.new(to_time) do |to_time|
+      while Time.now <= to_time
         sleep 1
+        ActionCable.server.broadcast("time:updated", { time: Time.now.utc })
       end
+      Thread.exit # kill thread
     end
   end
 
@@ -39,8 +42,16 @@ class ClockComponent < ViewComponent::Base
     @time.in_time_zone(@timezone)
   end
 
+  def timestart_display
+    @timestart.strftime(DATE_FORMAT)
+  end
+
   def time_display
-    time.strftime("%I:%M:%S%p %Z")
+    time.strftime(DATE_FORMAT)
+  end
+
+  def duration_display
+    distance_of_time_in_words(duration)
   end
 
   def hour
@@ -65,6 +76,10 @@ class ClockComponent < ViewComponent::Base
 
   def handle_time(msg)
     @time = Time.parse(msg["time"])
+  end
+
+  def completed?
+    @time > @to_time
   end
 
   def percent_completed
