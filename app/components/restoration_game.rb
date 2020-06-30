@@ -1,5 +1,6 @@
 class RestorationGame < ViewComponent::Base
-  include Motion::Component
+
+  attr_reader :selected
 
   def initialize(selected: 0)
     @selected = selected
