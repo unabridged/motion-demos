@@ -6,7 +6,6 @@ class ClockComponent < ViewComponent::Base
   DEGREES = 360
   DATE_FORMAT = "%I:%M:%S%p %Z"
 
-  stream_from "time:updated", :handle_time
   attr_reader :timezone
 
   map_motion :update_timezone
@@ -14,22 +13,27 @@ class ClockComponent < ViewComponent::Base
 
   def initialize(time: Time.now.utc)
     @time = time
-    @theme = :light
+    @key = SecureRandom.uuid
     @timezone = "Etc/UTC"
     @timestart = @time
     @to_time = @time + duration
+    stream_from time_updated_channel, :handle_time
 
-    trigger_timer(@to_time)
+    trigger_timer(@to_time, time_updated_channel)
   end
 
-  def trigger_timer(to_time)
-    Thread.new(to_time) do |to_time|
+  def trigger_timer(to_time, channel)
+    Thread.new(to_time, channel) do |to_time, channel|
       while Time.now <= to_time
         sleep 1
-        ActionCable.server.broadcast("time:updated", { time: Time.now.utc })
+        ActionCable.server.broadcast(channel, { time: Time.now.utc })
       end
       Thread.exit # kill thread
     end
+  end
+
+  def time_updated_channel
+    "time:updated:#{@key}"
   end
 
 
