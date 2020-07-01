@@ -17,6 +17,7 @@ class CalculatorComponent < ViewComponent::Base
   end
 
   def add_char(event)
+    p event.target.data.inspect
     str = event.target.data[:char]
 
     unless buffering
