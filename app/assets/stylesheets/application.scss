@@ -1,4 +1,7 @@
 @import "bootstrap";
+@import "_variables";
+@import "clock";
+@import "window";
 
 .calc-grid {
   display: grid;
