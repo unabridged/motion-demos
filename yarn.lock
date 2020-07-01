@@ -922,7 +922,7 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
-"@unabridged/motion@0.2.0":
+"@unabridged/motion@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@unabridged/motion/-/motion-0.2.0.tgz#46e394f0221b6ccac28111edeb475331f6f611f4"
   integrity sha512-v9Bn8s6XFBsNXBi1dqxEgAaPyzxu49dI+HPHeUklgzxOqMC/mRN8Ax4kuws3i8px7tXQ17BaWZIYLOVMuxD0Mg==
