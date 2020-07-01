@@ -43,7 +43,6 @@ end
 
 gem "motion", "0.2.0"
 gem "view_component"
-
 gem "bootstrap", "~> 4.5"
-
 gem "countries"
+gem "devise"

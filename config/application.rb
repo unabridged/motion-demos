@@ -18,5 +18,10 @@ module MotionDemos
     # the framework and any gems in your application.
 
     config.action_view.field_error_proc = proc { |html_tag, instance| html_tag }
+
+    config.action_mailer.default_url_options = {
+      host: 'localhost',
+      port: 3000,
+    }
   end
 end
