@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root to: "demos#index"
 
   get "/clock", to: "demos#clock", as: :clock_demo
