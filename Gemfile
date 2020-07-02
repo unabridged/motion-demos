@@ -44,6 +44,7 @@ end
 
 group :production do
   gem "pg"
+  gem "honeybadger"
 end
 
 gem "motion", "0.2.0"
