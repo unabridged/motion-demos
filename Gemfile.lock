@@ -111,6 +111,7 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
+    pg (1.2.3)
     popper_js (1.16.0)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -217,6 +218,7 @@ DEPENDENCIES
   devise
   listen (~> 3.2)
   motion (= 0.2.0)
+  pg
   pry-rails
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.1)
