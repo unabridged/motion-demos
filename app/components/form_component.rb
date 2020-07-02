@@ -29,7 +29,8 @@ class FormComponent < ViewComponent::Base
   end
 
   def state_select?
-    signup.errors[:country].empty?
+    signup.errors[:country].empty? &&
+      state_options(signup.country).any?
   end
 
   private

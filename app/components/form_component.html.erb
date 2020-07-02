@@ -1,4 +1,4 @@
-<%= form_with model: @signup, url: "/form", data: { motion: 'change->validate' } do |f| %>
+<%= form_with model: @signup, url: "/form", data: { motion: 'change->validate submit->save' } do |f| %>
   <div class="form-group row">
     <%= f.label :name, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
@@ -100,7 +100,7 @@
 
   <div class="form-group row">
     <div class="col-sm-10">
-      <%= f.submit "Submit", class: "btn btn-primary #{"disabled" if disabled}", disabled: disabled, data: { motion: "save" } %>
+      <%= f.submit "Submit", class: "btn btn-primary #{"disabled" if disabled}", disabled: disabled %>
       <% if disabled %>
         <span class="ml-2">You must fill out the entire form.</span>
       <% elsif saved %>
