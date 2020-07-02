@@ -1,12 +1,11 @@
 <main>
-  <section>
-    <%= @selected %>
+  <section class="board">
+    <h3>Game</h3>
     <%= render RestorationGame.new(selected: @selected) %>
   </section>
-  <section>
-    <%= button_tag "select", class: "number-btn", data: { motion: "change_selected", value: "1" } %>
-    <div data-motion="change_selected" data-value="2">
-      hi
-    </div>
+  <section class="selector">
+    <%= button_tag "Water", class: "number-btn", data: { motion: "change_selected", value: "1" } %>
+    <%= button_tag "Grass", class: "number-btn", data: { motion: "change_selected", value: "2" } %>
+    <%= button_tag "Tree", class: "number-btn", data: { motion: "change_selected", value: "3" } %>
   </section>
 </main>

@@ -1,16 +1,9 @@
-<main>
-  selected is <%= @selected %>
-  <section class="grid">
-    <% (0..Math.sqrt(@board.size)-1).each do |i| %>
-      <% (0..Math.sqrt(@board.size)-1).each do |j| %>
-        <div class="tile" data-motion="paint">
-          <% if (@board[i*9+j] == 2) %>
-            <img src="/assets/grass.svg" />
-          <% else %>
-            <img src="/assets/water.svg" data-x="<%= i %>" data-y="<%= j %>"/>
-          <% end %>
-        </div>
-      <% end %>
+<section class="grid">
+  <% (0..Math.sqrt(@board.size)-1).each do |i| %>
+    <% (0..Math.sqrt(@board.size)-1).each do |j| %>
+      <div class="tile" data-motion="paint">
+        <img src="/assets/<%= @index[@board[i*9+j]] %>.svg" data-x="<%= i %>" data-y="<%= j %>" data-selected="<%= @selected %>"/>
+      </div>
     <% end %>
-  </section>
-</main>
+  <% end %>
+</section>

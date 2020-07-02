@@ -15,3 +15,25 @@
     z-index:2;
   }
 }
+
+.board {
+  float: left;
+  display: inline-block;
+  width: 75%;
+}
+
+.selector {
+  margin-top: 100px;
+  padding-left: 25px;
+  float: right; 
+  display: inline-block; 
+  width: 25%;
+
+  button {
+    display: block;
+    margin-bottom: 10px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    width: 100px;
+  }
+}
