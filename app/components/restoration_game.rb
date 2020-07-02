@@ -3,20 +3,18 @@ class RestorationGame < ViewComponent::Base
 
   attr_reader :selected
   attr_reader :board
-  attr_reader :x, :y
 
   map_motion :paint
 
-  def initialize(selected: 0)
+  def initialize(selected:)
     @selected = selected
     @board = Array.new(81, 1)
   end
 
   def paint(event)
-    p event.target.data.inspect
-    x = event.target.data["x"]
-    y = event.target.data["y"]
-    # @board[coords_to_index(x, y)] = 2
+    x = event.target.data["x"].to_i
+    y = event.target.data["y"].to_i
+    @board[coords_to_index(x, y)] = 2
   end
 
   private
