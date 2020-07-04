@@ -23,5 +23,7 @@ module MotionDemos
       host: 'localhost',
       port: 3000,
     }
+
+    config.autoload_paths << Rails.root.join('app/decorators')
   end
 end

@@ -5,3 +5,30 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+password = "ABCabc123!@"
+
+users = User.create([
+  {name: "Wendy", email: "wendy@unabridgedsoftware.com", password: password},
+  {name: "Alec", email: "alec@unabridgedsoftware.com", password: password},
+  {name: "Drew", email: "drew@unabridgedsoftware.com", password: password},
+  {name: "Lexie", email: "lexie@unabridgedsoftware.com", password: password}
+])
+
+user_sets = users.permutation(2)
+
+messages = [
+  "Could you send that to me?",
+  "Great job!",
+  "The report rocked.",
+  "Let's set up a meeting first thing Monday.",
+  "We all loved it.",
+  "I'm following up from last week.",
+  "What thoughts does the team have?"
+]
+
+user_sets.each do |user_set|
+  from = user_set.first
+  to = user_set.last
+  4.times { Message.create(from: from, to: to, content: messages.sample) }
+end
