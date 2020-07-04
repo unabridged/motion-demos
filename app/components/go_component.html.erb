@@ -1,12 +1,12 @@
 <div class="go">
   <div class="captures">
     <div>
-      <% @game.captures[:black].times do %>
+      <% @captures["black"].times do %>
       <span class="black"></span>
       <% end %>
     </div>
     <div>
-      <% @game.captures[:white].times do %>
+      <% @captures["white"].times do %>
       <span class="white"></span>
       <% end %>
     </div>
@@ -17,4 +17,6 @@
     <%= button_tag "", class: v.to_s, data: { motion: "place", index: i.to_s } %>
     <% end %>
   </div>
+
+  <%= button_tag "reset", data: { motion: "reset" } %>
 </div>

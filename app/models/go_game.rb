@@ -30,7 +30,7 @@ class GoGame
     @move = 1
     @board = (1..size).map { |_| (1..size).map { |_| nil } }
     @current = :black
-    @captures = {black: 0, white: 0}
+    @captures = {"black" => 0, "white" => 0}
     @groups = {
       black: [],
       white: [],
@@ -55,11 +55,13 @@ class GoGame
 
   # TODO: add illegal moves, including Ko rule
   def place(pos)
-    return if occupied?(pos)
-
     @board[pos.i][pos.j] = Stone.new(current, pos, move)
     update_groups(pos)
     capture
+  end
+
+  def legal_move?(pos)
+    return true unless occupied?(pos)
   end
 
   private
@@ -70,7 +72,7 @@ class GoGame
 
     captured.each do |grp|
       grp.each { |pos| @board[pos.i][pos.j] = nil }
-      @captures[opponent] += grp.length
+      @captures[opponent.to_s] += grp.length
       @groups[opponent].delete(grp)
     end
   end
