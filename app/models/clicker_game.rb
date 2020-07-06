@@ -5,6 +5,14 @@ class ClickerGame < ApplicationRecord
 
   before_validation :set_key, on: :create
 
+  def channel
+    "clicker:#{key}"
+  end
+
+  def to_param
+    key
+  end
+
   private
 
   def generate_unique_key
