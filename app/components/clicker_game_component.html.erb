@@ -20,11 +20,15 @@
           <%= score_button 44 %>
         <% end %>
 
-        <% if score == 30 %>
+        <% if score % 25 == 1 %>
           <%= score_button 75 %>
         <% end %>
 
-        <% if score == 2 %>
+        <% if score % 11 == 1 %>
+          <%= button_tag "Unlucky", class: "btn #{random_btn_class}", data: { motion: "lucky_click" } %>
+        <% end %>
+
+        <% if score % 20 == 1 %>
           <%= score_button -220 %>
         <% end %>
 
@@ -56,6 +60,10 @@
           <%= score_button 500 %>
         <% end %>
 
+        <% if score % 10 == 1 %>
+          <%= button_tag "Extra Luck", class: "btn #{random_btn_class}", data: { motion: "lucky_click" } %>
+        <% end %>
+
         <% if score % 30 %>
           <%= score_button 40 %>
         <% end %>
@@ -64,7 +72,11 @@
           <%= score_button -800 %>
         <% end %>
 
-        <% if score > 100 %>
+        <% if score % 55 == 1 %>
+          <%= button_tag "Win", class: "btn #{random_btn_class}", data: { motion: "lucky_click" } %>
+        <% end %>
+
+        <% if score > 100 && score % 3 == 1 %>
           <%= score_button 55 %>
         <% end %>
 
