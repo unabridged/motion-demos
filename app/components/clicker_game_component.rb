@@ -27,15 +27,7 @@ class ClickerGameComponent < ViewComponent::Base
   end
 
   def lucky_click
-    @scored =
-      case rand(100)
-      when 0..4
-        100
-      when 5..9
-        -100
-      else
-        rand(40) - 10
-      end
+    @scored = luck_result
 
     player.score_points(scored)
     broadcast(game.channel, nil)
@@ -50,5 +42,28 @@ class ClickerGameComponent < ViewComponent::Base
 
   def refresh_scores
     @players = game.clicker_players.reload
+  end
+
+  private
+
+  def luck_result
+    case rand(1000)
+    when 0..49 # 5%
+      100
+    when 50..99 # 5%
+      -100
+    when 100..109 # 1%
+      score * 100
+    when 110..119 # 1%
+      score * -100
+    when 120..129 # 1%
+      -1 * score # back to zero!
+    when 130..159 # 3%
+      750
+    when 160..164 # 0.5%
+      7777 - score # hit all lucky 7s right on
+    else
+      rand(40) - 10  # most of the time, a small, usually positive amount
+    end
   end
 end
