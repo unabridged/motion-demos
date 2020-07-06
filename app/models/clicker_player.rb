@@ -3,7 +3,8 @@ class ClickerPlayer < ApplicationRecord
     dragon fly pigeon gull eagle robin flea mosquito airplane
     rocket flamingo raptor falcon owl squirrel dino zebra
     unicorn puma giraffe pikachu chair glasses sorcerer wizard
-    knight squire cauldron sparrow finch penguin otter]
+    knight squire cauldron sparrow finch penguin otter hacker
+    antelope kelp commander general daisy pup limo]
 
   belongs_to :clicker_game
 
