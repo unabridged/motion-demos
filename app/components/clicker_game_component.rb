@@ -23,14 +23,12 @@ class ClickerGameComponent < ViewComponent::Base
     amt = event.target.data[:amt] || 1
     @scored = amt.to_i
     player.score_points(scored)
-    broadcast(game.channel, nil)
   end
 
   def lucky_click
     @scored = luck_result
 
     player.score_points(scored)
-    broadcast(game.channel, nil)
   end
 
   def disconnected
