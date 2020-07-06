@@ -1,7 +1,7 @@
 <div id="clicker-game">
   <div class="card p-3">
     <div class="card-body">
-      <ul>
+      <ol>
         <% players.sort_by(&:score).reverse.each do |(other_player, score)| %>
           <li>
             <% if other_player.name == player.name %>
@@ -11,15 +11,67 @@
             <% end %>
           </li>
         <% end %>
-      </ul>
+      </ol>
 
-      <%= button_tag "Click", class: "btn btn-primary", data: { motion: "click", amt: 1 } %>
-      <% if player.score > 10 %>
-        <%= button_tag "Click 5", class: "btn btn-primary", data: { motion: "click", amt: 5 } %>
-      <% end %>
-      <% if player.score > 100 %>
-        <%= button_tag "Click 55", class: "btn btn-primary", data: { motion: "click", amt: 55 } %>
-      <% end %>
+      <p>Most Recent Score: <%= scored %></p>
+
+      <section class="clicker-grid">
+        <% if game.updated_at.to_i % 10 == 0 %>
+          <%= score_button 44, btn: "btn-outline-secondary" %>
+        <% end %>
+
+        <% if score == 30 %>
+          <%= score_button 75, btn: "btn-light" %>
+        <% end %>
+
+        <% if score == 2 %>
+          <%= score_button -220, btn: "btn-outline-secondary" %>
+        <% end %>
+
+        <% if score > 10 && score < 100 %>
+          <%= score_button 5, btn: "btn-light" %>
+        <% end %>
+
+        <% if score % 5 == 1 %>
+          <%= score_button -20, btn: "btn-success" %>
+        <% end %>
+
+        <%= button_tag "Luck", class: "btn btn-dark", data: { motion: "lucky_click" } %>
+
+        <% if score % 10 == 1 %>
+          <%= score_button 50, btn: "btn-outline-primary" %>
+        <% end %>
+
+        <% if score > 100 %>
+          <%= score_button -50, btn: "btn-outline-success" %>
+        <% end %>
+
+        <%= score_button 1, btn: "btn-primary" %>
+
+        <% if score % 14 == 2 %>
+          <%= score_button 22, btn: "btn-warning" %>
+        <% end %>
+
+        <% if score % 255 == 1 %>
+          <%= score_button 500, btn: "btn-info" %>
+        <% end %>
+
+        <% if score % 30 %>
+          <%= score_button 40, btn: "btn-light" %>
+        <% end %>
+
+        <% if score > 1000 %>
+          <%= score_button -800, btn: "btn-outline-warning" %>
+        <% end %>
+
+        <% if score > 100 %>
+          <%= score_button 55, btn: "btn-danger" %>
+        <% end %>
+
+        <% if score == 7777 %>
+          <%= score_button 7777, btn: "btn-success", text: "ALL LUCKY 7S" %>
+        <% end %>
+      </section>
     </div>
   </div>
 </div>

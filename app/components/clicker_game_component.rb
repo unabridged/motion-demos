@@ -1,11 +1,14 @@
 class ClickerGameComponent < ViewComponent::Base
   include Motion::Component
+  include ClickerGameHelper
 
-  attr_reader :game, :player, :players
+  attr_reader :game, :player, :players, :scored
 
   delegate :channel, to: :game
+  delegate :score, to: :player
 
   map_motion :click
+  map_motion :lucky_click
 
   def initialize(game:, player:)
     @game = game
@@ -18,7 +21,23 @@ class ClickerGameComponent < ViewComponent::Base
 
   def click(event)
     amt = event.target.data[:amt] || 1
-    player.score_points(amt.to_i)
+    @scored = amt.to_i
+    player.score_points(scored)
+    broadcast(game.channel, nil)
+  end
+
+  def lucky_click
+    @scored =
+      case rand(100)
+      when 0..4
+        100
+      when 5..9
+        -100
+      else
+        rand(40) - 10
+      end
+
+    player.score_points(scored)
     broadcast(game.channel, nil)
   end
 
