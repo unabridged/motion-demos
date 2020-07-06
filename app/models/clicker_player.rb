@@ -4,7 +4,9 @@ class ClickerPlayer < ApplicationRecord
     rocket flamingo raptor falcon owl squirrel dino zebra
     unicorn puma giraffe pikachu chair glasses sorcerer wizard
     knight squire cauldron sparrow finch penguin otter hacker
-    antelope kelp commander general daisy pup limo]
+    antelope kelp commander general daisy pup limo pebble
+    shoes tophat bowtie car truck van breakfast lunch dinner
+    wasp hornet bumblebee sword shield smartphone glove]
 
   belongs_to :clicker_game, touch: true
 
