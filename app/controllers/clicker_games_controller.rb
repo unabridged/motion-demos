@@ -13,6 +13,8 @@ class ClickerGamesController < ApplicationController
 
   def show
     game = ClickerGame.find_by(key: key)
+    redirect_to clicker_games_path and return unless game
+
     player = game.clicker_players.create
 
     render locals: { game: game, player: player }
