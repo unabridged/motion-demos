@@ -10,9 +10,10 @@ class ClickerGameComponent < ViewComponent::Base
   def initialize(game:, player:)
     @game = game
     @player = player
-    @players = game.clicker_players
 
     stream_from game.channel, :refresh_scores
+
+    refresh_scores
   end
 
   def click(event)
