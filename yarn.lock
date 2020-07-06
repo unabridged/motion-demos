@@ -922,10 +922,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
-"@unabridged/motion@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@unabridged/motion/-/motion-0.2.0.tgz#46e394f0221b6ccac28111edeb475331f6f611f4"
-  integrity sha512-v9Bn8s6XFBsNXBi1dqxEgAaPyzxu49dI+HPHeUklgzxOqMC/mRN8Ax4kuws3i8px7tXQ17BaWZIYLOVMuxD0Mg==
+"@unabridged/motion@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@unabridged/motion/-/motion-0.2.1.tgz#dd65832999c03aaa090072f8a0751b35c83ab831"
+  integrity sha512-bpqo6RZo8viU21rQbV9IkSTzUqBBs3j0DjoCC1aV6lSgmowdJz0H/Jm5mVB6Jmb0Exc6AY59A54cc6DWuG9uEA==
   dependencies:
     "@rails/actioncable" ">= 6.0"
     morphdom "^2.6.1"
