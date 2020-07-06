@@ -23,6 +23,8 @@ class ClickerGameComponent < ViewComponent::Base
 
   def disconnected
     player.destroy
+    game.destroy if game.clicker_players.count == 0
+
     broadcast(game.channel, nil)
   end
 
