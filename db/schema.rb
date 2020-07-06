@@ -10,12 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_150229) do
+ActiveRecord::Schema.define(version: 2020_07_06_150357) do
 
   create_table "clicker_games", force: :cascade do |t|
     t.string "key"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "clicker_players", force: :cascade do |t|
+    t.integer "clicker_game_id", null: false
+    t.string "name"
+    t.integer "score", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["clicker_game_id"], name: "index_clicker_players_on_clicker_game_id"
   end
 
   create_table "signups", force: :cascade do |t|
