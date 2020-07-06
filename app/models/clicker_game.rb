@@ -1,0 +1,2 @@
+class ClickerGame < ApplicationRecord
+end
