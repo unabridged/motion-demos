@@ -2,7 +2,7 @@
   <div class="card p-3">
     <div class="card-body">
       <ul>
-        <% game.clicker_players.sort_by(&:score).reverse.each do |(other_player, score)| %>
+        <% players.sort_by(&:score).reverse.each do |(other_player, score)| %>
           <li>
             <% if other_player.name == player.name %>
               <strong><%= player.name %> (you)</strong>: <%= player.score %>

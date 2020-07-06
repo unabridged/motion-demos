@@ -1,15 +1,16 @@
 class ClickerGameComponent < ViewComponent::Base
   include Motion::Component
 
-  attr_reader :game, :player, :score
+  attr_reader :game, :player, :players
 
-  delegate :key, :channel, to: :game
+  delegate :channel, to: :game
 
   map_motion :click
 
   def initialize(game:, player:)
     @game = game
     @player = player
+    @players = game.clicker_players
 
     stream_from game.channel, :refresh_scores
   end
@@ -17,9 +18,15 @@ class ClickerGameComponent < ViewComponent::Base
   def click(event)
     amt = event.target.data[:amt] || 1
     player.score_points(amt.to_i)
+    broadcast(game.channel, nil)
+  end
+
+  def disconnected
+    player.destroy
+    broadcast(game.channel, nil)
   end
 
   def refresh_scores
-    game.reload
+    @players = game.clicker_players.reload
   end
 end

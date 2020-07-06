@@ -18,10 +18,11 @@
         <p>Clicker game is a race to see who can get the most points. Click by yourself or with friends!</p>
 
         <ul>
-          <li>Multi-player clicker, challenge as many friends as you want by sharing a link</li>
+          <li>Multi-player clicker, challenge up to 40 friends by sharing a link or key</li>
           <li>No JS, all Ruby!</li>
-          <li>Scores are shown and updated in real-time</li>
-          <li>Games are ephemeral and only last as long as at least 1 player is in the game</li>
+          <li>Scores and players are shown and updated in real-time</li>
+          <li>Games are persisted to the db and updated in real time for all players</li>
+          <li>Players are only in the game as long as their browser tab is open</li>
         </ul>
 
         <%= yield %>
