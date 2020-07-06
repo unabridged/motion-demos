@@ -4,6 +4,8 @@
     <%= render RestorationGame.new(selected: @selected) %>
   </section>
   <section class="selector">
+    <% (0..Math.sqrt(@board.size)-1).each do |i| %>
+    <% end %>
     <%= button_tag "Water", class: "number-btn", data: { motion: "change_selected", value: "1" } %>
     <%= button_tag "Grass", class: "number-btn", data: { motion: "change_selected", value: "2" } %>
     <%= button_tag "Tree", class: "number-btn", data: { motion: "change_selected", value: "3" } %>
