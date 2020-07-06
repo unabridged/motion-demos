@@ -17,59 +17,59 @@
 
       <section class="clicker-grid">
         <% if game.updated_at.to_i % 10 == 0 %>
-          <%= score_button 44, btn: "btn-outline-secondary" %>
+          <%= score_button 44 %>
         <% end %>
 
         <% if score == 30 %>
-          <%= score_button 75, btn: "btn-light" %>
+          <%= score_button 75 %>
         <% end %>
 
         <% if score == 2 %>
-          <%= score_button -220, btn: "btn-outline-secondary" %>
+          <%= score_button -220 %>
         <% end %>
 
         <% if score > 10 && score < 100 %>
-          <%= score_button 5, btn: "btn-light" %>
+          <%= score_button 5 %>
         <% end %>
 
         <% if score % 5 == 1 %>
-          <%= score_button -20, btn: "btn-success" %>
+          <%= score_button -20 %>
         <% end %>
 
-        <%= button_tag "Luck", class: "btn btn-dark", data: { motion: "lucky_click" } %>
+        <%= button_tag "Luck", class: "btn #{random_btn_class}", data: { motion: "lucky_click" } %>
 
         <% if score % 10 == 1 %>
-          <%= score_button 50, btn: "btn-outline-primary" %>
+          <%= score_button 50 %>
         <% end %>
 
         <% if score > 100 %>
-          <%= score_button -50, btn: "btn-outline-success" %>
+          <%= score_button -50 %>
         <% end %>
 
-        <%= score_button 1, btn: "btn-primary" %>
+        <%= score_button 1 %>
 
         <% if score % 14 == 2 %>
-          <%= score_button 22, btn: "btn-warning" %>
+          <%= score_button 22 %>
         <% end %>
 
         <% if score % 255 == 1 %>
-          <%= score_button 500, btn: "btn-info" %>
+          <%= score_button 500 %>
         <% end %>
 
         <% if score % 30 %>
-          <%= score_button 40, btn: "btn-light" %>
+          <%= score_button 40 %>
         <% end %>
 
         <% if score > 1000 %>
-          <%= score_button -800, btn: "btn-outline-warning" %>
+          <%= score_button -800 %>
         <% end %>
 
         <% if score > 100 %>
-          <%= score_button 55, btn: "btn-danger" %>
+          <%= score_button 55 %>
         <% end %>
 
         <% if score == 7777 %>
-          <%= score_button 7777, btn: "btn-success", text: "ALL LUCKY 7S" %>
+          <%= score_button 7777, text: "ALL LUCKY 7S" %>
         <% end %>
       </section>
     </div>
