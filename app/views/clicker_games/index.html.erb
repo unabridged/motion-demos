@@ -3,7 +3,7 @@
   <%= button_to "Create Clicker Game", clicker_games_path, class: "btn btn-primary" %>
 </fieldset>
 
-<fieldset>
+<fieldset class="mb-4">
   <legend>Join Game</legend>
   <%= form_with url: join_clicker_games_path do |f| %>
     <div class="form-group row">
@@ -15,3 +15,14 @@
     <%= f.submit "Join Game", class: "btn btn-primary" %>
   <% end %>
 </fieldset>
+
+<% if recent_games.any? %>
+  <fieldset>
+    <legend>Join Random Active Game</legend>
+    <ul>
+      <% recent_games.each do |game| %>
+        <li><%= link_to game.key, clicker_game_path(game) %></li>
+      <% end %>
+    </ul>
+  </fieldset>
+<% end %>

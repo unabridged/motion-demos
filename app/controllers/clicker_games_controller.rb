@@ -15,7 +15,16 @@ class ClickerGamesController < ApplicationController
     game = ClickerGame.find_by(key: key)
     player = game.clicker_players.create
 
-    render :show, locals: { game: game, player: player }
+    render locals: { game: game, player: player }
+  end
+
+  def index
+    recent_games = ClickerGame
+      .order(:updated_at)
+      .where("updated_at > ?", 5.minutes.ago)
+      .sample(5)
+
+    render locals: { recent_games: recent_games }
   end
 
   private

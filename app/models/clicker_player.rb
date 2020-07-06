@@ -6,7 +6,7 @@ class ClickerPlayer < ApplicationRecord
     knight squire cauldron sparrow finch penguin otter hacker
     antelope kelp commander general daisy pup limo]
 
-  belongs_to :clicker_game
+  belongs_to :clicker_game, touch: true
 
   before_validation :assign_name, on: :create
   after_save :broadcast_game_change
