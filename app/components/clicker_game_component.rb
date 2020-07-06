@@ -1,4 +1,4 @@
-class ClickerGame < ViewComponent::Base
+class ClickerGameComponent < ViewComponent::Base
   include Motion::Component
 
   attr_reader :key, :player, :score, :game
