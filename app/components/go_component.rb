@@ -4,62 +4,42 @@ class GoComponent < ViewComponent::Base
   map_motion :place
   map_motion :reset
 
-  @@game = GoGame.new
+  def initialize(key:)
+    @key = key
+    @game = GoGame.find(key: key) || GoGame.new(key: key)
+    puts "component game #{@game}"
+    @board = @game.display
+    @current = @game.current
+    @captures = @game.captures
 
-  def initialize
-    @board = @@game.display
-    @current = @@game.current
-    @captures = @@game.captures
-
-    stream_from game_channel, :player_move
-
-    broadcast_board
+    stream_from "go:#{@key}", :player_move
   end
 
   def place(event)
     index = event.target.data[:index].to_i
     pos = GoGame::Pos.new((index / 9), index.modulo(9))
 
-    if @@game.legal_move?(pos)
-      make_move(pos)
-      broadcast_board
+    if @game.legal_move?(pos)
+      @game.place(pos)
+      @game.next_player
+      GoGame.update(key: @key, game: @game)
     end
   end
 
-  def player_move(message)
-    @current = message["current"]
-    @captures = message["captures"]
-    @board = message["board"]
-  end
-
   def reset
-    @@game = GoGame.new
-    @board = @@game.display
-    @current = @@game.current
-    @captures = @@game.captures
+    @game = GoGame.new
+    @board = @game.display
+    @current = @game.current
+    @captures = @game.captures
     broadcast_board
   end
 
   private
 
-  def game_channel
-    "go:foo"
-  end
-
-  def make_move(pos)
-    @@game.place(pos)
-    @captures = @@game.captures
-    @board = @@game.display
-
-    @@game.next_player
-    @current = @@game.current
-  end
-
-  def broadcast_board
-    ActionCable.server.broadcast(game_channel, {
-      board: @board,
-      captures: @captures,
-      current: @current,
-    })
+  def player_move(message)
+    @game = GoGame.find(key: @key)
+    @current = message["current"]
+    @captures = message["captures"]
+    @board = message["board"]
   end
 end

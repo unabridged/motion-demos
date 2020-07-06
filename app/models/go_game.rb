@@ -22,10 +22,26 @@ class GoGame
   # num : Integer
   Stone = Struct.new(:color, :pos, :num)
 
+  # TODO: replace with DB storage of games
+  @@active_games = {}
+
+  def self.find(key:)
+    puts "finding game #{key}"
+    game = @@active_games[key]
+    puts "found game #{game}"
+    game
+  end
+
+  def self.update(key:, game:)
+    puts "updating game #{key} with #{game}"
+    @@active_games[key] = game
+  end
+
   # some of these could be removed, i was using the readers to test with
   attr_reader :board, :current, :captures, :groups, :move, :size
 
-  def initialize(size: 9)
+  def initialize(size: 9, key:)
+    puts "initializing game #{key}"
     @size = size
     @move = 1
     @board = (1..size).map { |_| (1..size).map { |_| nil } }
@@ -35,11 +51,20 @@ class GoGame
       black: [],
       white: [],
     }
+
+    @key = key
+    @@active_games[key] = self
+
+    broadcast_board
   end
 
-  # flattens the board for and only includes stone color for the view
+  # flattens the board and only includes stone color for the view
   def display
     board.flatten.map { |stone| stone&.color }
+  end
+
+  def legal_move?(pos)
+    return true unless occupied?(pos)
   end
 
   # TODO: this could be private, currently tested as a public method
@@ -51,30 +76,40 @@ class GoGame
 
   def next_player
     @current = current == :black ? :white : :black
+    broadcast_board
   end
 
   # TODO: add illegal moves, including Ko rule
   def place(pos)
     @board[pos.i][pos.j] = Stone.new(current, pos, move)
     update_groups(pos)
-    capture
-  end
-
-  def legal_move?(pos)
-    return true unless occupied?(pos)
+    opponent = current == :black ? :white : :black
+    capture(opponent)
+    capture(current)
   end
 
   private
 
-  def capture
-    opponent = current == :black ? :white : :black
-    captured = @groups[opponent].select { |grp| liberties(grp).zero? }
+  def broadcast_board
+    ActionCable.server.broadcast(game_channel, {
+      board: display,
+      captures: @captures,
+      current: @current,
+    })
+  end
+
+  def capture(color)
+    captured = @groups[color].select { |grp| liberties(grp).zero? }
 
     captured.each do |grp|
       grp.each { |pos| @board[pos.i][pos.j] = nil }
-      @captures[opponent.to_s] += grp.length
-      @groups[opponent].delete(grp)
+      @captures[color.to_s] += grp.length
+      @groups[color].delete(grp)
     end
+  end
+
+  def game_channel
+    "go:#{@key}"
   end
 
   def neighbors_in_bounds(pos)
