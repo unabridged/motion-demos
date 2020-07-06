@@ -12,6 +12,10 @@ module ClickerGameHelper
     button_tag text, class: "btn #{random_btn_class}", data: { motion: "click", amt: amt }
   end
 
+  def lucky_button(text)
+    button_tag text, class: "btn #{random_btn_class}", data: { motion: "lucky_click" }
+  end
+
   def random_btn_class
     BTN_CLASSES.sample
   end
