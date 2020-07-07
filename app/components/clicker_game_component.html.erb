@@ -16,86 +16,90 @@
       <p>Most Recent Score: <%= scored %></p>
 
       <section class="clicker-grid">
-        <% if game.updated_at.to_i % 10 == 0 %>
-          <%= score_button 44 %>
-        <% end %>
-
-        <% if score % 25 == 1 %>
-          <%= score_button 75 %>
-        <% end %>
-
-        <% if rand(11) == 1 %>
-          <%= lucky_button "Bad Luck", 0 %>
-        <% end %>
-
-        <% if score % 20 == 1 %>
-          <%= score_button -220 %>
-        <% end %>
-
-        <% if score > 10 && score < 100 %>
-          <%= score_button 5 %>
-        <% end %>
-
-        <% if score % 5 == 1 %>
-          <%= score_button -20 %>
-        <% end %>
-
-        <% if rand(2) == 1 %>
-          <%= lucky_button "Good Luck", 1 %>
-        <% end %>
-
-        <% if score % 5 == 1 %>
-          <%= score_button 8 %>
-        <% end %>
-
-        <% if score % 10 == 1 %>
-          <%= score_button 50 %>
-        <% end %>
-
-        <% if score > 100 %>
-          <%= score_button -50 %>
-        <% end %>
-
-        <%= score_button 1 %>
-
-        <% if score % 14 == 2 %>
-          <%= score_button 22 %>
-        <% end %>
-
         <% if rand(20) == 1 %>
           <%= lucky_button "Rotten Luck", -1 %>
-        <% end %>
+        <% else %>
+          <% if game.updated_at.to_i % 10 == 0 %>
+            <%= score_button 44 %>
+          <% end %>
 
-        <% if score % 255 == 1 %>
-          <%= score_button 500 %>
-        <% end %>
+          <% if score % 25 == 1 %>
+            <%= score_button 75 %>
+          <% end %>
 
-        <% if rand(10) == 1 %>
-          <%= lucky_button "Great Luck", 2 %>
-        <% end %>
+          <% if rand(11) == 1 %>
+            <%= lucky_button "Bad Luck", 0 %>
+          <% end %>
 
-        <% if score % 30 %>
-          <%= score_button 40 %>
-        <% end %>
+          <% if score % 20 == 1 %>
+            <%= score_button -220 %>
+          <% end %>
 
-        <% if score > 1000 && rand(2) %>
-          <%= score_button -800 %>
-        <% end %>
+          <% if score > 10 && score < 100 %>
+            <%= score_button 5 %>
+          <% end %>
 
-        <% if rand(20) == 1 %>
-          <%= lucky_button "Rotten Luck", -1 %>
-        <% end %>
+          <% if score % 5 == 1 %>
+            <%= score_button -20 %>
+          <% end %>
 
-        <% if score == 42 || rand(40) == 1 %>
-          <%= lucky_button "Ultra Luck", 3 %>
-        <% end %>
+          <% if rand(2) == 1 %>
+            <%= lucky_button "Good Luck", 1 %>
+          <% end %>
 
-        <% if score > 100 && score % 3 == 1 %>
-          <%= score_button 55 %>
-        <% end %>
+          <% if score % 5 == 1 %>
+            <%= score_button 8 %>
+          <% end %>
 
-        <% if score == 7777 %>
-          <%= score_button 7777, text: "ALL LUCKY 7S" %>
+          <% if score % 10 == 1 %>
+            <%= score_button 50 %>
+          <% end %>
+
+          <% if score > 100 %>
+            <%= score_button -50 %>
+          <% end %>
+
+          <%= score_button 1 %>
+
+          <% if score % 14 == 2 %>
+            <%= score_button 22 %>
+          <% end %>
+
+          <% if rand(20) == 1 %>
+            <%= lucky_button "Rotten Luck", -1 %>
+          <% end %>
+
+          <% if score % 255 == 1 %>
+            <%= score_button 500 %>
+          <% end %>
+
+          <% if rand(10) == 1 %>
+            <%= lucky_button "Great Luck", 2 %>
+          <% end %>
+
+          <% if score % 30 %>
+            <%= score_button 40 %>
+          <% end %>
+
+          <% if score > 1000 && rand(2) %>
+            <%= score_button -800 %>
+          <% end %>
+
+          <% if rand(20) == 1 %>
+            <%= lucky_button "Rotten Luck", -1 %>
+          <% end %>
+
+          <% if score == 42 || rand(40) == 1 %>
+            <%= lucky_button "Ultra Luck", 3 %>
+          <% end %>
+
+          <% if score > 100 && score % 3 == 1 %>
+            <%= score_button 55 %>
+          <% end %>
+
+          <% if score == 7777 %>
+            <%= score_button 7777, text: "ALL LUCKY 7S" %>
+          <% end %>
         <% end %>
       </section>
     </div>
