@@ -1,7 +1,7 @@
 module Dashboard
   class MessageRow < ViewComponent::Base
     include Motion::Component
-    DATE_FORMAT = "%I:%M:%S%p"
+    DATE_FORMAT = "%m/%d/%Y %I:%M:%S%p"
     attr_reader :user, :message
 
     delegate :content, :from, :to, :read?, to: :message
@@ -17,11 +17,13 @@ module Dashboard
     def toggle_read(event)
       new_status = read? ? :unread : :read
       id = message.id
-      ActionCable.server.broadcast("messages:read:#{id}", {id: id, status: new_status})
+      message.update(status: new_status)
+      # ActionCable.server.broadcast("messages:read:#{id}", {id: id, status: new_status})
     end
 
     def trash(event)
-      ActionCable.server.broadcast("messages:delete:#{message.id}", {id: message.id})
+      message.destroy
+      # ActionCable.server.broadcast("messages:delete:#{message.id}", {id: message.id})
     end
 
     def sent_at

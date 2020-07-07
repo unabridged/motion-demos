@@ -1,4 +1,4 @@
-<tr id="<%= message.id %>" class="<%= row_class_names %>">
+<tr key="<%= message.id %>" id="<%= message.id %>" class="<%= row_class_names %>">
   <% if user == message.from %>
     <td class="mail-select">
         <label class="cr-styled">
@@ -40,8 +40,6 @@
       <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <use xlink:href="#bootstrap-icons.svg#star"/>
       </svg>
-
-
     </td>
     <td>
         <a data-motion="toggle_read" href="##">
@@ -58,9 +56,11 @@
         <%= sent_at %>
     </td>
     <td>
-      <svg class="bi" width="32" height="32" fill="currentColor" data-motion="trash">
-        <use xlink:href="#bootstrap-icons.svg#trash"/>
-      </svg>
+      <a data-motion="trash" href="##">
+        <svg class="bi" width="32" height="32" fill="currentColor">
+          <use xlink:href="#bootstrap-icons.svg#trash"/>
+        </svg>
+      </a>
     </td>
 
   <% end %>

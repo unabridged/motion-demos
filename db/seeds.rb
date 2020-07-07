@@ -14,6 +14,7 @@ users = User.create([
   {name: "Drew", email: "drew@unabridgedsoftware.com", password: password},
   {name: "Lexie", email: "lexie@unabridgedsoftware.com", password: password}
 ])
+users = User.all.to_a
 
 user_sets = users.permutation(2)
 
@@ -30,5 +31,5 @@ messages = [
 user_sets.each do |user_set|
   from = user_set.first
   to = user_set.last
-  4.times { Message.create(from: from, to: to, content: messages.sample) }
+  4.times { |i| Message.create(from: from, to: to, content: messages.sample, created_at: Date.current - i.days) }
 end

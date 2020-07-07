@@ -58,12 +58,9 @@ module Dashboard
 
     def update_message(msg)
       message = find_message(msg["id"])
-      puts message.inspect
-      message.status = msg["status"]
       return unless message
 
-      puts @messages.find { |msg| msg.id == message.id ? message : msg }.inspect
-
+      message.status = msg["status"] if msg["status"]
       @messages = update_message_in_queue(@messages, message)
       @sent_messages = update_message_in_queue(@sent_messages, message)
     end
@@ -83,7 +80,6 @@ module Dashboard
 
     def add_message_to_queue(queue, message)
       queue.push(::MessageDecorator.new(message))
-      stream_from update_message_channel(message), :update_message
     end
 
     def delete_message_from_queue(queue, id)

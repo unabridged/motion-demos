@@ -20,7 +20,7 @@ class Message < ApplicationRecord
   end
 
   def broadcast_read
-    ActionCable.server.broadcast("messages:read:#{id}", {id: id})
+    ActionCable.server.broadcast("messages:read:#{id}", {id: id, status: status})
   end
 
   def broadcast_delete
