@@ -31,7 +31,7 @@ class ClickerGameComponent < ViewComponent::Base
         3.times.map { luck_result }.min
       else
         lvl.times.map { luck_result }.max
-      end
+      end.to_i
 
     player.score_points(scored)
   end
