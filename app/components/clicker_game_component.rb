@@ -13,10 +13,6 @@ class ClickerGameComponent < ViewComponent::Base
   def initialize(game:, player:)
     @game = game
     @player = player
-
-    stream_from game.channel, :refresh_scores
-
-    refresh_scores
   end
 
   def click(event)
@@ -34,7 +30,7 @@ class ClickerGameComponent < ViewComponent::Base
       elsif lvl == 0 # bad luck
         3.times.map { luck_result }.min
       else
-         lvl.times.map { luck_result }.max
+        lvl.times.map { luck_result }.max
       end
 
     player.score_points(scored)
@@ -44,25 +40,19 @@ class ClickerGameComponent < ViewComponent::Base
     player.destroy
     game.destroy if game.clicker_players.count == 0
 
-    broadcast(game.channel, nil)
-  end
-
-  def refresh_scores
-    @players = game.clicker_players.reload
+    ActionCable.server.broadcast(game.channel, nil)
   end
 
   private
 
   def luck_result
     case rand(1000)
-    when 0..49 # 5%
-      100
-    when 50..99 # 5%
-      -100
+    when 0..99 # 10%
+      rand(-100..100)
     when 100..109 # 1%
-      score * 10
+      score * 7 # positive 7x current score
     when 110..119 # 1%
-      score * -10
+      (score * 7).abs * -1 # negative 7x current score
     when 120..129 # 1%
       -1 * score # back to zero!
     when 130..159 # 3%
@@ -73,8 +63,10 @@ class ClickerGameComponent < ViewComponent::Base
       rand(90) - 10 # nice boost
     when 265..414 # 15%
       rand(400) - 50 # nicer boost
+    when 415..564 # 15%
+      rand(score) - rand(score * 0.3) # boost based on score
     else
-      rand(40) - 10  # most of the time, a small, usually positive amount
+      rand(50) - 10  # most of the time, a small, usually positive amount
     end
   end
 end

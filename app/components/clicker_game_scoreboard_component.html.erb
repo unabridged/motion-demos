@@ -1,0 +1,11 @@
+<ol>
+  <% players.sort_by(&:score).reverse.each do |(other_player, score)| %>
+    <li>
+      <% if other_player.name == player.name %>
+        <strong><%= player.name %> (you)</strong>: <%= player.score %>
+      <% else %>
+        <%= other_player.name %>: <%= other_player.score %>
+      <% end %>
+    </li>
+  <% end %>
+</ol>

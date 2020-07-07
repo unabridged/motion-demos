@@ -1,17 +1,7 @@
 <div id="clicker-game">
   <div class="card p-3">
     <div class="card-body">
-      <ol>
-        <% players.sort_by(&:score).reverse.each do |(other_player, score)| %>
-          <li>
-            <% if other_player.name == player.name %>
-              <strong><%= player.name %> (you)</strong>: <%= player.score %>
-            <% else %>
-              <%= other_player.name %>: <%= other_player.score %>
-            <% end %>
-          </li>
-        <% end %>
-      </ol>
+      <%= render ClickerGameScoreboardComponent.new(game: game, player: player) %>
 
       <p>Most Recent Score: <%= scored %></p>
 
@@ -90,7 +80,7 @@
           <% end %>
 
           <% if score == 42 || rand(40) == 1 %>
-            <%= lucky_button "Ultra Luck", 3 %>
+            <%= lucky_button "Ultra Luck", 6 %>
           <% end %>
 
           <% if score > 100 && score % 3 == 1 %>
@@ -98,7 +88,7 @@
           <% end %>
 
           <% if score == 7777 %>
-            <%= score_button 7777, text: "ALL LUCKY 7S" %>
+            <%= score_button 77777, text: "ALL LUCKY 7S" %>
           <% end %>
         <% end %>
       </section>
