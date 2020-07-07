@@ -1,29 +1,37 @@
 class ClickerGamesController < ApplicationController
-  before_action :enforce_valid_game_key, only: [:show, :join]
-
-  helper_method :key
-
   layout "clicker"
 
   def create
-    key = SecureRandom.hex(5)
+    game = ClickerGame.create
 
-    redirect_to clicker_game_path(id: key)
+    redirect_to clicker_game_path(game)
   end
 
   def join
     redirect_to clicker_game_path(id: key)
   end
 
+  def show
+    game = ClickerGame.find_by(key: key)
+    redirect_to clicker_games_path and return unless game
+
+    player = game.clicker_players.create
+
+    render locals: { game: game, player: player }
+  end
+
+  def index
+    recent_games = ClickerGame
+      .order(:updated_at)
+      .where("updated_at > ?", 5.minutes.ago)
+      .sample(5)
+
+    render locals: { recent_games: recent_games }
+  end
+
   private
 
   def key
     @key ||= params[:id]
-  end
-
-  def enforce_valid_game_key
-    unless key =~ /\A[A-Za-z\d]{10}\z/
-      redirect_to clicker_games_path, error: "Invalid key" and return false
-    end
   end
 end

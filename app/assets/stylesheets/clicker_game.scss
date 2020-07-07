@@ -1,0 +1,15 @@
+@import "_variables";
+
+.clicker-grid {
+  display: grid;
+  height: 500px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  font-family: Helvetica;
+  grid-gap: 10px;
+}
+
+.clicker-grid button {
+  border: 1px solid #888;
+  font-size: 2rem;
+}
