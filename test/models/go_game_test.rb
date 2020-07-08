@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe GoGame do
-  let(:subject) { GoGame.new }
+  let(:subject) { GoGame.new(key: "foo") }
 
   describe "when initialized with default options" do
     it "has a positions array of length 81 representing an empty 9x9 board" do
@@ -38,18 +38,18 @@ describe GoGame do
 
   describe "#place" do
     it "places a stone of the current color on the given index" do
-      subject.place(GoGame::Pos.new(0,0))
-      assert_equal GoGame::Stone.new(:black, GoGame::Pos.new(0,0), 1), subject.board[0][0]
+      subject.place(GoGame::Pos.new(0, 0))
+      assert_equal GoGame::Stone.new(:black, GoGame::Pos.new(0, 0), 1), subject.board[0][0]
     end
 
     it "returns nil if the position is already occupied" do
-      subject.place(GoGame::Pos.new(0,0))
-      refute subject.place(GoGame::Pos.new(0,0))
+      subject.place(GoGame::Pos.new(0, 0))
+      refute subject.place(GoGame::Pos.new(0, 0))
     end
   end
 
   describe "capturing stones" do
-    let(:subject) { GoGame.new(size: 3) }
+    let(:subject) { GoGame.new(size: 3, key: "foo") }
 
     before do
       # make this board:
@@ -57,33 +57,33 @@ describe GoGame do
       # nil, nil, nil,
       # nil, nil, nil,
 
-      subject.place(GoGame::Pos.new(0,1))
+      subject.place(GoGame::Pos.new(0, 1))
       subject.next_player
-      subject.place(GoGame::Pos.new(0,0))
+      subject.place(GoGame::Pos.new(0, 0))
       subject.next_player
     end
 
     it "adds number of stones captured to the captures data" do
-      subject.place(GoGame::Pos.new(1,0))
+      subject.place(GoGame::Pos.new(1, 0))
       assert_equal 1, subject.captures[:white]
     end
 
     it "removes the captured stone from the board" do
-      subject.place(GoGame::Pos.new(1,0))
+      subject.place(GoGame::Pos.new(1, 0))
       refute subject.board[0][0]
     end
   end
 
   describe "#update_groups" do
     it "creates a new group if the stone is not connected to any existing groups" do
-      subject.place(GoGame::Pos.new(0,0))
-      assert_equal [[GoGame::Pos.new(0,0)]], subject.groups[:black]
+      subject.place(GoGame::Pos.new(0, 0))
+      assert_equal [[GoGame::Pos.new(0, 0)]], subject.groups[:black]
     end
 
     it "adds a stone to an existing group if it connects to it" do
-      subject.place(GoGame::Pos.new(0,0))
-      subject.place(GoGame::Pos.new(0,1))
-      assert_equal [[GoGame::Pos.new(0,0), GoGame::Pos.new(0,1)]], subject.groups[:black]
+      subject.place(GoGame::Pos.new(0, 0))
+      subject.place(GoGame::Pos.new(0, 1))
+      assert_equal [[GoGame::Pos.new(0, 0), GoGame::Pos.new(0,1)]], subject.groups[:black]
     end
 
     it "merges multiple groups if the new stone connects to multiple" do

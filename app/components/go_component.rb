@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # A ViewVomponent with Motion handling multiplayer interactive Go games
 class GoComponent < ViewComponent::Base
   include Motion::Component
@@ -10,7 +8,7 @@ class GoComponent < ViewComponent::Base
     @key = key
     @game = GoGame.find(key: key) || GoGame.new(key: key)
     update_game_display
-    stream_from "go:#{@key}", :player_move
+    stream_from "go:#{@key}", :next_turn
   end
 
   def place(event)
@@ -22,6 +20,7 @@ class GoComponent < ViewComponent::Base
     @game.place(pos)
     @game.next_player
     GoGame.update(key: @key, game: @game)
+    @game.broadcast_next_turn
   end
 
   private
@@ -30,7 +29,7 @@ class GoComponent < ViewComponent::Base
     GoGame::Pos.new((index / size), index.modulo(size))
   end
 
-  def player_move(_message)
+  def next_turn(_message)
     @game = GoGame.find(key: @key)
     update_game_display
   end

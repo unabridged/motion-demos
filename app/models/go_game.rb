@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # this class represents everything needed to build a square Go board,
 # track the state of the game, and possibly produce a game record based
 # on the stones placed on the board.
@@ -7,7 +5,7 @@ class GoGame
   # a position on the board, where top left is 0,0
   # represents indexes into the matrix representing the board
   # i is the row and j is the column in the matrix
-  Pos = Struct.new(:i, :j) do
+  Pos = Struct.new(:i, :j) {
     def +(other)
       Pos.new(other.i + i, other.j + j)
     end
@@ -15,7 +13,7 @@ class GoGame
     def neighbors
       [Pos.new(1, 0), Pos.new(0, 1), Pos.new(-1, 0), Pos.new(0, -1)].map { |dir| self + dir }
     end
-  end
+  }
 
   # this represents a stone placed on a board at a given position
   # as well as the move number sequence of when it was played
@@ -44,13 +42,13 @@ class GoGame
     @move = 1
     @board = (1..size).map { |_| (1..size).map { |_| nil } }
     @current = :black
-    @captures = { 'black' => 0, 'white' => 0 }
-    @groups = { black: [], white: [] }
+    @captures = {"black" => 0, "white" => 0}
+    @groups = {black: [], white: []}
 
     @key = key
     GoGame.update(key: key, game: self)
 
-    broadcast_board
+    broadcast_next_turn
   end
 
   # flattens the board and only includes stone color for the view
@@ -66,13 +64,11 @@ class GoGame
   def liberties(group)
     group
       .map { |pos| neighbors_in_bounds(pos) }.flatten.uniq
-      .reject { |pos| occupied?(pos) }
-      .count
+      .count { |pos| !occupied?(pos) }
   end
 
   def next_player
     @current = current == :black ? :white : :black
-    broadcast_board
   end
 
   # TODO: add illegal moves, including Ko rule
@@ -84,11 +80,11 @@ class GoGame
     capture(current)
   end
 
-  private
-
-  def broadcast_board
-    ActionCable.server.broadcast(game_channel, 'move')
+  def broadcast_next_turn
+    ActionCable.server.broadcast(game_channel, "move")
   end
+
+  private
 
   def capture(color)
     captured = @groups[color].select { |grp| liberties(grp).zero? }
@@ -145,7 +141,7 @@ class GoGame
 
     # have to reverse here because delete_at mutates the array as we iterate and changes the indexes
     # certainly some proper functional programming would be better :P
-    ixs.reverse.each { |i| @groups[current].delete_at(i) }
+    ixs.reverse_each { |i| @groups[current].delete_at(i) }
     @groups[current] << new_group
   end
 
