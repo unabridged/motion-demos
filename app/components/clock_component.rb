@@ -20,7 +20,7 @@ class ClockComponent < ViewComponent::Base
 
   def tick
     @time = Time.now.utc
-    
+
     stop_periodic_timer :tick if @time >= @to_time
   end
 
