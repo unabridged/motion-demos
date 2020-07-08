@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # this class represents everything needed to build a square Go board,
 # track the state of the game, and possibly produce a game record based
 # on the stones placed on the board.
@@ -6,12 +8,12 @@ class GoGame
   # represents indexes into the matrix representing the board
   # i is the row and j is the column in the matrix
   Pos = Struct.new(:i, :j) do
-    def +(pos)
-      Pos.new(pos.i + i, pos.j + j)
+    def +(other)
+      Pos.new(other.i + i, other.j + j)
     end
 
     def neighbors
-      [Pos.new(1,0), Pos.new(0,1), Pos.new(-1,0), Pos.new(0,-1)].map { |dir| self + dir }
+      [Pos.new(1, 0), Pos.new(0, 1), Pos.new(-1, 0), Pos.new(0, -1)].map { |dir| self + dir }
     end
   end
 
@@ -23,18 +25,14 @@ class GoGame
   Stone = Struct.new(:color, :pos, :num)
 
   # TODO: replace with DB storage of games
-  @@active_games = {}
+  @active_games = {}
 
   def self.find(key:)
-    puts "finding game #{key}"
-    game = @@active_games[key]
-    puts "found game #{game}"
-    game
+    @active_games[key]
   end
 
   def self.update(key:, game:)
-    puts "updating game #{key} with #{game}"
-    @@active_games[key] = game
+    @active_games[key] = game
   end
 
   # some of these could be removed, i was using the readers to test with
@@ -46,14 +44,11 @@ class GoGame
     @move = 1
     @board = (1..size).map { |_| (1..size).map { |_| nil } }
     @current = :black
-    @captures = {"black" => 0, "white" => 0}
-    @groups = {
-      black: [],
-      white: [],
-    }
+    @captures = { 'black' => 0, 'white' => 0 }
+    @groups = { black: [], white: [] }
 
     @key = key
-    @@active_games[key] = self
+    GoGame.update(key: key, game: self)
 
     broadcast_board
   end
@@ -69,7 +64,8 @@ class GoGame
 
   # TODO: this could be private, currently tested as a public method
   def liberties(group)
-    group.map { |pos| neighbors_in_bounds(pos) }.flatten.uniq
+    group
+      .map { |pos| neighbors_in_bounds(pos) }.flatten.uniq
       .reject { |pos| occupied?(pos) }
       .count
   end
@@ -100,7 +96,7 @@ class GoGame
     captured.each do |grp|
       grp.each { |pos| @board[pos.i][pos.j] = nil }
       @captures[color.to_s] += grp.length
-      @groups[color].delete(grp)
+      @groups[color].delete(grp) # TODO: deleting groups makes it hard to undo, or go back in time
     end
   end
 
@@ -109,31 +105,51 @@ class GoGame
   end
 
   def neighbors_in_bounds(pos)
-    pos.neighbors.reject { |pos| pos.i < 0 || pos.i >= size || pos.j < 0 || pos.j >= size }
+    pos.neighbors.reject { |psn| psn.i.negative? || psn.i >= size || psn.j.negative? || psn.j >= size }
   end
 
   def occupied?(pos)
     board[pos.i][pos.j]
   end
 
+  # TODO: make the following into its own class
   def update_groups(pos)
-    neighbors = neighbors_in_bounds(pos)
-    connected_to = @groups[current].select { |g| neighbors.map { |n| g.include?(n) }.any? }
+    connected_to = current_player_groups_connected_to_pos(pos)
 
     case connected_to.length
     when 0
+      # not connected to anything, make a new group of a single stone
       @groups[current] << [pos]
     when 1
+      # connect the stone to the one group it touches
       i = @groups[current].index(connected_to.first)
       @groups[current][i] << pos
     else
-      ixs = connected_to.map { |ary| @groups[current].index(ary) }
-      new_group = ixs.map { |i| @groups[current][i] }.flatten << pos
-
-      # have to reverse because the indexes as delete_all mutates the array
-      # perhaps some proper functional programming is better :P
-      ixs.reverse.each { |i| @groups[current].delete_at(i) }
-      @groups[current] << new_group
+      # otherwise the stone is touching multiple groups and we should connect them all
+      connect_multiple_groups(connected_to, pos)
     end
+  end
+
+  def current_player_groups_connected_to_pos(pos)
+    neighbors = neighbors_in_bounds(pos)
+    @groups[current].select { |g| neighbors.map { |n| g.include?(n) }.any? }
+  end
+
+  # TODO: would be nice to just merge existing groups together, rather than find and delete
+  def connect_multiple_groups(groups_to_connect, pos)
+    # find the groups' indexes, so we know which ones to remove
+    ixs = groups_to_connect.map { |ary| @groups[current].index(ary) }
+
+    # create a new group with all the existing groups' stones plus the new one (pos)
+    new_group = stones_in_current_player_groups(ixs) << pos
+
+    # have to reverse here because delete_at mutates the array as we iterate and changes the indexes
+    # certainly some proper functional programming would be better :P
+    ixs.reverse.each { |i| @groups[current].delete_at(i) }
+    @groups[current] << new_group
+  end
+
+  def stones_in_current_player_groups(group_indexes)
+    group_indexes.map { |i| @groups[current][i] }.flatten
   end
 end
