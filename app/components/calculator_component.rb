@@ -19,7 +19,7 @@ class CalculatorComponent < ViewComponent::Base
   def add_char(event)
     str = event.target.data[:char]
 
-    if !buffering
+    unless buffering
       @buffer = ""
       @buffering = true
     end

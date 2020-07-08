@@ -6,7 +6,8 @@ class ClickerPlayer < ApplicationRecord
     knight squire cauldron sparrow finch penguin otter hacker
     antelope kelp commander general daisy pup limo pebble
     shoes tophat bowtie car truck van breakfast lunch dinner
-    wasp hornet bumblebee sword shield smartphone glove]
+    wasp hornet bumblebee sword shield smartphone glove
+  ]
 
   belongs_to :clicker_game, touch: true
 

@@ -60,13 +60,13 @@ class ClickerGameComponent < ViewComponent::Base
     when 160..164 # 0.5%
       7777 - score # hit all lucky 7s right on
     when 165..264 # 10%
-      rand(90) - 10 # nice boost
+      rand(-10..79) # nice boost
     when 265..414 # 15%
-      rand(400) - 50 # nicer boost
+      rand(-50..349) # nicer boost
     when 415..564 # 15%
       rand(score) - rand(score * 0.3) # boost based on score
     else
-      rand(50) - 10  # most of the time, a small, usually positive amount
+      rand(-10..39) # most of the time, a small, usually positive amount
     end
   end
 end

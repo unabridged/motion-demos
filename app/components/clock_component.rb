@@ -9,6 +9,7 @@ class ClockComponent < ViewComponent::Base
   attr_reader :timezone
 
   map_motion :update_timezone
+
   every 1.second, :tick
 
   def initialize(time: Time.now.utc)

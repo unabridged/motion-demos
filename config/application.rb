@@ -1,7 +1,7 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
-require 'view_component/engine'
+require "rails/all"
+require "view_component/engine"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -20,8 +20,8 @@ module MotionDemos
     config.action_view.field_error_proc = proc { |html_tag, instance| html_tag }
 
     config.action_mailer.default_url_options = {
-      host: 'localhost',
-      port: 3000,
+      host: "localhost",
+      port: 3000
     }
   end
 end
