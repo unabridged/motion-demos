@@ -47,9 +47,7 @@ group :production do
   gem 'redis', '~> 4.0'
 end
 
-# TODO: Go back to mainline after merge and release
-gem "motion", git: "https://github.com/unabridged/motion.git", branch: "periodic-timers-outside-of-test"
-
+gem "motion"
 gem "view_component"
 gem "bootstrap", "~> 4.5"
 gem "countries"

@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/unabridged/motion.git
-  revision: b5bcbd157c356601785f12546a6e611aa85cc7ac
-  branch: periodic-timers-outside-of-test
-  specs:
-    motion (0.2.1)
-      nokogiri
-      rails (>= 5.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -113,6 +104,9 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.1)
+    motion (0.2.2)
+      nokogiri
+      rails (>= 5.2)
     msgpack (1.3.3)
     nio4r (2.5.2)
     nokogiri (1.10.10)
@@ -226,7 +220,7 @@ DEPENDENCIES
   devise
   honeybadger
   listen (~> 3.2)
-  motion!
+  motion
   pg
   pry-rails
   puma (~> 4.1)
