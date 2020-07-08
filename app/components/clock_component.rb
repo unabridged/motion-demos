@@ -9,34 +9,20 @@ class ClockComponent < ViewComponent::Base
   attr_reader :timezone
 
   map_motion :update_timezone
-
+  every 1.second, :tick
 
   def initialize(time: Time.now.utc)
     @time = time
-    @key = SecureRandom.uuid
     @timezone = "Etc/UTC"
     @timestart = @time
     @to_time = @time + duration
-
-    trigger_timer(@to_time, time_updated_channel)
   end
 
-  def trigger_timer(to_time, channel)
-    stream_from channel, :handle_time
-
-    Thread.new(to_time, channel) do |to_time, channel|
-      while Time.now <= to_time
-        sleep 1
-        ActionCable.server.broadcast(channel, { time: Time.now.utc })
-      end
-      Thread.exit # kill thread
-    end
+  def tick
+    @time = Time.now.utc
+    
+    stop_periodic_timer :tick if @time >= @to_time
   end
-
-  def time_updated_channel
-    "time:updated:#{@key}"
-  end
-
 
   def update_timezone(event)
     element = event.target
@@ -77,10 +63,6 @@ class ClockComponent < ViewComponent::Base
 
   def second_rotation
     time.sec * (DEGREES / SECONDS)
-  end
-
-  def handle_time(msg)
-    @time = Time.parse(msg["time"])
   end
 
   def completed?
