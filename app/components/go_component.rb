@@ -6,7 +6,7 @@ class GoComponent < ViewComponent::Base
 
   def initialize(key:)
     @key = key
-    @game = GoGame.find(key: key) || GoGame.new(key: key)
+    @game = ::Go::Game.find(key: key) || ::Go::Game.new(key: key)
     update_game_display
     stream_from "go:#{@key}", :next_turn
   end
@@ -17,20 +17,27 @@ class GoComponent < ViewComponent::Base
 
     return unless @game.legal_move?(pos)
 
-    @game.place(pos)
-    @game.next_player
-    GoGame.update(key: @key, game: @game)
-    @game.broadcast_next_turn
+    @game = @game.place(pos) # place returns self, the updated game
+    ::Go::Game.update(key: @key, game: @game)
+    broadcast_next_turn
   end
 
   private
 
+  def broadcast_next_turn
+    ActionCable.server.broadcast(game_channel, "move")
+  end
+
+  def game_channel
+    "go:#{@key}"
+  end
+
   def index_to_pos(index)
-    GoGame::Pos.new((index / size), index.modulo(size))
+    ::Go::Pos.new((index / size), index.modulo(size))
   end
 
   def next_turn(_message)
-    @game = GoGame.find(key: @key)
+    @game = ::Go::Game.find(key: @key)
     update_game_display
   end
 
