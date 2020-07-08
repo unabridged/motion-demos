@@ -1,0 +1,6 @@
+parallel: true
+format: progress
+
+ignore:
+  - '**/node_modules/**/*'
+  - 'vendor/**/*'
