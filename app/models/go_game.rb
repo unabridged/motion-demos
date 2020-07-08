@@ -91,11 +91,7 @@ class GoGame
   private
 
   def broadcast_board
-    ActionCable.server.broadcast(game_channel, {
-      board: display,
-      captures: @captures,
-      current: @current,
-    })
+    ActionCable.server.broadcast(game_channel, 'move')
   end
 
   def capture(color)

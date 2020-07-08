@@ -22,8 +22,8 @@ class GoController < ApplicationController
   end
 
   def enforce_valid_game_key
-    unless key =~ /\A[A-Za-z\d]{10}\z/
-      redirect_to clicker_games_path, error: "Invalid key" and return false
+    unless /\A[A-Za-z\d]{10}\z/.match? key
+      redirect_to go_index_path, error: "Invalid key" and return false
     end
   end
 end

@@ -1,45 +1,47 @@
+# frozen_string_literal: true
+
+# A ViewVomponent with Motion handling multiplayer interactive Go games
 class GoComponent < ViewComponent::Base
   include Motion::Component
 
   map_motion :place
-  map_motion :reset
 
   def initialize(key:)
     @key = key
     @game = GoGame.find(key: key) || GoGame.new(key: key)
-    puts "component game #{@game}"
-    @board = @game.display
-    @current = @game.current
-    @captures = @game.captures
-
+    update_game_display
     stream_from "go:#{@key}", :player_move
   end
 
   def place(event)
     index = event.target.data[:index].to_i
-    pos = GoGame::Pos.new((index / 9), index.modulo(9))
+    pos = index_to_pos(index)
 
-    if @game.legal_move?(pos)
-      @game.place(pos)
-      @game.next_player
-      GoGame.update(key: @key, game: @game)
-    end
-  end
+    return unless @game.legal_move?(pos)
 
-  def reset
-    @game = GoGame.new
-    @board = @game.display
-    @current = @game.current
-    @captures = @game.captures
-    broadcast_board
+    @game.place(pos)
+    @game.next_player
+    GoGame.update(key: @key, game: @game)
   end
 
   private
 
-  def player_move(message)
+  def index_to_pos(index)
+    GoGame::Pos.new((index / size), index.modulo(size))
+  end
+
+  def player_move(_message)
     @game = GoGame.find(key: @key)
-    @current = message["current"]
-    @captures = message["captures"]
-    @board = message["board"]
+    update_game_display
+  end
+
+  def size
+    @game.size
+  end
+
+  def update_game_display
+    @board = @game.display
+    @current = @game.current
+    @captures = @game.captures
   end
 end
