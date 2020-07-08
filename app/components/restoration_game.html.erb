@@ -1,9 +1,22 @@
-<section class="grid">
-  <% (0..Math.sqrt(@board.size)-1).each do |i| %>
-    <% (0..Math.sqrt(@board.size)-1).each do |j| %>
-      <div class="tile" data-motion="paint">
-        <img src="/assets/<%= @index[@board[i*9+j]] %>.svg" data-x="<%= i %>" data-y="<%= j %>" data-selected="<%= @selected %>"/>
-      </div>
-    <% end %>
-  <% end %>
-</section>
+<main>
+  <section class="board">
+    <h4>Restoration Game</h4>
+    <section class="grid">
+      <% (0..Math.sqrt(@board.size)-1).each do |i| %>
+        <% (0..Math.sqrt(@board.size)-1).each do |j| %>
+          <div class="tile" data-motion="paint">
+            <img src="/assets/<%= @index[@board[i*9+j]] %>.svg" data-y="<%= i %>" data-x="<%= j %>" />
+          </div>
+        <% end %>
+      <% end %>
+    </section>
+  </section>
+  <section class="selector">
+    <%= button_tag "Gather", class: "number-btn", data: { motion: "change_selected", value: "gather" } %>
+    Place:
+    <%= button_tag "Water", class: "number-btn", data: { motion: "change_selected", value: "0" } %>
+    <%= button_tag "Dirt", class: "number-btn", data: { motion: "change_selected", value: "1" } %>
+    <%= button_tag "Grass", class: "number-btn", data: { motion: "change_selected", value: "2" } %>
+    <%= button_tag "Tree", class: "number-btn", data: { motion: "change_selected", value: "3" } %>
+  </section>
+</main>
