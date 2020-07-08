@@ -12,11 +12,11 @@
     </section>
   </section>
   <section class="selector">
-    <%= button_tag "Gather", class: "number-btn", data: { motion: "change_selected", value: "gather" } %>
+    <%= button_tag "Gather", class: "number-btn", data: { motion: "change_selected", value: "-1" } %>
     Place:
-    <%= button_tag "Water", class: "number-btn", data: { motion: "change_selected", value: "0" } %>
     <%= button_tag "Dirt", class: "number-btn", data: { motion: "change_selected", value: "1" } %>
-    <%= button_tag "Grass", class: "number-btn", data: { motion: "change_selected", value: "2" } %>
-    <%= button_tag "Tree", class: "number-btn", data: { motion: "change_selected", value: "3" } %>
+    <%= button_tag "Grass (#{seeds})", class: "number-btn", data: { motion: "change_selected", value: "2" } %>
+    <%= button_tag "Tree (#{saplings})", class: "number-btn", data: { motion: "change_selected", value: "3" } %>
+    <%= button_tag "Berries (#{seeds})", class: "number-btn", data: { motion: "change_selected", value: "4" } %>
   </section>
 </main>
