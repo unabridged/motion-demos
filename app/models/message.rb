@@ -12,6 +12,12 @@ class Message < ApplicationRecord
   after_update :broadcast_read
   after_commit :broadcast_delete, on: :destroy
 
+  scope :paginated, ->(offset = 0, limit = 20) { order(:created_at).offset(offset * limit).limit(limit) }
+
+  def today?
+    created_at.today?
+  end
+
   private
 
   def broadcast_create

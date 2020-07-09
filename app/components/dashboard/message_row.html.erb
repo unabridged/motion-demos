@@ -6,9 +6,7 @@
         </label>
     </td>
     <td class="mail-rateing">
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <use xlink:href="#bootstrap-icons.svg#star"/>
-      </svg>
+      <%= svg "star" %>
     </td>
     <td>
         <a data-motion="toggle_read" href="##">
@@ -16,18 +14,18 @@
         </a>
     </td>
     <td>
-        <a data-motion="toggle_read" href="##">
+        <a data-motion="toggle_read" href="##" data-toggle="modal" data-target="#messageRead">
           <%= render Dashboard::UserStatus.new(user: from) %>
           <%= truncate(content, length: 20) %>
+
+          What else?
         </a>
     </td>
     <td class="text-right">
         <%= sent_at %>
     </td>
     <td>
-      <svg class="bi" width="32" height="32" fill="currentColor" data-motion="trash">
-        <use xlink:href="#bootstrap-icons.svg#trash"/>
-      </svg>
+      <%= svg "trash" %>
     </td>
 
   <% else %>
@@ -37,9 +35,7 @@
         </label>
     </td>
     <td class="mail-rateing">
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <use xlink:href="#bootstrap-icons.svg#star"/>
-      </svg>
+      <%= svg "star" %>
     </td>
     <td>
         <a data-motion="toggle_read" href="##">
@@ -47,7 +43,7 @@
         </a>
     </td>
     <td>
-        <a data-motion="toggle_read" href="##">
+        <a data-motion="toggle_read" href="##" %>>
           <%= render Dashboard::UserStatus.new(user: from) %>
           <%= truncate(content, length: 20) %>
         </a>
@@ -57,9 +53,7 @@
     </td>
     <td>
       <a data-motion="trash" href="##">
-        <svg class="bi" width="32" height="32" fill="currentColor">
-          <use xlink:href="#bootstrap-icons.svg#trash"/>
-        </svg>
+        <%= svg "trash" %>
       </a>
     </td>
 

@@ -92,20 +92,24 @@
                 <div class="panel-body">
                     <table class="table table-hover mails">
                         <tbody>
-                          <% current_list.each do |msg|  %>
-                              <%= render Dashboard::MessageRow.new(user: user, message: msg) %>
+                          <% current_list.each_with_index do |msg, i|  %>
+                              <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, reading_message_channel: reading_message_channel) %>
                           <% end %>
                         </tbody>
                     </table>
                     <hr>
                     <div class="row">
                         <div class="col-xs-7">
-                            Showing <%= @current_list.length %> of <%= current_list.length %>
+                            Showing <%= current_list.length %> of <%= current_list.length %>
                         </div>
                         <div class="col-xs-5">
                             <div class="btn-group pull-right">
-                              <button type="button" class="btn btn-default"><i class="fa fa-chevron-left"></i></button>
-                              <button type="button" class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
+                              <button type="button" class="btn btn-default" data-motion="paginate" data-valu="increase">
+                                  <i class="fa fa-chevron-left"></i>
+                                </button>
+                              <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease">
+                                <i class="fa fa-chevron-right"></i>
+                              </button>
                             </div>
                         </div>
                     </div>
@@ -113,7 +117,27 @@
             </div> <!-- panel -->
         </div> <!-- end Col-9 -->
     </div><!-- End row -->
-
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageRead">
+  Launch demo modal
+</button>
+<section class="<%= @reading ? "modal-open" : nil %>">
+<div class="overlay modal show fade" id="messageRead" tabindex="-1" role="dialog" aria-labelledby="messageRead" aria-hidden="true" style="display: <%= @reading ? "block" : "none"%>;">
+  <div class="content modal-dialog" role="document" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% if @reading %>
+          <%= render Dashboard::MessageRead.new(message: @reading, reading_message_channel: reading_message_channel) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
 
 </div>
 </section>

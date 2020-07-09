@@ -1,16 +1,20 @@
 module Dashboard
   class MessagesTable < ViewComponent::Base
     include Motion::Component
-    attr_reader :user, :messages, :sent_messages
+    attr_reader :user, :messages, :sent_messages, :offset, :per_page
 
     map_motion :change_list
 
     def initialize(user:)
       @user = user
-      @messages = user.messages.order(:created_at).map { |msg| ::MessageDecorator.new(msg) }
-      @sent_messages = user.sent_messages.order(:created_at).map { |msg| ::MessageDecorator.new(msg) }
+      @offset = 0
+      @per_page = 20
+      @messages = user.messages.paginated(offset, per_page)
+      @sent_messages = user.sent_messages.paginated(offset, per_page)
+      @messages_count = user.messages.count
+      @sent_messages_count = user.sent_messages.count
       @current_list = :messages
-      @displaying = nil
+      @reading = nil
 
       stream_messages
     end
@@ -30,6 +34,7 @@ module Dashboard
     def stream_messages
       stream_from to_message_channel, :add_message
       stream_from from_message_channel, :add_sent_message
+      stream_from reading_message_channel, :reading_message
 
       [*messages, *sent_messages].each do |msg|
         stream_from update_message_channel(msg), :update_message
@@ -56,6 +61,10 @@ module Dashboard
       add_message_to_queue(@sent_messages, message)
     end
 
+    def reading_message(msg)
+      @reading = Message.find_by(id: msg["id"])
+    end
+
     def update_message(msg)
       message = find_message(msg["id"])
       return unless message
@@ -72,6 +81,10 @@ module Dashboard
     end
     # END STREAMS
 
+    def reading_message_channel
+      @reading_message_channel ||= "messages:reading:#{SecureRandom.uuid}"
+    end
+
     private
 
     def update_message_in_queue(queue, message)
@@ -79,7 +92,8 @@ module Dashboard
     end
 
     def add_message_to_queue(queue, message)
-      queue.push(::MessageDecorator.new(message))
+      # Add new message to start of list
+      queue.unshift(::MessageDecorator.new(message)) if offset == 0
     end
 
     def delete_message_from_queue(queue, id)

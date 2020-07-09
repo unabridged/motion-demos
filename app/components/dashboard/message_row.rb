@@ -1,6 +1,7 @@
 module Dashboard
   class MessageRow < ViewComponent::Base
     include Motion::Component
+    include SvgHelper
     DATE_FORMAT = "%m/%d/%Y %I:%M:%S%p"
     attr_reader :user, :message
 
@@ -9,21 +10,20 @@ module Dashboard
     map_motion :toggle_read
     map_motion :trash
 
-    def initialize(user:, message:)
+    def initialize(user:, message:, row:, reading_message_channel:)
       @user = user
       @message = message
+      @row = row
+      @reading_message_channel = reading_message_channel
     end
 
     def toggle_read(event)
       new_status = read? ? :unread : :read
-      id = message.id
       message.update(status: new_status)
-      # ActionCable.server.broadcast("messages:read:#{id}", {id: id, status: new_status})
     end
 
     def trash(event)
       message.destroy
-      # ActionCable.server.broadcast("messages:delete:#{message.id}", {id: message.id})
     end
 
     def sent_at
