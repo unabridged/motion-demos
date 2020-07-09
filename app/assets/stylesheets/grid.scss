@@ -31,10 +31,34 @@
   width: 25%;
 
   button {
+    border: 0px;
+    border-radius: 4px;
     display: block;
+    height: 100px;
     margin-bottom: 10px;
     padding-bottom: 25px;
     padding-top: 25px;
     width: 100px;
   }
+}
+
+.berries {
+  background-image: url("/assets/berries.svg");
+  background-size: 100px 100px;
+}
+
+.dirt {
+  background-image: url("/assets/dirt.svg");
+  background-size: 100px 100px;
+}
+
+.grass {
+  background-image: url("/assets/grass.svg");
+  background-size: 100px 100px;
+}
+
+
+.tree {
+  background-image: url("/assets/tree.svg");
+  background-size: 100px 100px;
 }
