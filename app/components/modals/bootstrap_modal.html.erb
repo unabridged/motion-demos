@@ -1,0 +1,34 @@
+<div>
+  <% if show_button? %>
+    <!-- Button to trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      Launch modal
+    </button>
+  <% end %>
+
+  <!-- Bootstrap Modal markup with mapped_motion :dismiss to capture when it is dismissed by clicking -->
+  <!-- Clicking the modal (ie - outside modal dialog) should dismiss and is dismissable -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-motion="dismiss" data-value="dismissable">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <!-- Modal close button should also dismiss, so it also has data-motion -->
+          <!-- Note that you also need to add dismissable to span :( -->
+          <button type="button" class="close" data-value="dismissable" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" data-value="dismissable">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><%= content %></p>
+          <p>You picked: <%= selected %></p>
+        </div>
+        <div class="modal-footer">
+          <!-- Modal save/close button should also dismiss, so it also has data-motion -->
+          <button type="button" class="btn btn-secondary" data-value="dismissable" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-value="dismissable" data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+@import "_variables";
+
+button {
+  &.active {
+    border: 0.25em solid $primary;
+  }
+}

@@ -1,0 +1,30 @@
+<div class="modal-open" data-motion="dismiss" data-value="dismissable">
+  <!-- This modal is styled with Bootstrap but triggered/displayed with motion -->
+  <!-- Bootstrap adds `.modal-open` to body, and instead we create a surrounding div with that class -->
+  <!-- Bootstrap uses css animations that are triggered when `.show` is added after the modal is in the DOM, so this component does that manually -->
+  <!-- Bootstrap sets the style to display: block; (normally display: none;) -->
+  <!-- Instead of using Bootstrap data-dismiss="modal" attributes, we use motion (data-motion="dismiss") to close the modal  -->
+  <div class="modal fade <%= modal_show_class %>" role="dialog" aria-labelledby="motionModalLabel" style="<%= modal_style %>" data-value="dismissable">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="motionModalLabel">Motion-Controlled Modal</h5>
+          <!-- Motion is used to dismiss, instead of Bootstrap -->
+          <button type="button" class="close" data-value="dismissable" aria-label="Close">
+            <span aria-hidden="true" data-value="dismissable">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><%= content %></p>
+          <p>You picked: <%= selected %></p>
+        </div>
+        <div class="modal-footer">
+          <!-- Motion is used to dismiss, instead of Bootstrap (data-motion instead of data-dismiss="modal") -->
+          <!-- Bootstrap data elements will not work because Bootstrap was not used to open the modal  -->
+          <button type="button" class="btn btn-secondary" data-value="dismissable">Close</button>
+          <button type="button" class="btn btn-primary" data-value="dismissable">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
