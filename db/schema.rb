@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2020_07_06_150357) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["clicker_game_id"], name: "index_clicker_players_on_clicker_game_id"
+  end
 
   create_table "messages", force: :cascade do |t|
     t.integer "from_id"
