@@ -6,6 +6,13 @@ module Go
     # TODO: replace with DB storage of games
     @active_games = {}
 
+    def self.create(size: 9)
+      key = SecureRandom.hex(5)
+      game = new(size: size, key: key)
+      update(key: key, game: game)
+      game
+    end
+
     def self.find(key:)
       @active_games[key]
     end
@@ -14,11 +21,14 @@ module Go
       @active_games[key] = game
     end
 
+    def self.delete(key:)
+      @active_games.delete(key)
+    end
+
     # some of these could be removed, i was using the readers to test with
-    attr_reader :board, :current, :captures, :groups, :move, :size
+    attr_reader :board, :current, :captures, :groups, :key, :move, :size
 
     def initialize(size: 9, key:)
-      puts "initializing game #{key}"
       @size = size
       @move = 1 # TODO: track move number
       @board = (1..size).map { |_| (1..size).map { |_| nil } }

@@ -4,9 +4,9 @@ class GoComponent < ViewComponent::Base
 
   map_motion :place
 
-  def initialize(key:)
-    @key = key
-    @game = ::Go::Game.find(key: key) || ::Go::Game.new(key: key)
+  def initialize(game:)
+    @game = game
+    @key = @game.key
     update_game_display
     stream_from "go:#{@key}", :next_turn
   end

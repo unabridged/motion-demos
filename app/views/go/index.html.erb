@@ -14,4 +14,8 @@
     </div>
     <%= f.submit "Join Game", class: "btn btn-primary" %>
   <% end %>
+
+  <% flash.each do |name, msg| -%>
+    <%= content_tag :div, msg, class: name %>
+  <% end -%>
 </fieldset>
