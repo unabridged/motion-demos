@@ -50,6 +50,5 @@ end
 gem "motion"
 gem "view_component"
 gem "bootstrap", "~> 4.5"
-gem "jquery-rails"
 gem "countries"
 gem "devise"
