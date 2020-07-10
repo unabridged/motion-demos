@@ -2,6 +2,7 @@ class RestorationGame < ViewComponent::Base
   include Motion::Component
   include WorldGeneration
 
+  attr_reader :air_quality
   attr_reader :board, :index, :selected, :size, :zoom
   attr_reader :berries, :seeds, :saplings, :water, :water_used
 
@@ -37,10 +38,23 @@ class RestorationGame < ViewComponent::Base
 
   private
 
+  def evaluate(tile)
+    case @board[tile]
+    when 1
+    when 2
+    when 3
+    when 4
+    when 5
+      if tile_health(tile) > 3
+        @board[tile] = 1
+      end
+    end
+  end
+
   def initialize_resources
     @berries = 0
-    @seeds = 0
-    @saplings = 0
+    @seeds = 4
+    @saplings = 1
   end
 
   def initialize_tiles
@@ -58,7 +72,10 @@ class RestorationGame < ViewComponent::Base
       @seeds += gather_chance
       @board[loc] = 1
     when 3
-      @saplings += gather_chance
+      @saplings += 1
+      @board[loc] = 1
+    when 4
+      @seeds += gather_chance
       @board[loc] = 1
     end
   end
@@ -68,7 +85,7 @@ class RestorationGame < ViewComponent::Base
   end
 
   def place(loc)
-    return if @board[loc] == 0 or @board[loc] == 5
+    return if @board[loc] == 0 or @board[loc] == 5 or @board[loc] == 4
     case @selected    
     when 2
       if @seeds > 0
@@ -81,19 +98,40 @@ class RestorationGame < ViewComponent::Base
         @saplings -= 1
       end
     when 4
-      if @seeds > 0
+      if @seeds > 1 and @board[loc] == 2
         @board[loc] = @selected
-        @seeds -= 1
+        @seeds -= 2
       end
     end
   end
 
+  def tile_health(tile)
+    health = 0
+    tiles = [tile-@size-1, tile-@size, tile-@size+1, tile-1, tile+1, tile+@size-1, tile+@size+1]
+
+    tiles.each do |t|
+      case @board[t]
+      when 0
+        health += 2
+      when 2
+        health += 1
+      when 3
+        health += 3
+      when 4
+        health += 2
+      end
+    end
+
+    health
+  end
+
   def update
     waterchk = 0
-    @board.each do |b|
+    @board.each_with_index do |b, i|
       waterchk += 2 if b == 3
       waterchk += 0.5 if b == 2
       waterchk += 1 if b == 4
+      evaluate(i)
     end
 
     @water_used = waterchk

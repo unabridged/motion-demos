@@ -1,13 +1,13 @@
 module WorldGeneration
 
   def check_adjacent(loc, type)
-    return loc-@size if @board[loc-@size] == type and loc / size != 0
+    return loc-@size if @board[loc-@size] == type and loc - @size > 0
 
     return loc-1 if @board[loc-1] == type and loc % @size != 0
 
     return loc+1 if @board[loc+1] == type and loc % @size != @size-1
 
-    return loc+@size if @board[loc+@size] == type and loc / size != @size -1
+    return loc+@size if @board[loc+@size] == type and loc / size != @size-1
 
     return false
   end
@@ -61,8 +61,6 @@ module WorldGeneration
         if (distance_probability(x-centerx, y-centery) > rand() and @board[coords_to_index(x, y)] != 0)
           @board[coords_to_index(x, y)] = 0 
           @water += 1
-          p @water
-          p @board[coords_to_index(x, y)]
         end
       end
     end
@@ -88,28 +86,6 @@ module WorldGeneration
     else
       create_river
     end
-
-    placed = 0
-
-    while placed < 5
-      coord = rand((@size*@size)-1)
-      if(@board[coord] == 5)
-        @board[coord] = 2
-        placed += 1
-      end
-    end
-
-    placed = 0
-
-    while placed < 1
-      coord = rand((@size*@size)-1)
-      if(@board[coord] == 5)
-        @board[coord] = 3
-        placed += 1
-      end
-    end
-
-    place_dirt
   end
 
   def get_tiles(type)
@@ -124,7 +100,7 @@ module WorldGeneration
     tiles = get_tiles(0)
     placed = 0
 
-    while placed < 5
+    while placed < 8 && !tiles.empty?
       coord = tiles.sample
       tile = check_adjacent(coord, 5)
       if tile != false
