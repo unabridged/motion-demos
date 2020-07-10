@@ -33,11 +33,11 @@
   button {
     border: 0px;
     border-radius: 4px;
+    color: #FDFDFD;
     display: block;
     height: 100px;
     margin-bottom: 10px;
-    padding-bottom: 25px;
-    padding-top: 25px;
+    text-shadow: 1px 1px 1px #020202;
     width: 100px;
   }
 }
@@ -52,11 +52,14 @@
   background-size: 100px 100px;
 }
 
+.gather {
+  background-color: #aaa;
+}
+
 .grass {
   background-image: url("/assets/grass.svg");
   background-size: 100px 100px;
 }
-
 
 .tree {
   background-image: url("/assets/tree.svg");

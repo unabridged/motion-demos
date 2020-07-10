@@ -1,5 +1,17 @@
 module WorldGeneration
 
+  def check_adjacent(loc, type)
+    return loc-@size if @board[loc-@size] == type and loc / size != 0
+
+    return loc-1 if @board[loc-1] == type and loc % @size != 0
+
+    return loc+1 if @board[loc+1] == type and loc % @size != @size-1
+
+    return loc+@size if @board[loc+@size] == type and loc / size != @size -1
+
+    return false
+  end
+
   def coords_to_index(x, y)
     (y * @size) + x
   end 
@@ -33,6 +45,7 @@ module WorldGeneration
       if (@board[loc] != 0)
         @board[loc] = 0
         placed += 1
+        @water += 1
       end
     end
   end
@@ -45,7 +58,12 @@ module WorldGeneration
     (centerx-2..centerx+2).each do |x|
       (centery-2..centery+2).each do |y|
 
-        @board[coords_to_index(x, y)] = 0 if distance_probability(x-centerx, y-centery) > rand()
+        if (distance_probability(x-centerx, y-centery) > rand() and @board[coords_to_index(x, y)] != 0)
+          @board[coords_to_index(x, y)] = 0 
+          @water += 1
+          p @water
+          p @board[coords_to_index(x, y)]
+        end
       end
     end
   end
@@ -60,8 +78,9 @@ module WorldGeneration
   end
 
   def generate_world
-    @size = 9
-    @board = Array.new(@size * @size, 1)
+    @board = Array.new(@size * @size, 5)
+    @water = 0
+    @water_used = 0
 
     # determines whether to generate a lake or a river
     if rand() > 0.5
@@ -74,7 +93,7 @@ module WorldGeneration
 
     while placed < 5
       coord = rand((@size*@size)-1)
-      if(@board[coord] == 1)
+      if(@board[coord] == 5)
         @board[coord] = 2
         placed += 1
       end
@@ -84,10 +103,37 @@ module WorldGeneration
 
     while placed < 1
       coord = rand((@size*@size)-1)
-      if(@board[coord] == 1)
+      if(@board[coord] == 5)
         @board[coord] = 3
         placed += 1
       end
     end
-  end  
+
+    place_dirt
+  end
+
+  def get_tiles(type)
+    tiles = []
+    @board.each_with_index do |b, i|
+      tiles << i if b == type
+    end
+    tiles
+  end
+
+  def place_dirt
+    tiles = get_tiles(0)
+    placed = 0
+
+    while placed < 5
+      coord = tiles.sample
+      tile = check_adjacent(coord, 5)
+      if tile != false
+        if @board[tile] == 5
+          @board[tile] = 1
+          placed += 1
+        end
+      end
+      tiles.delete(coord)
+    end
+  end
 end

@@ -12,7 +12,8 @@
     </section>
   </section>
   <section class="selector">
-    <%= button_tag "Gather", class: "number-btn", data: { motion: "change_selected", value: "-1" } %>
+    Water used: <%= @water_used %> / <%= @water %>
+    <%= button_tag "Gather", class: "gather", data: { motion: "change_selected", value: "-1" } %>
     Place:
     <%= button_tag "", class: "dirt", data: { motion: "change_selected", value: "1" } %>
     <%= button_tag "#{seeds}", class: "grass", data: { motion: "change_selected", value: "2" } %>
