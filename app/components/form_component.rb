@@ -36,8 +36,8 @@ class FormComponent < ViewComponent::Base
   private
 
   def signup_attributes(params)
-    params.
-      require(:signup).
-      permit(:name, :email, :favorite_color, :birthday, :plan, :terms, :comments, :country, :state)
+    params
+      .require(:signup)
+      .permit(:name, :email, :favorite_color, :birthday, :plan, :terms, :comments, :country, :state)
   end
 end

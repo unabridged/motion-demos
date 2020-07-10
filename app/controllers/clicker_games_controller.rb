@@ -13,11 +13,11 @@ class ClickerGamesController < ApplicationController
 
   def show
     game = ClickerGame.find_by(key: key)
-    redirect_to clicker_games_path and return unless game
+    redirect_to(clicker_games_path) && return unless game
 
     player = game.clicker_players.create
 
-    render locals: { game: game, player: player }
+    render locals: {game: game, player: player}
   end
 
   def index
@@ -26,7 +26,7 @@ class ClickerGamesController < ApplicationController
       .where("updated_at > ?", 5.minutes.ago)
       .sample(5)
 
-    render locals: { recent_games: recent_games }
+    render locals: {recent_games: recent_games}
   end
 
   private
