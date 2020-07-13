@@ -1,6 +1,40 @@
 <main>
   <section class="board">
     <h4>Restoration Game</h4>
+
+    <% if @show_intro_msg == 1 %>
+      <aside class="dialog">
+        <div class="close" data-motion="close_intro_msg">
+          <%= button_tag "X" %>  
+        </div>
+        The world has been ravaged by drought, and extreme weather. Only small pockets of life remain, surrounded by cracked, broken earth.
+        It is up to you to nurture it back to health.
+      </aside>
+    <% end %>
+
+    <% if @show_info == 1 %>
+      <aside class="dialog">
+        <div class="close" data-motion="toggle_info_msg" data-value="0">
+          <%= button_tag "X" %>  
+        </div>
+        <h5>How to play</h5>
+        The goal is to replace the cracked earth with some sign of life, whether dirt or plants, by planting seeds and saplings in the best
+        location to allow them to grow and spread onto other tiles. <br />
+        Plant grass, berries, or trees by selecting one on the right and then clicking a space on the map. Grass must be planted on dirt
+        and berries and trees must be planted on grass.<br />
+        When a tile is next to other healthy tiles (tiles with water or plants), it will become healthier, by changing from cracked earth
+        to dirt and from dirt to grass.
+      </aside>
+    <% end %>
+
+    <% if @show_win_msg == 1 %>
+      <aside class="dialog">
+        <div class="close" data-motion="close_win_msg">
+          <%= button_tag "X" %>  
+        </div>
+        Returning from the brink of extinction, life has once again covered the earth. Because of your careful stewardship, our home is whole once again.
+      </aside>
+    <% end %>
     <section class="grid">
       <% (0..Math.sqrt(@board.size)-1).each do |i| %>
         <% (0..Math.sqrt(@board.size)-1).each do |j| %>
@@ -12,12 +46,13 @@
     </section>
   </section>
   <section class="selector">
+    <%= button_tag "Info", class: "info", data: { motion: "toggle_info_msg", value: "1" } %>
     Water used: <%= @water_used %> / <%= @water %>
     <%= button_tag "Gather", class: "gather", data: { motion: "change_selected", value: "-1" } %>
     Place:
     <%= button_tag "", class: "dirt", data: { motion: "change_selected", value: "1" } %>
     <%= button_tag "#{seeds}", class: "grass", data: { motion: "change_selected", value: "2" } %>
-    <%= button_tag "#{seeds}", class: "berries", data: { motion: "change_selected", value: "4" } %>
-    <%= button_tag "#{saplings}", class: "tree", data: { motion: "change_selected", value: "3" } %>
+    <%= button_tag "#{seeds/2}", class: "berries", data: { motion: "change_selected", value: "4" } %>
+    <%= button_tag "#{saplings/5}", class: "tree", data: { motion: "change_selected", value: "3" } %>
   </section>
 </main>

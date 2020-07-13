@@ -5,25 +5,40 @@ class RestorationGame < ViewComponent::Base
   attr_reader :air_quality
   attr_reader :board, :index, :selected, :size, :zoom
   attr_reader :berries, :seeds, :saplings, :water, :water_used
+  attr_reader :show_info, :show_intro_msg, :show_win_msg, :won
 
   map_motion :change_selected
+  map_motion :close_intro_msg
+  map_motion :close_win_msg
   map_motion :paint
+  map_motion :toggle_info_msg
   every 1.second, :update
 
   def initialize(selected: 0)
     @size = 9
     @selected = selected
-    
+
     @index = Hash.new
     initialize_tiles
     initialize_resources
 
     generate_world
     @zoom = 3
+    @show_intro_msg = 1
+    @show_win_msg = 0
+    @won = 0
   end
 
   def change_selected(event)
     @selected = event.target.data[:value].to_i
+  end
+
+  def close_intro_msg
+    @show_intro_msg = 0
+  end
+
+  def close_win_msg
+    @show_win_msg = 0
   end
 
   def paint(event)
@@ -36,6 +51,10 @@ class RestorationGame < ViewComponent::Base
     end
   end
 
+  def toggle_info_msg(event)
+    @show_info = event.target.data["value"].to_i
+  end
+
   private
 
   def evaluate(tile)
@@ -43,21 +62,36 @@ class RestorationGame < ViewComponent::Base
     when 1
       if tile_health(tile) < 1
         @board[tile] = 5
+      elsif tile_health(tile) > 4 && (check_adjacent(tile, 2) || check_adjacent(tile, 3) || check_adjacent(tile, 4))
+        @board[tile] = 2
       end
     when 2
+      if tile_health(tile) < 4
+        @board[tile] = 1
+      elsif tile_health(tile) > 9 && check_adjacent(tile, 3)
+        @board[tile] = 3
+      end
     when 3
     when 4
+      if tile_health(tile) < 5
+        @board[tile] = 2
+      end
     when 5
       if tile_health(tile) > 3
         @board[tile] = 1
       end
+    end
+
+    if get_tiles(5).size == 0 && @won == 0
+      @won = 1
+      @show_win_msg = 1
     end
   end
 
   def initialize_resources
     @berries = 0
     @seeds = 4
-    @saplings = 1
+    @saplings = 5
   end
 
   def initialize_tiles
@@ -72,13 +106,13 @@ class RestorationGame < ViewComponent::Base
   def gather(loc)
     case @board[loc]
     when 2
-      @seeds += gather_chance
+      @seeds += 1
       @board[loc] = 1
     when 3
       @saplings += 1
       @board[loc] = 1
     when 4
-      @seeds += gather_chance
+      @seeds += 1
       @board[loc] = 1
     end
   end
@@ -96,12 +130,12 @@ class RestorationGame < ViewComponent::Base
         @seeds -= 1
       end
     when 3
-      if @saplings > 0 and @board[loc] == 2
+      if @saplings > 4 && @board[loc] == 2
         @board[loc] = @selected
-        @saplings -= 1
+        @saplings -= 5
       end
     when 4
-      if @seeds > 1 and @board[loc] == 2
+      if @seeds > 1 && @board[loc] == 2
         @board[loc] = @selected
         @seeds -= 2
       end

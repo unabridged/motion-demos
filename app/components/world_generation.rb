@@ -9,23 +9,23 @@ module WorldGeneration
     tiles << tile + @size if tile / @size < @size-1
 
     if diagonal
-      tiles << tile-@size-1 if tile > @size and tile % @size > 0
-      tiles << tile-@size+1 if tile > @size and tile % @size < @size-1
-      tiles << tile+@size-1 if tile / @size < @size-1  and tile % @size > 0
-      tiles << tile+@size+1 if tile / @size < @size-1 and tile % @size < @size-1
+      tiles << tile-@size-1 if tile > @size && tile % @size > 0
+      tiles << tile-@size+1 if tile > @size && tile % @size < @size-1
+      tiles << tile+@size-1 if tile / @size < @size-1  && tile % @size > 0
+      tiles << tile+@size+1 if tile / @size < @size-1 && tile % @size < @size-1
     end
 
     tiles
   end
 
   def check_adjacent(loc, type)
-    return loc-@size if @board[loc-@size] == type and loc - @size > 0
+    return loc-@size if @board[loc-@size] == type && loc - @size > 0
 
-    return loc-1 if @board[loc-1] == type and loc % @size != 0
+    return loc-1 if @board[loc-1] == type && loc % @size != 0
 
-    return loc+1 if @board[loc+1] == type and loc % @size != @size-1
+    return loc+1 if @board[loc+1] == type && loc % @size != @size-1
 
-    return loc+@size if @board[loc+@size] == type and loc / size != @size-1
+    return loc+@size if @board[loc+@size] == type && loc / size != @size-1
 
     return false
   end
@@ -76,7 +76,7 @@ module WorldGeneration
     (centerx-2..centerx+2).each do |x|
       (centery-2..centery+2).each do |y|
 
-        if (distance_probability(x-centerx, y-centery) > rand() and @board[coords_to_index(x, y)] != 0)
+        if (distance_probability(x-centerx, y-centery) > rand() && @board[coords_to_index(x, y)] != 0)
           @board[coords_to_index(x, y)] = 0 
           @water += 1
         end

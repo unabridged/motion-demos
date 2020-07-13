@@ -6,28 +6,39 @@
   width: 73%;
 }
 
+.dialog {
+  background-color: #d2b48c;
+  border: 1px solid #0e0e0e;
+  border-radius: 4px;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+  margin: 10% 15% 10% 10%;
+  max-width: 25%;
+  padding: 10px;
+  position: fixed;
+  z-index: 5;
+
+  .close {
+    font-weight: bold;
+    padding-left: 10px;
+    text-align: right;
+
+    button {
+      background-color: rgba(0,0,0,0);
+      border: 0px;
+    }
+  }
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
 }
 
-.tile {
-  margin-left: -2px;
-  margin-bottom: -2px;
-  z-index:4;
-
-  img{
-    max-width: 100%;
-    max-height: 100%;
-    z-index:2;
-  }
-}
-
 .selector {
-  margin-top: 100px;
-  padding-left: 25px;
-  float: right; 
   display: inline-block; 
+  float: right; 
+  margin-top: 50px;
+  padding-left: 25px;
   width: 25%;
 
   button {
@@ -39,6 +50,18 @@
     margin-bottom: 10px;
     text-shadow: 1px 1px 1px #020202;
     width: 100px;
+  }
+}
+
+.tile {
+  margin-left: -2px;
+  margin-bottom: -2px;
+  z-index:4;
+
+  img{
+    max-width: 100%;
+    max-height: 100%;
+    z-index:2;
   }
 }
 
@@ -59,6 +82,11 @@
 .grass {
   background-image: url("/assets/grass.svg");
   background-size: 100px 100px;
+}
+
+.info {
+  background-color: #aaa;
+  height: 50px !important;
 }
 
 .tree {
