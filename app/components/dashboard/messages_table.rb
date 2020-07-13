@@ -55,7 +55,7 @@ module Dashboard
     end
 
     def add_sent_message(msg)
-      message = find_message(id(msg))
+      message = find_message(msg["id"])
       return unless message
 
       add_message_to_queue(@sent_messages, message)

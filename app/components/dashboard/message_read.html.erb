@@ -1,23 +1,30 @@
-<div data-motion="dismiss" data-id="overlay">
-<!-- Modal -->
-  <div class="card shadow-none mt-3 border border-light">
-    <div class="card-body">
-      <div class="media mb-3">
-        <%= svg "person-circle", width: "5em", height: "5em" %>
-          <div class="ml-3 media-body">
-              <span class="media-meta float-right"><%= display_sent_at %></span>
-              <h4 class="text-primary m-0"><%= from.name %></h4>
-              <small class="text-muted">From : <%= from.email %></small>
-          </div>
+<div class="card shadow-none mt-3 border border-light">
+  <div class="card-body">
+    <div class="media mb-3">
+      <%= svg "person-circle", width: "5em", height: "5em" %>
+        <div class="ml-3 media-body">
+            <span class="media-meta float-right"><%= display_sent_at %></span>
+            <h4 class="text-primary m-0"><%= from.name %></h4>
+            <small class="text-muted">From : <%= from.email %></small>
+            <small class="text-muted">to : <%= to.name %></small>
+        </div>
+    </div>
+
+
+      <div class="mt-4 mb-4 media-content">
+        <p><%= content %></p>
       </div>
 
-
-        <div class="mt-4 mb-4 media-content">
-          <p><%= content %></p>
-        </div>
-
+      <% @replies.each do |msg| %>
         <hr />
-        <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true) %>
-    </div>
-  </div> <!-- card -->
+
+        <%= render Dashboard::MessageRead.new(message: msg) %>
+      <% end %>
+
+      <% if @reading_message_channel %>
+        <hr />
+
+        <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true, on_submit: bind(:reply_sent)) %>
+      <% end %>
+  </div>
 </div>

@@ -117,22 +117,11 @@
             </div> <!-- panel -->
         </div> <!-- end Col-9 -->
     </div><!-- End row -->
-<div class="overlay modal fade" id="messageRead" tabindex="-1" role="dialog" aria-labelledby="messageRead" aria-hidden="true">
-  <div class="content modal-dialog" role="document" >
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+
         <% if @reading %>
           <%= render Dashboard::MessageRead.new(message: @reading, reading_message_channel: reading_message_channel) %>
         <% end %>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 </div>
 </section>

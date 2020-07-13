@@ -8,22 +8,22 @@ module Dashboard
 
     delegate :content, :from, :to, to: :message, allow_nil: true
 
-    map_motion :submit
+    map_motion :save
     map_motion :validate
-    map_motion :dismiss
 
-    def initialize(to:, from:, hide_to_from: false)
+    def initialize(to:, from:, hide_to_from: false, on_submit:)
       @message = Message.new(from: from, to: to)
       @hide_to_from = hide_to_from
       @touched = []
       @valid = @message.valid?
+      @on_submit = on_submit
     end
 
     ## Map motions
-    def submit(event)
-      return unless false
+    def save(event)
+      return unless message.valid?
 
-      ActionCable.server.broadcast(@reading_message_channel, {id: nil})
+      @on_submit.call({id: message.id}) if message.save
     end
 
     def validate(event)

@@ -1,4 +1,4 @@
-<%= form_with model: @message, url: "/dashboard", data: { motion: 'change->validate submit->save' } do |f| %>
+<%= form_with model: @message, url: "#", data: { motion: 'change->validate submit->save' } do |f| %>
   <div>
     <%= svg "reply-fill", width: "5em", height: "5em", class: form_status %>
   </div>
