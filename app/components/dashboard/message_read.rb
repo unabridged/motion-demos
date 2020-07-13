@@ -13,8 +13,9 @@ module Dashboard
       @message = message
       @reading_message_channel = reading_message_channel
       @replies = []
-          stream_from "motion:broadcast:#{callback_channel}:reply_sent", :reply_sent
 
+      # TODO - this line should not be necessary
+      stream_from reply_sent_callback.broadcast, :reply_sent
     end
 
     ## Map motions
@@ -33,9 +34,12 @@ module Dashboard
       ["overlay", "close-button"]
     end
 
+    def reply_sent_callback
+      @reply_sent_callback ||= bind(:reply_sent)
+    end
+
     def reply_sent(msg)
       message = Message.find_by(id: msg["id"])
-      "FOUND MESSAGE: reply sent"
       @replies << ::MessageDecorator.new(message) if message.present?
     end
   end

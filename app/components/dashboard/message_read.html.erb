@@ -24,7 +24,7 @@
       <% if @reading_message_channel %>
         <hr />
 
-        <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true, on_submit: bind(:reply_sent)) %>
+        <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true, on_submit: reply_sent_callback) %>
       <% end %>
   </div>
 </div>
