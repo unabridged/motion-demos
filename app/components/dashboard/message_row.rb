@@ -19,7 +19,7 @@ module Dashboard
 
     def toggle_read(event)
       new_status = read? ? :unread : :read
-      message.update(status: new_status)
+      ActionCable.server.broadcast(@reading_message_channel, {id: message.id, status: new_status})
     end
 
     def trash(event)

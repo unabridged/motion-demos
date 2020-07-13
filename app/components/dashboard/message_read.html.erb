@@ -1,37 +1,23 @@
 <div data-motion="dismiss" data-id="overlay">
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
 <!-- Modal -->
   <div class="card shadow-none mt-3 border border-light">
     <div class="card-body">
-      <button href="#" class="close" data-id="close-button">
-        <%= svg "arrow-up-right-circle-fill" %>
-      </button>
       <div class="media mb-3">
-        <%= svg "person-circle", width: "8em", height: "8em" %>
-          <div class="media-body">
-              <span class="media-meta float-right">08:22 AM</span>
+        <%= svg "person-circle", width: "5em", height: "5em" %>
+          <div class="ml-3 media-body">
+              <span class="media-meta float-right"><%= display_sent_at %></span>
               <h4 class="text-primary m-0"><%= from.name %></h4>
               <small class="text-muted">From : <%= from.email %></small>
           </div>
       </div>
 
-        <%= content %>
 
-        <div class="media mt-3">
-            <%= svg "reply-fill", width: "5em", height: "5em" %>
-            <div class="media-body">
-                <textarea class="wysihtml5 form-control" rows="9" placeholder="Reply here..."></textarea>
-            </div>
+        <div class="mt-4 mb-4 media-content">
+          <p><%= content %></p>
         </div>
-        <div class="text-right">
-            <button type="button" class="btn btn-primary waves-effect waves-light mt-3" data-motion="reply">
-              <%= svg "cursor" %> Send
-            </button>
-        </div>
+
+        <hr />
+        <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true) %>
     </div>
   </div> <!-- card -->
 </div>

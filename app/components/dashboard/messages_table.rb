@@ -9,8 +9,8 @@ module Dashboard
       @user = user
       @offset = 0
       @per_page = 20
-      @messages = user.messages.paginated(offset, per_page)
-      @sent_messages = user.sent_messages.paginated(offset, per_page)
+      @messages = user.messages.paginated(offset, per_page).map{|msg| ::MessageDecorator.new(msg) }
+      @sent_messages = user.sent_messages.paginated(offset, per_page).map{|msg| ::MessageDecorator.new(msg) }
       @messages_count = user.messages.count
       @sent_messages_count = user.sent_messages.count
       @current_list = :messages
@@ -62,7 +62,7 @@ module Dashboard
     end
 
     def reading_message(msg)
-      @reading = Message.find_by(id: msg["id"])
+      @reading = ::MessageDecorator.new(Message.find_by(id: msg["id"]))
     end
 
     def update_message(msg)

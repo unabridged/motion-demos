@@ -1,11 +1,11 @@
 module Dashboard
   class MessageRead < ViewComponent::Base
     include Motion::Component
-    include SvgHelper
-    DATE_FORMAT = "%m/%d/%Y %I:%M:%S%p"
+    include SvgHelper # helpers must be included from parent, or included
+
     attr_reader :user, :message
 
-    delegate :id, :content, :from, :to, :read?, to: :message, allow_nil: true
+    delegate :id, :content, :from, :to, :display_sent_at, :read?, to: :message, allow_nil: true
 
     map_motion :dismiss
 
@@ -28,12 +28,6 @@ module Dashboard
 
     def close_targets
       ["overlay", "close-button"]
-    end
-
-    def sent_at
-      message
-
-      message.created_at.strftime(DATE_FORMAT)
     end
   end
 end

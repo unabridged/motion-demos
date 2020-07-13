@@ -117,11 +117,7 @@
             </div> <!-- panel -->
         </div> <!-- end Col-9 -->
     </div><!-- End row -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageRead">
-  Launch demo modal
-</button>
-<section class="<%= @reading ? "modal-open" : nil %>">
-<div class="overlay modal show fade" id="messageRead" tabindex="-1" role="dialog" aria-labelledby="messageRead" aria-hidden="true" style="display: <%= @reading ? "block" : "none"%>;">
+<div class="overlay modal fade" id="messageRead" tabindex="-1" role="dialog" aria-labelledby="messageRead" aria-hidden="true">
   <div class="content modal-dialog" role="document" >
     <div class="modal-content">
       <div class="modal-header">
@@ -137,7 +133,6 @@
     </div>
   </div>
 </div>
-</section>
 
 </div>
 </section>

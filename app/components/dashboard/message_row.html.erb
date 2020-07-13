@@ -43,7 +43,7 @@
         </a>
     </td>
     <td>
-        <a data-motion="toggle_read" href="##" %>>
+        <a data-motion="toggle_read" href="##" data-toggle="modal" data-target="#messageRead">
           <%= render Dashboard::UserStatus.new(user: from) %>
           <%= truncate(content, length: 20) %>
         </a>
