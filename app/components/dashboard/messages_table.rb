@@ -1,45 +1,25 @@
 module Dashboard
   class MessagesTable < ViewComponent::Base
     include Motion::Component
-    attr_reader :user, :messages, :sent_messages, :offset, :per_page
+    attr_reader :user, :messages, :on_click
 
     map_motion :change_list
 
-    def initialize(user:)
+    def initialize(user:, messages:, on_click:)
       @user = user
-      @offset = 0
-      @per_page = 20
-      @messages = user.messages.paginated(offset, per_page).map{|msg| ::MessageDecorator.new(msg) }
-      @sent_messages = user.sent_messages.paginated(offset, per_page).map{|msg| ::MessageDecorator.new(msg) }
-      @messages_count = user.messages.count
-      @sent_messages_count = user.sent_messages.count
-      @current_list = :messages
-      @reading = nil
-
-      stream_messages
-    end
-
-    def current_list
-      send(@current_list)
-    end
-
-    def starred_list
-      [*messages, *sent_messages].select { |msg| msg.starred? }
-    end
-
-    def change_list(event)
-      @current_list = event.target.data[:list].to_sym
+      @messages = messages
+      @on_click = on_click
     end
 
     def stream_messages
-      stream_from to_message_channel, :add_message
-      stream_from from_message_channel, :add_sent_message
+      # stream_from to_message_channel, :add_message
+      # stream_from from_message_channel, :add_sent_message
       stream_from reading_message_channel, :reading_message
 
-      [*messages, *sent_messages].each do |msg|
-        stream_from update_message_channel(msg), :update_message
-        stream_from delete_message_channel(msg), :delete_message
-      end
+      # [*messages, *sent_messages].each do |msg|
+      #   stream_from update_message_channel(msg), :update_message
+      #   stream_from delete_message_channel(msg), :delete_message
+      # end
     end
 
     # STREAMS
@@ -80,10 +60,6 @@ module Dashboard
       @sent_messages = delete_message_from_queue(@sent_messages, id)
     end
     # END STREAMS
-
-    def reading_message_channel
-      @reading_message_channel ||= "messages:reading:#{SecureRandom.uuid}"
-    end
 
     private
 

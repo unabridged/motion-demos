@@ -10,16 +10,16 @@ module Dashboard
     map_motion :toggle_read
     map_motion :trash
 
-    def initialize(user:, message:, row:, reading_message_channel:)
+    def initialize(user:, message:, row:, on_click:)
       @user = user
       @message = message
       @row = row
-      @reading_message_channel = reading_message_channel
+      @on_click = on_click
     end
 
     def toggle_read(event)
       new_status = read? ? :unread : :read
-      ActionCable.server.broadcast(@reading_message_channel, {id: message.id, status: new_status})
+      @on_click.call({id: message.id, status: new_status})
     end
 
     def trash(event)

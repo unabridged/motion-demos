@@ -5,8 +5,8 @@
         <div class="ml-3 media-body">
             <span class="media-meta float-right"><%= display_sent_at %></span>
             <h4 class="text-primary m-0"><%= from.name %></h4>
-            <small class="text-muted">From : <%= from.email %></small>
-            <small class="text-muted">to : <%= to.name %></small>
+            <h5><small class="text-muted">From : <%= from.email %></small></h5>
+            <h5><small class="text-muted">to : <%= to.name %></small></h5>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
         <%= render Dashboard::MessageRead.new(message: msg) %>
       <% end %>
 
-      <% if @reading_message_channel %>
+      <% if @on_exit %>
         <hr />
 
         <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true, on_submit: reply_sent_callback) %>

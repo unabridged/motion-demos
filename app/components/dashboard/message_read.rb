@@ -9,9 +9,9 @@ module Dashboard
 
     map_motion :dismiss
 
-    def initialize(message:, reading_message_channel: nil)
+    def initialize(message:, on_exit: nil)
       @message = message
-      @reading_message_channel = reading_message_channel
+      @on_exit = on_exit
       @replies = []
 
       # TODO - this line should not be necessary
@@ -22,7 +22,7 @@ module Dashboard
     def dismiss(event)
       return unless clicked_on_close_targets?(event)
 
-      ActionCable.server.broadcast(@reading_message_channel, {id: nil})
+      @on_exit.call({id: nil})
     end
     ## End map motions
 

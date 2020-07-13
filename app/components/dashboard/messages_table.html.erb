@@ -1,127 +1,27 @@
-<section>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="wraper container-fluid bootstrap snippets">
-    <div class="page-title"> 
-        <h3 class="title">Inbox</h3> 
-    </div>
-    <div class="row">
-        <!-- Left sidebar -->
-        <div class="col-md-3">
-            <a href="#email-compose.html" class="btn btn-success btn-block">Compose</a>
-            <div class="panel panel-default p-0  m-t-20">
-                <div class="panel-body p-0">
-                    <div class="list-group no-border mail-list" data-motion="change_list">
-                      <a href="#" class="list-group-item <%= @current_list == :messages ? 'active' : '' %>" data-list="messages"><i class="fa fa-download m-r-5"></i>Inbox <b>(8)</b></a>
-                      <a href="#" class="list-group-item"><i class="fa fa-star-o m-r-5"></i>Starred</a>
-                      <a href="#" class="list-group-item"><i class="fa fa-file-text-o m-r-5"></i>Draft <b>(20)</b></a>
-                      <a href="#" class="list-group-item <%= @current_list == :sent_messages ? 'active' : '' %>" data-list="sent_messages"><i class="fa fa-paper-plane-o m-r-5"></i>Sent Mail</a>
-                      <a href="#" class="list-group-item"><i class="fa fa-trash-o m-r-5"></i>Trash <b>(354)</b></a>
-                    </div>
+<div class="panel panel-default m-t-20">
+    <div class="panel-body">
+        <table class="table table-hover mails">
+            <tbody>
+              <% messages.each_with_index do |msg, i|  %>
+                  <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: on_click) %>
+              <% end %>
+            </tbody>
+        </table>
+        <hr>
+        <div class="row">
+            <div class="col-xs-7">
+                Showing <%= messages.length %> of <%= messages.length %>
+            </div>
+            <div class="col-xs-5">
+                <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-default" data-motion="paginate" data-valu="increase">
+                      <i class="fa fa-chevron-left"></i>
+                    </button>
+                  <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease">
+                    <i class="fa fa-chevron-right"></i>
+                  </button>
                 </div>
             </div>
-
-            <h3 class="panel-title m-t-40">Team</h3>
-            <div class="panel panel-default p-0  m-t-20">
-                <div class="panel-body p-0">
-                    <div class="list-group no-border">
-                      <a href="#" class="list-group-item"><span class="fa fa-circle text-info pull-right"></span>Web App</a>
-                      <a href="#" class="list-group-item"><span class="fa fa-circle text-warning pull-right"></span>Project 1</a>
-                      <a href="#" class="list-group-item"><span class="fa fa-circle text-purple pull-right"></span>Project 2</a>
-                      <a href="#" class="list-group-item"><span class="fa fa-circle text-pink pull-right"></span>Friends</a>
-                      <a href="#" class="list-group-item"><span class="fa fa-circle text-success pull-right"></span>Family</a>
-                    </div>
-                </div>
-            </div>
-            
         </div>
-        <!-- End Left sidebar -->
-        
-        <!-- Right Sidebar -->
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="btn-toolbar" role="toolbar">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button>
-                            <button type="button" class="btn btn-success"><i class="fa fa-exclamation-circle"></i></button>
-                            <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                        <div class="dropdown btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-folder"></i>
-                            <b class="caret"></b>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#fakelink">Action</a></li>
-                                <li><a href="#fakelink">Another action</a></li>
-                                <li><a href="#fakelink">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#fakelink">Separated link</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-tag"></i>
-                            <b class="caret"></b>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#fakelink">Action</a></li>
-                                <li><a href="#fakelink">Another action</a></li>
-                                <li><a href="#fakelink">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#fakelink">Separated link</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                              More
-                              <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                              <li><a href="#fakelink">Dropdown link</a></li>
-                              <li><a href="#fakelink">Dropdown link</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!-- End row -->
-
-            <div class="panel panel-default m-t-20">
-                <div class="panel-body">
-                    <table class="table table-hover mails">
-                        <tbody>
-                          <% current_list.each_with_index do |msg, i|  %>
-                              <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, reading_message_channel: reading_message_channel) %>
-                          <% end %>
-                        </tbody>
-                    </table>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-7">
-                            Showing <%= current_list.length %> of <%= current_list.length %>
-                        </div>
-                        <div class="col-xs-5">
-                            <div class="btn-group pull-right">
-                              <button type="button" class="btn btn-default" data-motion="paginate" data-valu="increase">
-                                  <i class="fa fa-chevron-left"></i>
-                                </button>
-                              <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease">
-                                <i class="fa fa-chevron-right"></i>
-                              </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- panel body -->
-            </div> <!-- panel -->
-        </div> <!-- end Col-9 -->
-    </div><!-- End row -->
-
-        <% if @reading %>
-          <%= render Dashboard::MessageRead.new(message: @reading, reading_message_channel: reading_message_channel) %>
-        <% end %>
-
-
+    </div> <!-- panel body -->
 </div>
-</section>
