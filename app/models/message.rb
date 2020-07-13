@@ -4,8 +4,8 @@ class Message < ApplicationRecord
 
   enum status: [:unread, :read, :archived]
 
-  validates :from, presence: true
-  validates :to, presence: true
+  validates :from_id, presence: true
+  validates :to_id, presence: true
   validates :content, presence: true
 
   after_create :broadcast_create

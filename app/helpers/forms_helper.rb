@@ -1,4 +1,4 @@
-module FormHelper
+module FormsHelper
   def validation_messages(obj, field)
     return unless obj.errors[field].any?
 
