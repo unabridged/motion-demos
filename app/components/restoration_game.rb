@@ -41,6 +41,9 @@ class RestorationGame < ViewComponent::Base
   def evaluate(tile)
     case @board[tile]
     when 1
+      if tile_health(tile) < 1
+        @board[tile] = 5
+      end
     when 2
     when 3
     when 4
@@ -93,7 +96,7 @@ class RestorationGame < ViewComponent::Base
         @seeds -= 1
       end
     when 3
-      if @saplings > 0
+      if @saplings > 0 and @board[loc] == 2
         @board[loc] = @selected
         @saplings -= 1
       end
@@ -107,7 +110,7 @@ class RestorationGame < ViewComponent::Base
 
   def tile_health(tile)
     health = 0
-    tiles = [tile-@size-1, tile-@size, tile-@size+1, tile-1, tile+1, tile+@size-1, tile+@size+1]
+    tiles = adjacent_tiles(tile, true)
 
     tiles.each do |t|
       case @board[t]

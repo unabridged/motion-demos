@@ -1,5 +1,23 @@
 module WorldGeneration
 
+  def adjacent_tiles(tile, diagonal)
+    tiles = []
+
+    tiles << tile-@size if tile > @size
+    tiles << tile-1 if tile % @size > 0
+    tiles << tile+1 if tile % @size < @size-1
+    tiles << tile + @size if tile / @size < @size-1
+
+    if diagonal
+      tiles << tile-@size-1 if tile > @size and tile % @size > 0
+      tiles << tile-@size+1 if tile > @size and tile % @size < @size-1
+      tiles << tile+@size-1 if tile / @size < @size-1  and tile % @size > 0
+      tiles << tile+@size+1 if tile / @size < @size-1 and tile % @size < @size-1
+    end
+
+    tiles
+  end
+
   def check_adjacent(loc, type)
     return loc-@size if @board[loc-@size] == type and loc - @size > 0
 
