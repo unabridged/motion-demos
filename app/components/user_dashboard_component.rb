@@ -8,6 +8,7 @@ class UserDashboardComponent < ApplicationComponent
 
     @current_list = :messages
 
+    # TODO: remove, this should not be necessary
     stream_from change_list_callback.broadcast, :change_list
   end
 

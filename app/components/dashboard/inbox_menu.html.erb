@@ -1,10 +1,9 @@
 <div class="panel panel-default p-0  m-t-20">
     <div class="panel-body p-0">
         <div class="list-group no-border mail-list">
-          <a href="#" class="list-group-item <%= @current_list == :messages ? 'active' : '' %>" data-motion="change_list" data-list="messages"><%= svg "inbox" %> Inbox <b>(<%= @messages_count %>)</b></a>
-          <a href="#" class="list-group-item"><i class="fa fa-star-o m-r-5"></i>Starred</a>
-          <a href="#" class="list-group-item"><i class="fa fa-file-text-o m-r-5"></i>Draft <b>(20)</b></a>
-          <a href="#" class="list-group-item <%= @current_list == :sent_messages ? 'active' : '' %>" data-motion="change_list" data-list="sent_messages"><%= svg "cursor" %> Sent <b>(<%= @sent_messages_count %>)</b></a>
+          <a href="#" class="list-group-item <%= current_list == :messages ? 'active' : '' %>" data-motion="change_list" data-list="messages"><%= svg "inbox" %> Inbox <b>(<%= @messages_count %>)</b></a>
+          <a href="#" class="list-group-item"><%= svg "star-fill" %> Starred</a>
+          <a href="#" class="list-group-item <%= current_list == :sent_messages ? 'active' : '' %>" data-motion="change_list" data-list="sent_messages"><%= svg "cursor" %> Sent <b>(<%= @sent_messages_count %>)</b></a>
         </div>
     </div>
 </div>

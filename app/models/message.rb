@@ -14,8 +14,8 @@ class Message < ApplicationRecord
 
   scope :paginated, ->(offset = 0, limit = 20) { order(created_at: :desc).offset(offset * limit).limit(limit) }
 
-  def today?
-    created_at.today?
+  def mark_read!
+    update!(status: :read)
   end
 
   private

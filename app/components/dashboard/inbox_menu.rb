@@ -3,13 +3,14 @@ module Dashboard
     include Motion::Component
     include SvgHelper
 
-    attr_reader :user, :on_click, :offset, :per_page, :total
+    attr_reader :user, :on_click, :current_list
 
     map_motion :change_list
 
-    def initialize(user:, on_click:)
+    def initialize(user:, current_list:, on_click:)
       @user = user
       @on_click = on_click
+      @current_list = current_list
       set_counts
 
       stream_messages

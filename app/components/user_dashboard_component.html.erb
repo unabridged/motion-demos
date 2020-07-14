@@ -6,7 +6,7 @@
         <!-- Left sidebar -->
         <div class="col-md-3">
             <a href="#email-compose.html" class="btn btn-success btn-block">Compose</a>
-              <%= render Dashboard::InboxMenu.new(user: user, on_click: change_list_callback) %>
+              <%= render Dashboard::InboxMenu.new(user: user, current_list: current_list, on_click: change_list_callback) %>
 
 
             <h3 class="panel-title m-t-40">Team</h3>
@@ -33,7 +33,6 @@
               <%= render Dashboard::MessagesTable.new(user: user, message_type: current_list) %>
             <% end %>
 
-        </div> <!-- end Col-9 -->
-    </div><!-- End row -->
-
+        </div>
+    </div>
 </div>

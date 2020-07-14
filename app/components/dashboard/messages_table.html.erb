@@ -2,7 +2,11 @@
   <% if @reading %>
     <div class="panel panel-default m-t-20">
         <div class="panel-body">
-          <%= render Dashboard::MessageRead.new(user: user, message: reading, on_exit: on_click) %>
+          <div class="col-xs-7">
+              Showing <%= showing_index %> of <%= total %>
+          </div>
+
+          <%= render Dashboard::MessageRead.new(user: user, message: reading, on_exit: reading_callback, on_next: on_next_callback, on_previous: on_previous_callback) %>
         </div>
     </div>
   <% else %>
@@ -12,7 +16,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button>
                     <button type="button" class="btn btn-success"><i class="fa fa-exclamation-circle"></i></button>
-                    <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i></button>
+                    <button type="button" class="btn btn-success"><%= svg "trash" %></button>
                 </div>
                 <div class="dropdown btn-group">
                     <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -60,7 +64,7 @@
             <table class="table table-hover mails">
                 <tbody>
                   <% @messages.each_with_index do |msg, i|  %>
-                      <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: on_click) %>
+                      <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: reading_callback) %>
                   <% end %>
                 </tbody>
             </table>
@@ -71,10 +75,10 @@
                 </div>
                 <div class="col-xs-5">
                     <div class="btn-group pull-right">
-                      <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease" <%= "disabled" unless paginate_decrease? %>>
+                      <button type="button" class="btn btn-default" data-motion="on_paginate" data-value="decrease" <%= "disabled" unless paginate_decrease? %>>
                         <%= svg "caret-left-fill" %>
                       </button>
-                      <button type="button" class="btn btn-default" data-motion="paginate" data-value="increase" <%= "disabled" unless paginate_increase? %>>
+                      <button type="button" class="btn btn-default" data-motion="on_paginate" data-value="increase" <%= "disabled" unless paginate_increase? %>>
                         <%= svg "caret-right-fill" %>
                       </button>
                     </div>

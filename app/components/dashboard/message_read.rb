@@ -7,8 +7,13 @@ module Dashboard
 
     delegate :id, :content, :from, :to, :display_sent_at, :read?, to: :message, allow_nil: true
 
+    map_motion :dismiss
+    map_motion :next
+    map_motion :previous
+
     def initialize(message:, user:, on_exit: nil, on_next: nil, on_previous: nil)
       @message = message
+      message.mark_read! if message.unread? && user == message.to
       @user = user
       @on_exit = on_exit
       @on_next = on_next
@@ -25,9 +30,15 @@ module Dashboard
 
     ## Map motions
     def dismiss(event)
-      return unless clicked_on_close_targets?(event)
-
       @on_exit.call({id: nil})
+    end
+
+    def next(event)
+      @on_next&.call({id: message.id, navigate: :next})
+    end
+
+    def previous(event)
+      @on_previous&.call({id: message.id, navigate: :previous})
     end
     ## End map motions
 

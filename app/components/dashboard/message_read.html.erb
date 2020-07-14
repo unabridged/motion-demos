@@ -1,6 +1,16 @@
 <div class="card shadow-none mt-3 border border-light">
   <div class="card-body">
-    <div class="media mb-3">
+    <div class="mb-3">
+      <button type="button" class="float-left btn btn-default" data-motion="previous" data-value="decrease" <%= "disabled" unless @on_previous %>>
+        <%= svg "caret-left-fill" %> Previous
+      </button>
+      <button type="button" class="float-right btn btn-default" data-motion="next" data-value="increase" <%= "disabled" unless @on_next %>>
+        Next <%= svg "caret-right-fill" %>
+      </button>
+    </div>
+
+
+    <div class="media mt-3 mb-3">
       <%= svg "person-circle", width: "5em", height: "5em" %>
         <div class="ml-3 media-body">
             <span class="media-meta float-right"><%= display_sent_at %></span>
