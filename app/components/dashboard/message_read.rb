@@ -7,9 +7,11 @@ module Dashboard
 
     delegate :id, :content, :from, :to, :display_sent_at, :read?, to: :message, allow_nil: true
 
-    def initialize(message:, on_exit: nil)
+    def initialize(message:, on_exit: nil, on_next: nil, on_previous: nil)
       @message = message
       @on_exit = on_exit
+      @on_next = on_next
+      @on_previous = on_previous
       @replies = []
 
       # TODO - this line should not be necessary
@@ -33,8 +35,8 @@ module Dashboard
     end
 
     def reply_sent(msg)
-      message = Message.create(msg)
-      @replies << ::MessageDecorator.new(message) if message.persisted?
+      message = Message.find_by(id: msg["id"])
+      @replies << ::MessageDecorator.new(message) if message.present?
     end
   end
 end

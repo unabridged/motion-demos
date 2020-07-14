@@ -23,7 +23,7 @@ module Dashboard
     def save(event)
       return unless message.valid?
 
-      @on_submit.call(message.attributes)
+      @on_submit.call(message.attributes) if message.save
     end
 
     def validate(event)

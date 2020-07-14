@@ -27,60 +27,10 @@
 
         <!-- Right Sidebar -->
         <div class="col-md-9">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="btn-toolbar" role="toolbar">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button>
-                            <button type="button" class="btn btn-success"><i class="fa fa-exclamation-circle"></i></button>
-                            <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                        <div class="dropdown btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-folder"></i>
-                            <b class="caret"></b>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#fakelink">Action</a></li>
-                                <li><a href="#fakelink">Another action</a></li>
-                                <li><a href="#fakelink">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#fakelink">Separated link</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-tag"></i>
-                            <b class="caret"></b>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#fakelink">Action</a></li>
-                                <li><a href="#fakelink">Another action</a></li>
-                                <li><a href="#fakelink">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#fakelink">Separated link</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                              More
-                              <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                              <li><a href="#fakelink">Dropdown link</a></li>
-                              <li><a href="#fakelink">Dropdown link</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!-- End row -->
-
             <% if @writing %>
               <%= render Dashboard::MessageForm.new(from: user) %>
             <% else %>
-              <%= render Dashboard::MessagesTable.new(user: user, message_type: current_list, on_click: on_click_callback, reading: @reading) %>
+              <%= render Dashboard::MessagesTable.new(user: user, message_type: current_list) %>
             <% end %>
 
         </div> <!-- end Col-9 -->

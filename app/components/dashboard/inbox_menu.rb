@@ -32,7 +32,7 @@ module Dashboard
     end
 
     def change_list(event)
-      @on_click.call(event.target.data[:list])
+      @on_click.call(event.element.data[:list])
     end
 
     def count_messages

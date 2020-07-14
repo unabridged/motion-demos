@@ -1,32 +1,86 @@
-<div class="panel panel-default m-t-20">
-    <div class="panel-body">
-      <% if @reading %>
-        <%= render Dashboard::MessageRead.new(message: reading, on_exit: on_click) %>
-      <% else %>
+<section>
+  <% if @reading %>
+    <div class="panel panel-default m-t-20">
+        <div class="panel-body">
+          <%= render Dashboard::MessageRead.new(message: reading, on_exit: on_click) %>
+        </div>
+    </div>
+  <% else %>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button>
+                    <button type="button" class="btn btn-success"><i class="fa fa-exclamation-circle"></i></button>
+                    <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i></button>
+                </div>
+                <div class="dropdown btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-folder"></i>
+                    <b class="caret"></b>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                          <li><a href="#fakelink">Action</a></li>
+                        <li><a href="#fakelink">Another action</a></li>
+                        <li><a href="#fakelink">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#fakelink">Separated link</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-tag"></i>
+                    <b class="caret"></b>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#fakelink">Action</a></li>
+                        <li><a href="#fakelink">Another action</a></li>
+                        <li><a href="#fakelink">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#fakelink">Separated link</a></li>
+                    </ul>
+                </div>
 
-        <table class="table table-hover mails">
-            <tbody>
-              <% @messages.each_with_index do |msg, i|  %>
-                  <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: on_click) %>
-              <% end %>
-            </tbody>
-        </table>
-        <hr>
-        <div class="row">
-            <div class="col-xs-7">
-                Showing <%= messages_start %> to <%= messages_end %> of <%= total %>
-            </div>
-            <div class="col-xs-5">
-                <div class="btn-group pull-right">
-                  <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease" <%= "disabled" unless paginate_decrease? %>>
-                    <%= svg "caret-left-fill" %>
-                  </button>
-                  <button type="button" class="btn btn-default" data-motion="paginate" data-value="increase" <%= "disabled" unless paginate_increase? %>>
-                    <%= svg "caret-right-fill" %>
-                  </button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      More
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#fakelink">Dropdown link</a></li>
+                      <li><a href="#fakelink">Dropdown link</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-      <% end %>
-    </div> <!-- panel body -->
-</div>
+
+    </div> <!-- End row -->
+    <div class="panel panel-default m-t-20">
+        <div class="panel-body">
+            <table class="table table-hover mails">
+                <tbody>
+                  <% @messages.each_with_index do |msg, i|  %>
+                      <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: on_click) %>
+                  <% end %>
+                </tbody>
+            </table>
+            <hr>
+            <div class="row">
+                <div class="col-xs-7">
+                    Showing <%= messages_start %> to <%= messages_end %> of <%= total %>
+                </div>
+                <div class="col-xs-5">
+                    <div class="btn-group pull-right">
+                      <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease" <%= "disabled" unless paginate_decrease? %>>
+                        <%= svg "caret-left-fill" %>
+                      </button>
+                      <button type="button" class="btn btn-default" data-motion="paginate" data-value="increase" <%= "disabled" unless paginate_increase? %>>
+                        <%= svg "caret-right-fill" %>
+                      </button>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- panel body -->
+    </div>
+  <% end %>
+</section>

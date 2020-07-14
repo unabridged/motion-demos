@@ -8,7 +8,6 @@ class UserDashboardComponent < ApplicationComponent
 
     @current_list = :messages
 
-    stream_from on_click_callback.broadcast, :reading
     stream_from change_list_callback.broadcast, :change_list
   end
 
@@ -16,17 +15,7 @@ class UserDashboardComponent < ApplicationComponent
     @change_list_callback ||= bind(:change_list)
   end
 
-  def on_click_callback
-    @on_click_callback ||= bind(:reading)
-  end
-
-  def reading(msg)
-    @reading = ::MessageDecorator.new(Message.find_by(id: msg["id"]))
-  end
-
   def change_list(list)
     @current_list = list.to_sym
   end
-
-  private
 end

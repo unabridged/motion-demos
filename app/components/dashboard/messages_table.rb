@@ -3,29 +3,29 @@ module Dashboard
     include Motion::Component
     include SvgHelper
 
-    attr_reader :user, :on_click, :reading, :offset, :per_page, :total
+    attr_reader :user, :reading, :offset, :per_page, :total
 
     map_motion :change_offset
     map_motion :paginate
 
-    def initialize(user:, message_type:, on_click:, reading:)
+    def initialize(user:, message_type:)
       @user = user
       @message_type = message_type
 
       @per_page = 10
       @offset = 0
-      @messages = message_query
-      @total = user.send(message_type).count
-      @on_click = on_click
-      @reading = reading
+      @messages = paginated_message_query
+      @total = message_query.count
+
+      stream_from on_click.broadcast, :on_reading
     end
 
-    def message_query
-      user
-        .send(@message_type)
-        .paginated(offset, per_page)
-        .eager_load(:from, :to)
-        .map { |msg| ::MessageDecorator.new(msg) }
+    def on_reading(msg)
+      @reading = ::MessageDecorator.new(Message.find_by(id: msg["id"]))
+    end
+
+    def on_click
+      @on_click ||= bind(:on_reading)
     end
 
     def messages_start
@@ -54,16 +54,15 @@ module Dashboard
 
     private
 
-    def update_message_in_queue(queue, message)
-      queue.map { |msg| msg.id == message.id ? ::MessageDecorator.new(message) : msg }
+    def paginated_message_query
+      message_query
+        .paginated(offset, per_page)
+        .eager_load(:from, :to)
+        .map { |msg| ::MessageDecorator.new(msg) }
     end
 
-    def update_message_channel(message)
-      "messages:read:#{message.id}"
-    end
-
-    def user_id
-      user.id
+    def message_query
+      user.send(@message_type)
     end
   end
 end
