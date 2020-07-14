@@ -7,8 +7,9 @@ module Dashboard
 
     delegate :id, :content, :from, :to, :display_sent_at, :read?, to: :message, allow_nil: true
 
-    def initialize(message:, on_exit: nil, on_next: nil, on_previous: nil)
+    def initialize(message:, user:, on_exit: nil, on_next: nil, on_previous: nil)
       @message = message
+      @user = user
       @on_exit = on_exit
       @on_next = on_next
       @on_previous = on_previous
@@ -32,6 +33,12 @@ module Dashboard
 
     def reply_sent_callback
       @reply_sent_callback ||= bind(:reply_sent)
+    end
+
+    def to_new_message
+      return message.to if user == message.from
+
+      message.from
     end
 
     def reply_sent(msg)

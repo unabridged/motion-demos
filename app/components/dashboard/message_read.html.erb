@@ -18,13 +18,13 @@
       <% @replies.each do |msg| %>
         <hr />
 
-        <%= render Dashboard::MessageRead.new(message: msg) %>
+        <%= render Dashboard::MessageRead.new(message: msg, user: user) %>
       <% end %>
 
       <% if show_response? %>
         <hr />
 
-        <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true, on_submit: reply_sent_callback) %>
+        <%= render Dashboard::MessageForm.new(from: user, to: to_new_message, hide_to_from: true, on_submit: reply_sent_callback) %>
       <% end %>
   </div>
 </div>

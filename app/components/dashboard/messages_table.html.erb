@@ -2,7 +2,7 @@
   <% if @reading %>
     <div class="panel panel-default m-t-20">
         <div class="panel-body">
-          <%= render Dashboard::MessageRead.new(message: reading, on_exit: on_click) %>
+          <%= render Dashboard::MessageRead.new(user: user, message: reading, on_exit: on_click) %>
         </div>
     </div>
   <% else %>

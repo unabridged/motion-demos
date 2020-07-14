@@ -20,17 +20,6 @@ module Dashboard
       stream_from from_message_channel, :count_messages
     end
 
-    def lists
-      {
-        sent_messages: "sent_messages_count",
-        messages: "messages_count"
-      }
-    end
-
-    def current_count
-      instance_variable_get("@#{lists[current_list]}")
-    end
-
     def change_list(event)
       @on_click.call(event.element.data[:list])
     end
@@ -40,9 +29,8 @@ module Dashboard
     end
 
     def set_counts
-      lists.each do |list, count|
-        instance_variable_set("@#{count}", user.send(list).count)
-      end
+      @messages_count = user.messages.count
+      @sent_messages_count = user.sent_messages.count
     end
 
     def from_message_channel
