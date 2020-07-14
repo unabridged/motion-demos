@@ -3,8 +3,9 @@ class RestorationGame < ViewComponent::Base
   include WorldGeneration
 
   attr_reader :air_quality
-  attr_reader :board, :index, :selected, :size, :zoom
+  attr_reader :board, :index, :selected, :size, :time_passed, :zoom
   attr_reader :berries, :seeds, :saplings, :water, :water_used
+  attr_reader :saplings_to_give, :seeds_to_give
   attr_reader :show_info, :show_intro_msg, :show_win_msg, :won
 
   map_motion :change_selected
@@ -18,19 +19,29 @@ class RestorationGame < ViewComponent::Base
     @size = 9
     @selected = selected
 
-    @index = Hash.new
+    @index = {}
     initialize_tiles
     initialize_resources
 
     generate_world
     @zoom = 3
+    @saplings_to_give = 0
+    @seeds_to_give = 0
     @show_intro_msg = 1
     @show_win_msg = 0
+    @time_passed = 0
     @won = 0
   end
 
   def change_selected(event)
     @selected = event.target.data[:value].to_i
+  end
+
+  def check_win
+    if get_tiles(5).size == 0 && @won == 0
+      @won = 1
+      @show_win_msg = 1
+    end
   end
 
   def close_intro_msg
@@ -44,11 +55,8 @@ class RestorationGame < ViewComponent::Base
   def paint(event)
     x = event.target.data["x"].to_i
     y = event.target.data["y"].to_i
-    if(@selected >= 0)
-      place(coords_to_index(x, y))
-    else
-      gather(coords_to_index(x, y))
-    end
+
+    place(coords_to_index(x, y))
   end
 
   def toggle_info_msg(event)
@@ -60,7 +68,7 @@ class RestorationGame < ViewComponent::Base
   def evaluate(tile)
     case @board[tile]
     when 1
-      if tile_health(tile) < 1
+      if tile_health(tile) < 2
         @board[tile] = 5
       elsif tile_health(tile) > 4 && (check_adjacent(tile, 2) || check_adjacent(tile, 3) || check_adjacent(tile, 4))
         @board[tile] = 2
@@ -68,23 +76,25 @@ class RestorationGame < ViewComponent::Base
     when 2
       if tile_health(tile) < 4
         @board[tile] = 1
-      elsif tile_health(tile) > 9 && check_adjacent(tile, 3)
-        @board[tile] = 3
+      elsif tile_health(tile) > 6
+        @seeds_to_give += 0.5
       end
     when 3
+      if tile_health(tile) < 6
+        @board[tile] = 2
+      elsif tile_health(tile) > 7
+        @saplings_to_give += 1
+      end
     when 4
       if tile_health(tile) < 5
         @board[tile] = 2
+      elsif tile_health(tile) > 7
+        @seeds_to_give += 1
       end
     when 5
       if tile_health(tile) > 3
         @board[tile] = 1
       end
-    end
-
-    if get_tiles(5).size == 0 && @won == 0
-      @won = 1
-      @show_win_msg = 1
     end
   end
 
@@ -103,29 +113,11 @@ class RestorationGame < ViewComponent::Base
     @index[5] = "cracked"
   end
 
-  def gather(loc)
-    case @board[loc]
-    when 2
-      @seeds += 1
-      @board[loc] = 1
-    when 3
-      @saplings += 1
-      @board[loc] = 1
-    when 4
-      @seeds += 1
-      @board[loc] = 1
-    end
-  end
-
-  def gather_chance
-    rand(2..4) / 2
-  end
-
   def place(loc)
-    return if @board[loc] == 0 or @board[loc] == 5 or @board[loc] == 4
-    case @selected    
+    return if (@board[loc] == 0) || (@board[loc] == 5) || (@board[loc] == 4)
+    case @selected
     when 2
-      if @seeds > 0
+      if @seeds > 0 && @bboard[loc] == 1
         @board[loc] = @selected
         @seeds -= 1
       end
@@ -164,6 +156,9 @@ class RestorationGame < ViewComponent::Base
 
   def update
     waterchk = 0
+    @saplings_to_give = 0
+    @seeds_to_give = 0
+    @time_passed += 1
     @board.each_with_index do |b, i|
       waterchk += 2 if b == 3
       waterchk += 0.5 if b == 2
@@ -171,6 +166,11 @@ class RestorationGame < ViewComponent::Base
       evaluate(i)
     end
 
+    check_win if @time_passed % 2 == 0
+    if time_passed % 10 == 0
+      @saplings += @saplings_to_give
+      @seeds += @seeds_to_give
+    end
     @water_used = waterchk
   end
 end

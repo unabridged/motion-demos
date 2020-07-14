@@ -7,7 +7,7 @@
         <div class="close" data-motion="close_intro_msg">
           <%= button_tag "X" %>  
         </div>
-        The world has been ravaged by drought, and extreme weather. Only small pockets of life remain, surrounded by cracked, broken earth.
+        The world has been ravaged by drought and extreme weather. Only small pockets of life remain, surrounded by cracked, broken earth.
         It is up to you to nurture it back to health.
       </aside>
     <% end %>
@@ -47,12 +47,11 @@
   </section>
   <section class="selector">
     <%= button_tag "Info", class: "info", data: { motion: "toggle_info_msg", value: "1" } %>
-    Water used: <%= @water_used %> / <%= @water %>
-    <%= button_tag "Gather", class: "gather", data: { motion: "change_selected", value: "-1" } %>
+    Day <%= @time_passed %><br />
+    Water used: <%= @water_used %> / <%= @water %><br />
     Place:
-    <%= button_tag "", class: "dirt", data: { motion: "change_selected", value: "1" } %>
-    <%= button_tag "#{seeds}", class: "grass", data: { motion: "change_selected", value: "2" } %>
-    <%= button_tag "#{seeds/2}", class: "berries", data: { motion: "change_selected", value: "4" } %>
-    <%= button_tag "#{saplings/5}", class: "tree", data: { motion: "change_selected", value: "3" } %>
+    <%= button_tag "#{seeds.to_i}", class: "grass", data: { motion: "change_selected", value: "2" } %>
+    <%= button_tag "#{(seeds/2).to_i}", class: "berries", data: { motion: "change_selected", value: "4" } %>
+    <%= button_tag "#{(saplings/5).to_i}", class: "tree", data: { motion: "change_selected", value: "3" } %>
   </section>
 </main>
