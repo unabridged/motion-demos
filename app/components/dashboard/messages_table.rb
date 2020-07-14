@@ -13,11 +13,18 @@ module Dashboard
 
       @per_page = 10
       @offset = 0
-      @messages = paginated_message_query
-      @total = message_query.count
+      refresh_query
 
+      stream_messages
+    end
+
+    def stream_messages
       stream_from reading_callback.broadcast, :on_reading
       stream_from navigate_callback.broadcast, :on_navigate
+    end
+
+    def listen_channels
+      ::Messages::Channels.new(messages: @messages, user: user).perform
     end
 
     ## Callbacks/streaming
@@ -36,6 +43,15 @@ module Dashboard
     def on_navigate(msg)
       direction = msg["navigate"]
       navigate(direction)
+    end
+
+    def refresh_query
+      stop_streaming_from_user_channels
+
+      @total = message_query.reload.count
+      @messages = paginated_message_query
+
+      start_streaming_from_user_channels
     end
     ## End Callbacks/streaming
 
@@ -80,6 +96,18 @@ module Dashboard
     ## Calculated fields
 
     private
+
+    def stop_streaming_from_user_channels
+      listen_channels.each do |channel|
+        stop_streaming_from channel
+      end
+    end
+
+    def start_streaming_from_user_channels
+      listen_channels.each do |channel|
+        stream_from channel, :refresh_query
+      end
+    end
 
     def reading_index
       @messages.map(&:id).index(reading.id)

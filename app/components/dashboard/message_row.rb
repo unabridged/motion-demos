@@ -2,12 +2,12 @@ module Dashboard
   class MessageRow < ViewComponent::Base
     include Motion::Component
     include SvgHelper
-    DATE_FORMAT = "%m/%d/%Y %I:%M:%S%p"
     attr_reader :user, :message
 
-    delegate :content, :from, :to, :read?, to: :message
+    delegate :content, :from, :to, :read?, :starred?, :display_sent_at, to: :message
 
-    map_motion :toggle_read
+    map_motion :read_msg
+    map_motion :star
     map_motion :trash
 
     def initialize(user:, message:, row:, on_click:)
@@ -17,17 +17,55 @@ module Dashboard
       @on_click = on_click
     end
 
-    def toggle_read(event)
-      new_status = read? ? :unread : :read
-      @on_click.call({id: message.id, status: new_status})
+    ## Map motions
+    def read_msg
+      @on_click.call({id: message.id})
     end
 
-    def trash(event)
-      message.destroy
+    def trash
+      message.delete!(user)
     end
 
-    def sent_at
-      message.created_at.strftime(DATE_FORMAT)
+    def star
+      return message.star!(user) unless starred?(user)
+
+      message.unstar!(user)
+    end
+    ## End map motions
+
+    def display_star
+      return "star-fill" if starred?(user)
+
+      "star"
+    end
+
+    def display_status_user
+      sent_to_user? ? from : to
+    end
+
+    def display_name
+      return display_name_for_name("From: ", from_display) if sent_to_user?
+
+      display_name_for_name("To: ", to_display)
+    end
+
+    def row_class_names
+      return nil unless read? && sent_to_user?
+
+      "table-dark"
+    end
+
+    private
+
+    def sent_to_user?
+      to == user
+    end
+
+    def display_name_for_name(display_text, display_name)
+      content_tag :span do
+        content_tag(:span, display_text) +
+          display_name
+      end
     end
 
     def from_display
@@ -40,12 +78,6 @@ module Dashboard
       return to.name if read?
 
       content_tag(:strong, to.name)
-    end
-
-    def row_class_names
-      return nil unless read?
-
-      "table-secondary"
     end
   end
 end

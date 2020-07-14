@@ -1,7 +1,7 @@
 class MessageDecorator < SimpleDelegator
   include ActionView::Helpers::DateHelper
 
-  attr_accessor :checked, :starred
+  attr_accessor :checked
   THIS_MONTH_FORMAT = "%m/%d"
   DATE_FORMAT = "%m/%d/%y"
 

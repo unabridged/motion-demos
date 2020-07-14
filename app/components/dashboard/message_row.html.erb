@@ -1,61 +1,31 @@
 <tr key="<%= message.id %>" id="<%= message.id %>" class="<%= row_class_names %>">
-  <% if user == message.from %>
     <td class="mail-select">
-        <label class="cr-styled">
-            <input type="checkbox"><i class="fa"></i>
-        </label>
+      <label class="cr-styled">
+          <input type="checkbox">
+      </label>
     </td>
     <td class="mail-rateing">
-      <%= svg "star" %>
+      <a data-motion="star" href="##">
+        <%= svg display_star %>
+      </a>
     </td>
     <td>
-        <a data-motion="toggle_read" href="##">
-          <%= to_display %>
-        </a>
+      <a data-motion="read_msg" href="##">
+        <%= render Dashboard::UserStatus.new(user: display_status_user) %>
+        <%= display_name %>
+      </a>
     </td>
     <td>
-        <a data-motion="toggle_read" href="##" data-toggle="modal" data-target="#messageRead">
-          <%= render Dashboard::UserStatus.new(user: from) %>
-          <%= truncate(content, length: 20) %>
-
-          What else?
-        </a>
+      <a data-motion="read_msg" href="##">
+        <%= truncate(content, length: 20) %>
+      </a>
     </td>
     <td class="text-right">
-        <%= sent_at %>
-    </td>
-    <td>
-      <%= svg "trash" %>
-    </td>
-
-  <% else %>
-    <td class="mail-select">
-        <label class="cr-styled">
-            <input type="checkbox">
-        </label>
-    </td>
-    <td class="mail-rateing">
-      <%= svg "star" %>
-    </td>
-    <td>
-        <a data-motion="toggle_read" href="##">
-          <%= from_display %>
-        </a>
-    </td>
-    <td>
-        <a data-motion="toggle_read" href="##" data-toggle="modal" data-target="#messageRead">
-          <%= render Dashboard::UserStatus.new(user: from) %>
-          <%= truncate(content, length: 20) %>
-        </a>
-    </td>
-    <td class="text-right">
-        <%= sent_at %>
+        <%= display_sent_at %>
     </td>
     <td>
       <a data-motion="trash" href="##">
         <%= svg "trash" %>
       </a>
     </td>
-
-  <% end %>
 </tr>

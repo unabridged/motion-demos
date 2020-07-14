@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_150357) do
+ActiveRecord::Schema.define(version: 2020_07_14_145841) do
 
   create_table "clicker_games", force: :cascade do |t|
     t.string "key", null: false
@@ -35,6 +35,10 @@ ActiveRecord::Schema.define(version: 2020_07_06_150357) do
     t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "starred_by_to"
+    t.datetime "starred_by_from"
+    t.datetime "deleted_by_to"
+    t.datetime "deleted_by_from"
     t.index ["from_id"], name: "index_messages_on_from_id"
     t.index ["to_id"], name: "index_messages_on_to_id"
   end
