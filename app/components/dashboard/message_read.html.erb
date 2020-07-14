@@ -21,7 +21,7 @@
         <%= render Dashboard::MessageRead.new(message: msg) %>
       <% end %>
 
-      <% if @on_exit %>
+      <% if show_response? %>
         <hr />
 
         <%= render Dashboard::MessageForm.new(from: to, to: from, hide_to_from: true, on_submit: reply_sent_callback) %>

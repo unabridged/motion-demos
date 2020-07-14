@@ -1,8 +1,12 @@
 <div class="panel panel-default m-t-20">
     <div class="panel-body">
+      <% if @reading %>
+        <%= render Dashboard::MessageRead.new(message: reading, on_exit: on_click) %>
+      <% else %>
+
         <table class="table table-hover mails">
             <tbody>
-              <% messages.each_with_index do |msg, i|  %>
+              <% @messages.each_with_index do |msg, i|  %>
                   <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: on_click) %>
               <% end %>
             </tbody>
@@ -10,18 +14,19 @@
         <hr>
         <div class="row">
             <div class="col-xs-7">
-                Showing <%= messages.length %> of <%= messages.length %>
+                Showing <%= messages_start %> to <%= messages_end %> of <%= total %>
             </div>
             <div class="col-xs-5">
                 <div class="btn-group pull-right">
-                  <button type="button" class="btn btn-default" data-motion="paginate" data-valu="increase">
-                      <i class="fa fa-chevron-left"></i>
-                    </button>
-                  <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease">
-                    <i class="fa fa-chevron-right"></i>
+                  <button type="button" class="btn btn-default" data-motion="paginate" data-value="decrease" <%= "disabled" unless paginate_decrease? %>>
+                    <%= svg "caret-left-fill" %>
+                  </button>
+                  <button type="button" class="btn btn-default" data-motion="paginate" data-value="increase" <%= "disabled" unless paginate_increase? %>>
+                    <%= svg "caret-right-fill" %>
                   </button>
                 </div>
             </div>
         </div>
+      <% end %>
     </div> <!-- panel body -->
 </div>

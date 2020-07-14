@@ -12,7 +12,7 @@ class Message < ApplicationRecord
   after_update :broadcast_read
   after_commit :broadcast_delete, on: :destroy
 
-  scope :paginated, ->(offset = 0, limit = 20) { order(:created_at).offset(offset * limit).limit(limit) }
+  scope :paginated, ->(offset = 0, limit = 20) { order(created_at: :desc).offset(offset * limit).limit(limit) }
 
   def today?
     created_at.today?
@@ -23,13 +23,18 @@ class Message < ApplicationRecord
   def broadcast_create
     ActionCable.server.broadcast("messages:from:#{from_id}", {id: id})
     ActionCable.server.broadcast("messages:to:#{to_id}", {id: id})
+    ActionCable.server.broadcast("messages:create", {id: id})
   end
 
   def broadcast_read
+    ActionCable.server.broadcast("messages:from:#{from_id}", {id: id})
+    ActionCable.server.broadcast("messages:to:#{to_id}", {id: id})
     ActionCable.server.broadcast("messages:read:#{id}", {id: id, status: status})
   end
 
   def broadcast_delete
+    ActionCable.server.broadcast("messages:from:#{from_id}", {id: id})
+    ActionCable.server.broadcast("messages:to:#{to_id}", {id: id})
     ActionCable.server.broadcast("messages:delete:#{id}", {id: id})
   end
 end

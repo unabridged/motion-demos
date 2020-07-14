@@ -23,17 +23,13 @@ module Dashboard
     def save(event)
       return unless message.valid?
 
-      @on_submit.call({id: message.id}) if message.save
+      @on_submit.call(message.attributes)
     end
 
     def validate(event)
       message.assign_attributes(message_attributes(event.form_data))
       @touched << event.target.data[:field].to_sym
       @valid = message.valid?
-    end
-
-    def dismiss(event)
-      return false
     end
     ## End map motions
 

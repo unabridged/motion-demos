@@ -1,65 +1,56 @@
 module Dashboard
-  class MessagesTable < ViewComponent::Base
+  class MessagesTable < ApplicationComponent
     include Motion::Component
-    attr_reader :user, :messages, :on_click
+    include SvgHelper
 
-    map_motion :change_list
+    attr_reader :user, :on_click, :reading, :offset, :per_page, :total
 
-    def initialize(user:, messages:, on_click:)
+    map_motion :change_offset
+    map_motion :paginate
+
+    def initialize(user:, message_type:, on_click:, reading:)
       @user = user
-      @messages = messages
+      @message_type = message_type
+
+      @per_page = 10
+      @offset = 0
+      @messages = message_query
+      @total = user.send(message_type).count
       @on_click = on_click
+      @reading = reading
     end
 
-    def stream_messages
-      # stream_from to_message_channel, :add_message
-      # stream_from from_message_channel, :add_sent_message
-      stream_from reading_message_channel, :reading_message
-
-      # [*messages, *sent_messages].each do |msg|
-      #   stream_from update_message_channel(msg), :update_message
-      #   stream_from delete_message_channel(msg), :delete_message
-      # end
+    def message_query
+      user
+        .send(@message_type)
+        .paginated(offset, per_page)
+        .eager_load(:from, :to)
+        .map { |msg| ::MessageDecorator.new(msg) }
     end
 
-    # STREAMS
-    def add_message(msg)
-      message = find_message(msg["id"])
-      puts message.inspect
-
-      return unless message
-
-      add_message_to_queue(@messages, message)
-
-      @current_list = @messages
+    def messages_start
+      offset * per_page + 1
     end
 
-    def add_sent_message(msg)
-      message = find_message(msg["id"])
-      return unless message
-
-      add_message_to_queue(@sent_messages, message)
+    def messages_end
+      [((offset + 1) * per_page), total].min
     end
 
-    def reading_message(msg)
-      @reading = ::MessageDecorator.new(Message.find_by(id: msg["id"]))
+    def paginate(event)
+      if event.element.data["value"] == "increase"
+        @offset += 1
+      else
+        @offset = [0, @offset - 1].max
+      end
     end
 
-    def update_message(msg)
-      message = find_message(msg["id"])
-      return unless message
-
-      message.status = msg["status"] if msg["status"]
-      @messages = update_message_in_queue(@messages, message)
-      @sent_messages = update_message_in_queue(@sent_messages, message)
+    def paginate_increase?
+      total > ((offset + 1) * per_page)
     end
 
-    def delete_message(msg)
-      id = msg["id"]
-      @messages = delete_message_from_queue(@messages, id)
-      @sent_messages = delete_message_from_queue(@sent_messages, id)
+    def paginate_decrease?
+      offset > 0
     end
-    # END STREAMS
 
     private
 
@@ -67,33 +58,8 @@ module Dashboard
       queue.map { |msg| msg.id == message.id ? ::MessageDecorator.new(message) : msg }
     end
 
-    def add_message_to_queue(queue, message)
-      # Add new message to start of list
-      queue.unshift(::MessageDecorator.new(message)) if offset == 0
-    end
-
-    def delete_message_from_queue(queue, id)
-      queue.reject { |msg| msg.id == id }
-    end
-
-    def find_message(id)
-      Message.find_by(id: id)
-    end
-
-    def from_message_channel
-      "messages:from:#{user_id}"
-    end
-
-    def to_message_channel
-      "messages:to:#{user_id}"
-    end
-
     def update_message_channel(message)
       "messages:read:#{message.id}"
-    end
-
-    def delete_message_channel(message)
-      "messages:delete:#{message.id}"
     end
 
     def user_id

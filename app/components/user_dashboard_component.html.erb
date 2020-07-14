@@ -1,22 +1,13 @@
 <div class="wraper container-fluid bootstrap snippets">
-    <div class="page-title"> 
-        <h3 class="title">Inbox</h3> 
+    <div class="page-title">
+        <h3 class="title">Inbox</h3>
     </div>
     <div class="row">
         <!-- Left sidebar -->
         <div class="col-md-3">
             <a href="#email-compose.html" class="btn btn-success btn-block">Compose</a>
-            <div class="panel panel-default p-0  m-t-20">
-                <div class="panel-body p-0">
-                    <div class="list-group no-border mail-list" data-motion="change_list">
-                      <a href="#" class="list-group-item <%= @current_list == :messages ? 'active' : '' %>" data-list="messages"><i class="fa fa-download m-r-5"></i>Inbox <b>(8)</b></a>
-                      <a href="#" class="list-group-item"><i class="fa fa-star-o m-r-5"></i>Starred</a>
-                      <a href="#" class="list-group-item"><i class="fa fa-file-text-o m-r-5"></i>Draft <b>(20)</b></a>
-                      <a href="#" class="list-group-item <%= @current_list == :sent_messages ? 'active' : '' %>" data-list="sent_messages"><i class="fa fa-paper-plane-o m-r-5"></i>Sent Mail</a>
-                      <a href="#" class="list-group-item"><i class="fa fa-trash-o m-r-5"></i>Trash <b>(354)</b></a>
-                    </div>
-                </div>
-            </div>
+              <%= render Dashboard::InboxMenu.new(user: user, on_click: change_list_callback) %>
+
 
             <h3 class="panel-title m-t-40">Team</h3>
             <div class="panel panel-default p-0  m-t-20">
@@ -30,10 +21,10 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <!-- End Left sidebar -->
-        
+
         <!-- Right Sidebar -->
         <div class="col-md-9">
             <div class="row">
@@ -86,11 +77,13 @@
 
             </div> <!-- End row -->
 
+            <% if @writing %>
+              <%= render Dashboard::MessageForm.new(from: user) %>
+            <% else %>
+              <%= render Dashboard::MessagesTable.new(user: user, message_type: current_list, on_click: on_click_callback, reading: @reading) %>
+            <% end %>
+
         </div> <!-- end Col-9 -->
     </div><!-- End row -->
-    <% if @reading %>
-      <%= render Dashboard::MessageRead.new(message: @reading, on_exit: on_msg_click_callback) %>
-    <% else %>
-      <%= render Dashboard::MessagesTable.new(user: user, messages: current_list, on_click: on_msg_click_callback) %>
-    <% end %>
+
 </div>
