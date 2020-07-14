@@ -7,9 +7,11 @@ module Dashboard
 
     map_motion :on_paginate
 
-    def initialize(user:, message_type:)
+    def initialize(user:, message_type:, reading:, on_reading:)
       @user = user
       @message_type = message_type
+      @reading = reading
+      @on_reading = on_reading
 
       @per_page = 10
       @offset = 0
@@ -19,7 +21,7 @@ module Dashboard
     end
 
     def stream_messages
-      stream_from reading_callback.broadcast, :on_reading
+      # stream_from reading_callback.broadcast, :on_reading
       stream_from navigate_callback.broadcast, :on_navigate
     end
 
@@ -28,13 +30,13 @@ module Dashboard
     end
 
     ## Callbacks/streaming
-    def reading_callback
-      @reading_callback ||= bind(:on_reading)
-    end
+    # def reading_callback
+    #   @reading_callback ||= bind(:on_reading)
+    # end
 
-    def on_reading(msg)
-      @reading = ::MessageDecorator.new(Message.find_by(id: msg["id"]))
-    end
+    # def on_reading(msg)
+    #   @reading = ::MessageDecorator.new(Message.find_by(id: msg["id"]))
+    # end
 
     def navigate_callback
       @navigate_callback ||= bind(:on_navigate)
@@ -46,12 +48,12 @@ module Dashboard
     end
 
     def refresh_query
-      stop_streaming_from_user_channels
+      # stop_streaming_from_user_channels
 
       @total = message_query.reload.count
       @messages = paginated_message_query
 
-      start_streaming_from_user_channels
+      # start_streaming_from_user_channels
     end
     ## End Callbacks/streaming
 

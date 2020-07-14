@@ -6,7 +6,7 @@
               Showing <%= showing_index %> of <%= total %>
           </div>
 
-          <%= render Dashboard::MessageRead.new(user: user, message: reading, on_exit: reading_callback, on_next: on_next_callback, on_previous: on_previous_callback) %>
+          <%= render Dashboard::MessageRead.new(user: user, message: reading, on_exit: @on_reading, on_next: on_next_callback, on_previous: on_previous_callback) %>
         </div>
     </div>
   <% else %>
@@ -64,7 +64,7 @@
             <table class="table table-hover mails">
                 <tbody>
                   <% @messages.each_with_index do |msg, i|  %>
-                      <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: reading_callback) %>
+                      <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: @on_reading) %>
                   <% end %>
                 </tbody>
             </table>

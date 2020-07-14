@@ -30,7 +30,7 @@
             <% if @writing %>
               <%= render Dashboard::MessageForm.new(from: user) %>
             <% else %>
-              <%= render Dashboard::MessagesTable.new(user: user, message_type: current_list) %>
+              <%= render Dashboard::MessagesTable.new(user: user, message_type: current_list, reading: @reading, on_reading: reading_callback) %>
             <% end %>
 
         </div>
