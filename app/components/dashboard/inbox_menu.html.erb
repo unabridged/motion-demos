@@ -2,7 +2,7 @@
     <div class="panel-body p-0">
         <div class="list-group no-border mail-list">
           <a href="#" class="list-group-item <%= current_list == :messages ? 'active' : '' %>" data-motion="change_list" data-list="messages"><%= svg "inbox" %> Inbox <b>(<%= @messages_count %>)</b></a>
-          <a href="#" class="list-group-item"><%= svg "star-fill" %> Starred</a>
+          <a href="#" class="list-group-item" data-motion="change_list" data-list="starred_messages"><%= svg "star-fill" %> Starred  <b>(<%= @starred_messages_count %>)</b></a>
           <a href="#" class="list-group-item <%= current_list == :sent_messages ? 'active' : '' %>" data-motion="change_list" data-list="sent_messages"><%= svg "cursor" %> Sent <b>(<%= @sent_messages_count %>)</b></a>
         </div>
     </div>

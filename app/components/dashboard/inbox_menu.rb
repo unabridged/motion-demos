@@ -31,6 +31,7 @@ module Dashboard
 
     def set_counts
       @messages_count = user.messages.count
+      @starred_messages_count = user.starred_messages.count
       @sent_messages_count = user.sent_messages.count
     end
 
