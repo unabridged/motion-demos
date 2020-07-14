@@ -10,11 +10,12 @@ module Dashboard
     map_motion :star
     map_motion :trash
 
-    def initialize(user:, message:, row:, on_click:)
+    def initialize(user:, message:,  on_click:, on_star:, on_delete:)
       @user = user
       @message = message
-      @row = row
       @on_click = on_click
+      @on_star = on_star
+      @on_delete = on_delete
     end
 
     ## Map motions
@@ -23,13 +24,11 @@ module Dashboard
     end
 
     def trash
-      message.delete!(user)
+      @on_delete.call({id: message.id})
     end
 
     def star
-      return message.star!(user) unless starred?(user)
-
-      message.unstar!(user)
+      @on_star.call({id: message.id})
     end
     ## End map motions
 

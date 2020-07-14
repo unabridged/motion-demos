@@ -21,6 +21,8 @@ module Dashboard
     def stream_messages
       stream_from reading_callback.broadcast, :on_reading
       stream_from navigate_callback.broadcast, :on_navigate
+      stream_from star_callback.broadcast, :on_star
+      stream_from delete_callback.broadcast, :on_delete
     end
 
     def listen_channels
@@ -33,7 +35,7 @@ module Dashboard
     end
 
     def on_reading(msg)
-      @reading = ::MessageDecorator.new(Message.find_by(id: msg["id"]))
+      @reading = ::MessageDecorator.new(find_message(msg))
     end
 
     def navigate_callback
@@ -43,6 +45,26 @@ module Dashboard
     def on_navigate(msg)
       direction = msg["navigate"]
       navigate(direction)
+    end
+
+    def delete_callback
+      @delete_callback ||= bind(:on_delete)
+    end
+
+    def on_delete(msg)
+      find_message(msg)&.delete!(user)
+    end
+
+    def star_callback
+      @star_callback ||= bind(:on_star)
+    end
+
+    def on_star(msg)
+      message = find_message(msg)
+      return unless message
+      return message.star!(user) unless message.starred?(user)
+
+      message.unstar!(user)
     end
 
     def refresh_query
@@ -96,6 +118,10 @@ module Dashboard
     ## Calculated fields
 
     private
+
+    def find_message(msg)
+      Message.find_by(id: msg["id"])
+    end
 
     def stop_streaming_from_user_channels
       listen_channels.each do |channel|
