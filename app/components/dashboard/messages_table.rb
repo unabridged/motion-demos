@@ -6,6 +6,9 @@ module Dashboard
     attr_reader :user, :reading, :offset, :per_page, :total
 
     map_motion :on_paginate
+    map_motion :star
+    map_motion :trash
+    map_motion :read_msg
 
     def initialize(user:, message_type:)
       @user = user
@@ -21,10 +24,6 @@ module Dashboard
     def stream_messages
       stream_from reading_callback.broadcast, :on_reading
       stream_from navigate_callback.broadcast, :on_navigate
-    end
-
-    def listen_channels
-      ::Messages::Channels.new(messages: @messages, user: user).perform
     end
 
     ## Callbacks/streaming
@@ -46,12 +45,8 @@ module Dashboard
     end
 
     def refresh_query
-      stop_streaming_from_user_channels
-
       @total = message_query.reload.count
       @messages = paginated_message_query
-
-      start_streaming_from_user_channels
     end
     ## End Callbacks/streaming
 
@@ -95,19 +90,78 @@ module Dashboard
     end
     ## Calculated fields
 
+    ## Map motions
+    def read_msg(msg)
+      @reading = @messages.find { |m| m.id.to_s == msg.element.data["value"] }
+    end
+
+    def trash(msg)
+      message = @messages.find { |m| m.id.to_s == msg.element.data["value"] }
+      message.delete!(user)
+
+      refresh_query
+    end
+
+    def star(msg)
+      message = @messages.find { |m| m.id.to_s == msg.element.data["value"] }
+      return message.star!(user) unless message.starred?(user)
+
+      message.unstar!(user)
+
+      refresh_query if @message_type == :starred_messages
+    end
+    ## End map motions
+
+    def display_star(message)
+      return "star-fill" if message.starred?(user)
+
+      "star"
+    end
+
+    def display_status_user(message)
+      sent_to_user?(message) ? message.from : message.to
+    end
+
+    def display_name(message)
+      return display_name_for_name("From: ", from_display(message)) if sent_to_user?(message)
+
+      display_name_for_name("To: ", to_display(message))
+    end
+
+    def row_class_names(message)
+      return nil unless message.read? && sent_to_user?(message)
+
+      "table-dark"
+    end
+
+    def sent_to_user?(message)
+      message.to == user
+    end
+
+    def display_sent_at(message)
+      message.display_sent_at
+    end
+
+    def display_name_for_name(display_text, display_name)
+      content_tag :span do
+        content_tag(:span, display_text) +
+          display_name
+      end
+    end
+
+    def from_display(message)
+      return message.from.name if message.read?
+
+      content_tag(:strong, message.from.name)
+    end
+
+    def to_display(message)
+      return message.to.name if message.read?
+
+      content_tag(:strong, message.to.name)
+    end
+
     private
-
-    def stop_streaming_from_user_channels
-      listen_channels.each do |channel|
-        stop_streaming_from channel
-      end
-    end
-
-    def start_streaming_from_user_channels
-      listen_channels.each do |channel|
-        stream_from channel, :refresh_query
-      end
-    end
 
     def reading_index
       @messages.map(&:id).index(reading.id)

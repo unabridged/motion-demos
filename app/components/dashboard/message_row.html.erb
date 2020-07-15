@@ -12,7 +12,7 @@
     <td>
       <a data-motion="read_msg" href="##">
         <%= render Dashboard::UserStatus.new(user: display_status_user) %>
-        <%= display_name %>
+        <%= display_name(message) %>
       </a>
     </td>
     <td>
@@ -21,7 +21,7 @@
       </a>
     </td>
     <td class="text-right">
-        <%= display_sent_at %>
+        <%= display_sent_at(message) %>
     </td>
     <td>
       <a data-motion="trash" href="##">
