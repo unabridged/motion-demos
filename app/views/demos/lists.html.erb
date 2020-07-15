@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-12">
+    <%= link_to "Back to All Demos", root_path %>
+    <h1>Motion Demos - Form Validation</h1>
+    <p>This form uses your existing Rails ActiveRecord / ActiveModel validations to display success or errors inline, in real time.</p>
+
+    <ul>
+      <li>DRY - Enforce your existing validations from your models right inside your form with no new code</li>
+      <li>No JS to declare or execute validations or to show errors</li>
+      <li>Errors appear only on relevant fields, and provide real-time feedback for a great UX</li>
+    </ul>
+
+    <%= render Lists::AuthoritativeParent.new %>
+  </div>
+</div>

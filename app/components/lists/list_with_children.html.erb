@@ -1,0 +1,17 @@
+<section>
+  <h2>List With Children</h2>
+
+  <% if @displaying %>
+    <h3>Displaying item</h3>
+    <%= render Lists::ListItem.new(item: displaying, item_display_channel: item_display_channel, channel: channel) %>
+  <% else %>
+    <h3>Displaying all item</h3>
+
+    <ul>
+      <% @list.each_with_index do |item, index| %>
+        <li><%= render Lists::ListItemRow.new(item: item, item_display_channel: item_display_channel, delete_channel: delete_channel, index: index) %></li>
+      <% end %>
+    </ul>
+
+  <% end %>
+</section>
