@@ -1,5 +1,6 @@
 class RestorationGame < ViewComponent::Base
   include Motion::Component
+  include RestorationInitialize
   include WorldGeneration
 
   attr_reader :air_quality
@@ -15,22 +16,9 @@ class RestorationGame < ViewComponent::Base
   map_motion :toggle_info_msg
   every 1.second, :update
 
-  def initialize(selected: 0)
-    @size = 9
-    @selected = selected
-
-    @index = {}
-    initialize_tiles
-    initialize_resources
-
+  def initialize
+    start
     generate_world
-    @zoom = 3
-    @saplings_to_give = 0
-    @seeds_to_give = 0
-    @show_intro_msg = 1
-    @show_win_msg = 0
-    @time_passed = 0
-    @won = 0
   end
 
   def change_selected(event)
@@ -53,10 +41,9 @@ class RestorationGame < ViewComponent::Base
   end
 
   def paint(event)
-    x = event.target.data["x"].to_i
-    y = event.target.data["y"].to_i
+    coord = event.target.data["coord"].to_i
 
-    place(coords_to_index(x, y))
+    place(coord)
   end
 
   def toggle_info_msg(event)
@@ -77,7 +64,7 @@ class RestorationGame < ViewComponent::Base
       if tile_health(tile) < 4
         @board[tile] = 1
       elsif tile_health(tile) > 6
-        @seeds_to_give += 0.5
+        @seeds_to_give += 0.25
       end
     when 3
       if tile_health(tile) < 6
@@ -89,7 +76,7 @@ class RestorationGame < ViewComponent::Base
       if tile_health(tile) < 5
         @board[tile] = 2
       elsif tile_health(tile) > 7
-        @seeds_to_give += 1
+        @seeds_to_give += 0.5
       end
     when 5
       if tile_health(tile) > 3
@@ -98,26 +85,11 @@ class RestorationGame < ViewComponent::Base
     end
   end
 
-  def initialize_resources
-    @berries = 0
-    @seeds = 4
-    @saplings = 5
-  end
-
-  def initialize_tiles
-    @index[0] = "water"
-    @index[1] = "dirt"
-    @index[2] = "grass"
-    @index[3] = "tree"
-    @index[4] = "berries"
-    @index[5] = "cracked"
-  end
-
   def place(loc)
     return if (@board[loc] == 0) || (@board[loc] == 5) || (@board[loc] == 4)
     case @selected
     when 2
-      if @seeds > 0 && @bboard[loc] == 1
+      if @seeds > 0 && @board[loc] == 1
         @board[loc] = @selected
         @seeds -= 1
       end
@@ -167,7 +139,7 @@ class RestorationGame < ViewComponent::Base
     end
 
     check_win if @time_passed % 2 == 0
-    if time_passed % 10 == 0
+    if (time_passed % 10).zero?
       @saplings += @saplings_to_give
       @seeds += @seeds_to_give
     end

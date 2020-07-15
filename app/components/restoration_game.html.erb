@@ -1,7 +1,6 @@
 <main>
   <section class="board">
     <h4>Restoration Game</h4>
-
     <% if @show_intro_msg == 1 %>
       <aside class="dialog">
         <div class="close" data-motion="close_intro_msg">
@@ -36,12 +35,10 @@
       </aside>
     <% end %>
     <section class="grid">
-      <% (0..Math.sqrt(@board.size)-1).each do |i| %>
-        <% (0..Math.sqrt(@board.size)-1).each do |j| %>
-          <div class="tile" data-motion="paint">
-            <img src="/assets/<%= @index[@board[i*9+j]] %>.svg" data-y="<%= i %>" data-x="<%= j %>" />
-          </div>
-        <% end %>
+      <% @board.each_with_index do |coord, i| %>
+        <div class="tile" data-motion="paint">
+          <img src="/assets/<%= @index[@board[i]] %>.svg" data-coord="<%= i %>" />
+        </div>
       <% end %>
     </section>
   </section>

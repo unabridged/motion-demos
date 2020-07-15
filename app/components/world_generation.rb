@@ -30,6 +30,8 @@ module WorldGeneration
   end
 
   def coords_to_index(x, y)
+    p "#{x}, #{y} = #{(y * @size) + x}"
+    p @board[(y * @size) + x]
     (y * @size) + x
   end
 
