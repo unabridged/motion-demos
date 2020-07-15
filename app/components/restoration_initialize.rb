@@ -2,12 +2,12 @@ module RestorationInitialize
   def start
     # tile index
     @index = {}
-    @index[0] = "water"
-    @index[1] = "dirt"
-    @index[2] = "grass"
-    @index[3] = "tree"
-    @index[4] = "berries"
-    @index[5] = "cracked"
+    @index[RestoConstants::WATER] = "water"
+    @index[RestoConstants::DIRT] = "dirt"
+    @index[RestoConstants::GRASS] = "grass"
+    @index[RestoConstants::TREE] = "tree"
+    @index[RestoConstants::BERRIES] = "berries"
+    @index[RestoConstants::CRACKED] = "cracked"
 
     # starting resources
     @berries = 0
