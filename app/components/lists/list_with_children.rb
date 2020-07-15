@@ -8,7 +8,7 @@ module Lists
       @channel = channel
       @displaying = displaying
       @display_channel = display_channel
-      @list = Array.new(500) { rand(1..100) }
+      @list = Array.new(500) { User.new(email: "example#{rand(1..100)}@test.com") }
 
       stream_from list_display_channel, :list_on_display
       stream_from delete_channel, :on_delete

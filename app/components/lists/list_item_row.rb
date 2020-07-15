@@ -9,6 +9,7 @@ module Lists
 
     def initialize(item:, item_display_channel:, delete_channel:, index:)
       @item = item
+      @items = Array.new(10) { User.new }
       @item_display_channel = item_display_channel
       @delete_channel = delete_channel
       @index = index
