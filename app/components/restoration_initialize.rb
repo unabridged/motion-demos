@@ -18,9 +18,12 @@ module RestorationInitialize
 
     # view / ui
     @selected = 0
+    @board_size = 15
     @zoom = 3
-    @size = 11
-    @view_corner = 0
+    @view_size = 11
+
+    center = (@board_size - @view_size)/2
+    @view_corner = (@board_size*center) + center
 
     # modals
     @show_info = 0

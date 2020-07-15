@@ -2,41 +2,39 @@ module WorldGeneration
   def adjacent_tiles(tile, diagonal)
     tiles = []
 
-    tiles << tile - @size if tile > @size
-    tiles << tile - 1 if tile % @size > 0
-    tiles << tile + 1 if tile % @size < @size - 1
-    tiles << tile + @size if tile / @size < @size - 1
+    tiles << tile - @board_size if tile >= @board_size
+    tiles << tile - 1 if tile % @board_size > 0
+    tiles << tile + 1 if tile % @board_size < @board_size - 1
+    tiles << tile + @board_size if tile / @board_size < @board_size - 1
 
     if diagonal
-      tiles << tile - @size - 1 if tile > @size && tile % @size > 0
-      tiles << tile - @size + 1 if tile > @size && tile % @size < @size - 1
-      tiles << tile + @size - 1 if tile / @size < @size - 1 && tile % @size > 0
-      tiles << tile + @size + 1 if tile / @size < @size - 1 && tile % @size < @size - 1
+      tiles << tile - @board_size - 1 if tile >= @board_size && tile % @board_size > 0
+      tiles << tile - @board_size + 1 if tile >= @board_size && tile % @board_size < @board_size - 1
+      tiles << tile + @board_size - 1 if tile / @board_size < @board_size - 1 && tile % @board_size > 0
+      tiles << tile + @board_size + 1 if tile / @board_size < @board_size - 1 && tile % @board_size < @board_size - 1
     end
 
     tiles
   end
 
   def check_adjacent(loc, type)
-    return loc - @size if @board[loc - @size] == type && loc - @size > 0
+    return loc - @board_size if @board[loc - @board_size] == type && loc - @board_size >= 0
 
-    return loc - 1 if @board[loc - 1] == type && loc % @size != 0
+    return loc - 1 if @board[loc - 1] == type && loc % @board_size != 0
 
-    return loc + 1 if @board[loc + 1] == type && loc % @size != @size - 1
+    return loc + 1 if @board[loc + 1] == type && loc % @board_size != @board_size - 1
 
-    return loc + @size if @board[loc + @size] == type && loc / size != @size - 1
+    return loc + @board_size if @board[loc + @board_size] == type && loc / @board_size != @board_size - 1
 
     false
   end
 
   def coords_to_index(x, y)
-    p "#{x}, #{y} = #{(y * @size) + x}"
-    p @board[(y * @size) + x]
-    (y * @size) + x
+    (y * @board_size) + x
   end
 
   def create_river
-    center = rand((@size * @size) - 1)
+    center = rand((@board_size * @board_size) - 1)
     loc = center
 
     placed = 0
@@ -45,19 +43,19 @@ module WorldGeneration
       # 0 for up, 1 for down, 2 for left, 3 for right
       case direction
       when 0
-        if loc >= @size
-          loc -= @size
+        if loc >= @board_size
+          loc -= @board_size
         end
       when 1
-        if loc <= (@size * @size) - 1 - @size
-          loc += @size
+        if loc <= (@board_size * @board_size) - 1 - @board_size
+          loc += @board_size
         end
       when 2
-        if loc % @size < @size - 1
+        if loc % @board_size < @board_size - 1
           loc += 1
         end
       else
-        if loc % @size > 0
+        if loc % @board_size > 0
           loc -= 1
         end
       end
@@ -70,9 +68,9 @@ module WorldGeneration
   end
 
   def create_lake
-    center = rand((@size * @size) - 1)
-    centerx = center % @size
-    centery = center / @size
+    center = rand((@board_size * @board_size) - 1)
+    centerx = center % @board_size
+    centery = center / @board_size
 
     (centerx - 2..centerx + 2).each do |x|
       (centery - 2..centery + 2).each do |y|
@@ -81,6 +79,14 @@ module WorldGeneration
           @water += 1
         end
       end
+    end
+  end
+
+  def create_random_water
+    if rand > 0.5
+      create_lake
+    else
+      create_river
     end
   end
 
@@ -94,16 +100,14 @@ module WorldGeneration
   end
 
   def generate_world
-    @board = Array.new(@size * @size, 5)
+    @board = Array.new(@board_size * @board_size, 5)
     @water = 0
     @water_used = 0
 
-    # determines whether to generate a lake or a river
-    if rand > 0.5
-      create_lake
-    else
-      create_river
-    end
+    create_random_water
+
+    create_random_water if rand > 0.5
+
   end
 
   def get_tiles(type)

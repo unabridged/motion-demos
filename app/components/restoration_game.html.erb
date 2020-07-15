@@ -35,9 +35,9 @@
       </aside>
     <% end %>
     <section class="grid">
-      <% @board.each_with_index do |coord, i| %>
+      <% (0..@view_size*@view_size-1).each_with_index do |coord, i| %>
         <div class="tile" data-motion="paint">
-          <img src="/assets/<%= @index[@board[i]] %>.svg" data-coord="<%= i %>" />
+          <img src="/assets/<%= @index[@board[(((i / @view_size) * board_size) + (i % @view_size) + @view_corner)]] %>.svg" data-coord="<%= (((i / @view_size) * board_size) + (i % @view_size) + @view_corner) %>" />
         </div>
       <% end %>
     </section>
@@ -50,5 +50,9 @@
     <%= button_tag "#{seeds.to_i}", class: "grass", data: { motion: "change_selected", value: "2" } %>
     <%= button_tag "#{(seeds/2).to_i}", class: "berries", data: { motion: "change_selected", value: "4" } %>
     <%= button_tag "#{(saplings/5).to_i}", class: "tree", data: { motion: "change_selected", value: "3" } %>
+    <%= button_tag "^", data: { motion: "pan", value: "0" } %>
+    <%= button_tag "V", data: { motion: "pan", value: "1" } %>
+    <%= button_tag "<", data: { motion: "pan", value: "2" } %>
+    <%= button_tag ">", data: { motion: "pan", value: "3" } %>
   </section>
 </main>

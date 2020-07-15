@@ -3,8 +3,7 @@ class RestorationGame < ViewComponent::Base
   include RestorationInitialize
   include WorldGeneration
 
-  attr_reader :air_quality
-  attr_reader :board, :index, :selected, :size, :time_passed, :zoom
+  attr_reader :board, :board_viewed, :index, :selected, :board_size, :view_size, :view_corner, :time_passed, :zoom
   attr_reader :berries, :seeds, :saplings, :water, :water_used
   attr_reader :saplings_to_give, :seeds_to_give
   attr_reader :show_info, :show_intro_msg, :show_win_msg, :won
@@ -13,6 +12,7 @@ class RestorationGame < ViewComponent::Base
   map_motion :close_intro_msg
   map_motion :close_win_msg
   map_motion :paint
+  map_motion :pan
   map_motion :toggle_info_msg
   every 1.second, :update
 
@@ -44,6 +44,20 @@ class RestorationGame < ViewComponent::Base
     coord = event.target.data["coord"].to_i
 
     place(coord)
+  end
+
+  def pan(event)
+    direction = event.target.data["value"].to_i
+    case direction
+    when 0
+      @view_corner -= @board_size if @view_corner >= @board_size
+    when 1
+      @view_corner += @board_size if @view_corner / @board_size < @board_size - @view_size
+    when 2
+      @view_corner -= 1 if @view_corner % @board_size > 0
+    when 3
+      @view_corner +=1 if @view_corner % @board_size < @board_size - @view_size
+    end
   end
 
   def toggle_info_msg(event)
