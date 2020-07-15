@@ -63,8 +63,38 @@
         <div class="panel-body">
             <table class="table table-hover mails">
                 <tbody>
-                  <% @messages.each_with_index do |msg, i|  %>
-                      <%= render Dashboard::MessageRow.new(user: user, message: msg, row: i, on_click: reading_callback) %>
+                  <% @messages.each_with_index do |message, i|  %>
+                    <tr key="<%= message.id %>" id="<%= message.id %>" class="<%= row_class_names(message) %>">
+                        <td class="mail-select">
+                          <label class="cr-styled">
+                              <input type="checkbox">
+                          </label>
+                        </td>
+                        <td class="mail-rateing">
+                          <a data-motion="star" data-value="<%= message.id %>" href="##">
+                            <%= svg display_star(message) %>
+                          </a>
+                        </td>
+                        <td>
+                          <a data-motion="read_msg" data-value="<%= message.id %>" href="##">
+                            <%= render Dashboard::UserStatus.new(user: display_status_user(message)) %>
+                            <%= display_name(message) %>
+                          </a>
+                        </td>
+                        <td>
+                          <a data-motion="read_msg" data-value="<%= message.id %>" href="##">
+                            <%= truncate(content, length: 20) %>
+                          </a>
+                        </td>
+                        <td class="text-right">
+                            <%= display_sent_at(message) %>
+                        </td>
+                        <td>
+                          <a data-motion="trash" data-value="<%= message.id %>"  href="##">
+                            <%= svg "trash" %>
+                          </a>
+                        </td>
+                    </tr>
                   <% end %>
                 </tbody>
             </table>
