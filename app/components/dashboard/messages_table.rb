@@ -35,7 +35,7 @@ module Dashboard
     end
 
     def on_reading(msg)
-      @reading = ::MessageDecorator.new(find_message(msg))
+      @reading = find_message(msg)
     end
 
     def navigate_callback
@@ -64,16 +64,21 @@ module Dashboard
       return unless message
       return message.star!(user) unless message.starred?(user)
 
+      if @message_type == :starred_messages
+        @messages.delete_if { |m| m.id == message.id }
+        refresh_query
+      end
       message.unstar!(user)
+
     end
 
     def refresh_query
-      stop_streaming_from_user_channels
+      # stop_streaming_from_user_channels
 
       @total = message_query.reload.count
       @messages = paginated_message_query
 
-      start_streaming_from_user_channels
+      # start_streaming_from_user_channels
     end
     ## End Callbacks/streaming
 
@@ -120,7 +125,7 @@ module Dashboard
     private
 
     def find_message(msg)
-      Message.find_by(id: msg["id"])
+      @messages.find { |m| m.id == msg["id"] }
     end
 
     def stop_streaming_from_user_channels
