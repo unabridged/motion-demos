@@ -3,7 +3,7 @@
   float: left;
   display: inline-block;
   max-height: 80%;
-  width: 73%;
+  width: 75%;
 }
 
 .dialog {
@@ -32,6 +32,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(11, 1fr);
+  max-width: 92%;
 }
 
 .selector {
@@ -92,4 +93,38 @@
 .tree {
   background-image: url("/assets/tree.svg");
   background-size: 100px 100px;
+}
+
+.top {
+  border: 0px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.left-sidebar {
+  width: 4%;
+}
+
+.left {
+  border: 0px;
+  border-radius: 4px;
+  height: 100%;
+}
+
+.right-sidebar {
+  width: 4%;
+}
+
+.right {
+  border: 0px;
+  border-radius: 4px;
+  height: 100%;
+}
+
+.middle-row {
+  display: flex;
+}
+
+.right {
+  display: inline-block;
 }

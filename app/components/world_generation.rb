@@ -40,17 +40,17 @@ module WorldGeneration
     placed = 0
     while placed < 10
       direction = rand(3)
-      # 0 for up, 1 for down, 2 for left, 3 for right
+
       case direction
-      when 0
+      when RestoConstants::UP
         if loc >= @board_size
           loc -= @board_size
         end
-      when 1
+      when RestoConstants::DOWN
         if loc <= (@board_size * @board_size) - 1 - @board_size
           loc += @board_size
         end
-      when 2
+      when RestoConstants::LEFT
         if loc % @board_size < @board_size - 1
           loc += 1
         end
@@ -59,8 +59,8 @@ module WorldGeneration
           loc -= 1
         end
       end
-      if @board[loc] != 0
-        @board[loc] = 0
+      if @board[loc] != RestoConstants::WATER
+        @board[loc] = RestoConstants::WATER
         placed += 1
         @water += 1
       end
@@ -74,8 +74,8 @@ module WorldGeneration
 
     (centerx - 2..centerx + 2).each do |x|
       (centery - 2..centery + 2).each do |y|
-        if distance_probability(x - centerx, y - centery) > rand && @board[coords_to_index(x, y)] != 0
-          @board[coords_to_index(x, y)] = 0
+        if distance_probability(x - centerx, y - centery) > rand && @board[coords_to_index(x, y)] != RestoConstants::WATER
+          @board[coords_to_index(x, y)] = RestoConstants::WATER
           @water += 1
         end
       end
@@ -100,7 +100,7 @@ module WorldGeneration
   end
 
   def generate_world
-    @board = Array.new(@board_size * @board_size, 5)
+    @board = Array.new(@board_size * @board_size, RestoConstants::CRACKED)
     @water = 0
     @water_used = 0
 

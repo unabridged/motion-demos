@@ -34,25 +34,30 @@
         Returning from the brink of extinction, life has once again covered the earth. Because of your careful stewardship, our home is whole once again.
       </aside>
     <% end %>
-    <section class="grid">
-      <% (0..@view_size*@view_size-1).each_with_index do |coord, i| %>
-        <div class="tile" data-motion="paint">
-          <img src="/assets/<%= @index[@board[(((i / @view_size) * board_size) + (i % @view_size) + @view_corner)]] %>.svg" data-coord="<%= (((i / @view_size) * board_size) + (i % @view_size) + @view_corner) %>" />
-        </div>
-      <% end %>
-    </section>
+    <%= button_tag "^", class: "top", data: { motion: "pan", value: "0" } %>
+    <div class="middle-row">
+      <div class="left-sidebar" data-motion="pan" data-value="2">
+        <%= button_tag "<", class: "left", data: { motion: "pan", value: "2" } %>
+      </div>
+      <section class="grid">
+        <% (0..@view_size*@view_size-1).each_with_index do |coord, i| %>
+          <div class="tile" data-motion="paint">
+            <img src="/assets/<%= @index[@board[(((i / @view_size) * board_size) + (i % @view_size) + @view_corner)]] %>.svg" data-coord="<%= (((i / @view_size) * board_size) + (i % @view_size) + @view_corner) %>" />
+          </div>
+        <% end %>
+      </section>
+      <div class="right-sidebar">
+        <%= button_tag ">", class: "right", data: { motion: "pan", value: "3" } %>
+      </div>
+    </div>
+    <%= button_tag "V", class: "top", data: { motion: "pan", value: "1" } %>
   </section>
   <section class="selector">
     <%= button_tag "Info", class: "info", data: { motion: "toggle_info_msg", value: "1" } %>
     Day <%= @time_passed %><br />
-    Water used: <%= @water_used %> / <%= @water %><br />
     Place:
     <%= button_tag "#{seeds.to_i}", class: "grass", data: { motion: "change_selected", value: "2" } %>
     <%= button_tag "#{(seeds/2).to_i}", class: "berries", data: { motion: "change_selected", value: "4" } %>
     <%= button_tag "#{(saplings/5).to_i}", class: "tree", data: { motion: "change_selected", value: "3" } %>
-    <%= button_tag "^", data: { motion: "pan", value: "0" } %>
-    <%= button_tag "V", data: { motion: "pan", value: "1" } %>
-    <%= button_tag "<", data: { motion: "pan", value: "2" } %>
-    <%= button_tag ">", data: { motion: "pan", value: "3" } %>
   </section>
 </main>
