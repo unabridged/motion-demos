@@ -1,0 +1,95 @@
+<section>
+  <h2>List Component</h2>
+
+    <div class="btn-group" role="group" aria-label="Another example">
+      <% list_types.each do |type, description| %>
+        <button type="button" data-motion="change_list" data-value="<%= type %>" class="btn btn-secondary <%= type === @list_type ? 'active' : '' %>">
+          <%= description %>
+        </button>
+      <% end %>
+    </div>
+    <h4>Displaying <%= list_type.to_s.humanize %></h4>
+    <hr />
+    <div class="btn-group" role="group" aria-label="Select attribute">
+      <% attributes.each do |type, description| %>
+        <button type="button" data-motion="change_attribute" data-value="<%= type %>" class="btn btn-secondary <%= type === @attribute ? 'active' : '' %>">
+          <%= description %>
+        </button>
+      <% end %>
+    </div>
+
+    <h4>Displaying <%= attribute.to_s.humanize %></h4>
+    <hr />
+
+    <ul>
+      <li>Displaying no id: <strong>always works</strong></li>
+      <li>Displaying ids with no child component: <strong>always works</strong></li>
+      <li>Displaying id on element nested <em>inside</em> child component: <strong>always works</strong></li>
+      <li>Displaying id on list item in list (inside or outside) child component ...</li>
+        <ul>
+          <p><strong>Works when</strong>:</p>
+          <li>The list does not change (no items deleted/added)</li>
+          <li>Items are deleted but ids remain the same (ie - ids are sequential, like index)</li>
+        </ul>
+        <ul>
+          <p><em>Doesn't work when</em>:</p>
+          <li>The ids will change as items are removed</li>
+        </ul>
+    </ul>
+
+    <hr />
+    <h4>List: <%= @list.length %> items remaining</h4>
+    <% if will_fail? %>
+      <h5>Deleting two or more records will throw ActionCable RuntimeErorrs: <em>RuntimeError - Unable to find subscription with identifier:</em></h5>
+    <% else %>
+      <h5>Will not fail</h5>
+    <% end %>
+    <% case list_type %>
+    <% when :inside_child, :inside_nested_child %>
+      <ul>
+        <% @list.each_with_index do |item, index| %>
+          <%= render Lists::ListItem.new(
+              item: item,
+              index: index,
+              id: display_id(item, index),
+              id_location: display_location,
+              tagname: "li",
+              delete_channel: delete_channel,
+            ) 
+          %>
+        <% end %>
+      </ul>
+
+    <% when :outside_child %>
+      <ul>
+        <% @list.each_with_index do |item, index| %>
+          <% id = display_id(item, index) %>
+          <% outer_id = display_location == :outside ? id : nil %>
+
+          <li id="<%= outer_id %>">
+            <%= render Lists::ListItem.new(
+                item: item,
+                index: index,
+                id: id,
+                id_location: display_location,
+                tagname: "span",
+                delete_channel: delete_channel,
+              ) %>
+          </li>
+        <% end %>
+      </ul>
+
+    <% when :no_child %>
+      <ul>
+        <% @list.each_with_index do |item, index| %>
+          <% id = display_id(item, index) %>
+          <% inner_id = display_location == :inner ? id : nil %>
+          <% outer_id = display_location == :outer ? id : nil %>
+          <li id="<%= outer_id %>">
+            <span id="<%= inner_id %>"><%= "#{item.value}: (id #{id})" %></span>
+            <button type="button" data-motion="delete" data-value=<%= index %> class="btn btn-warning">Delete</button>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+</section>

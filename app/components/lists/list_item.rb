@@ -2,26 +2,30 @@ module Lists
   class ListItem < ViewComponent::Base
     include Motion::Component
 
-    attr_reader :item, :item_display_channel
+    attr_reader :item, :id, :tagname
 
-    map_motion :stop_displaying
-    map_motion :count
+    map_motion :delete
 
-    def initialize(item:, item_display_channel:, channel:)
+    def initialize(item:, index:, id: nil, id_location: nil, tagname: "li", delete_channel:)
       @item = item
-      @item_display_channel = item_display_channel
-      @count = item
-      @channel = channel
+      @index = index
+      @id = id
+      @id_location = id_location
+      @tagname = tagname
+      @delete_channel = delete_channel
+    end
+
+    def outer_id
+      return id if @id_location == :outer
+    end
+
+    def inner_id
+      return id if @id_location == :inner
     end
 
     ## Map Motion
-    def stop_displaying
-      ActionCable.server.broadcast(item_display_channel, nil)
-    end
-
-    def count(event)
-      @count += event.element.data["value"].to_i
-      ActionCable.server.broadcast(@channel, {count: @count})
+    def delete
+      ActionCable.server.broadcast(@delete_channel, {id: item.id, index: @index})
     end
     ## end map motion
   end
