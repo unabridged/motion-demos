@@ -10,7 +10,7 @@ module Lists
     map_motion :change_attribute
     map_motion :delete
 
-    def initialize()
+    def initialize
       @list = Array.new(50) { |i| Item.new(rand(1..100), i) }
       @attribute = :id
       @list_type = :inside_child
@@ -21,7 +21,7 @@ module Lists
       {
         id: "Value saved on the item",
         index: "Index of current list",
-        no_id: "Display no id",
+        no_id: "Display no id"
       }
     end
 
@@ -30,7 +30,7 @@ module Lists
         inside_child: "#{attribute} is inside child component",
         inside_nested_child: "#{attribute} is nested inside child component",
         outside_child: "#{attribute} is outside child component",
-        no_child: "list has no child component",
+        no_child: "list has no child component"
       }
     end
 
