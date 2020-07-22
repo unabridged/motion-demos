@@ -22,8 +22,8 @@ module RestorationInitialize
     @zoom = 3
     @view_size = 11
 
-    center = (@board_size - @view_size)/2
-    @view_corner = (@board_size*center) + center
+    center = (board_size - view_size)/2
+    @view_corner = (board_size*center) + center
 
     # modals
     @show_info = 0

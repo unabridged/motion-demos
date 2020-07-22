@@ -2,39 +2,39 @@ module WorldGeneration
   def adjacent_tiles(tile, diagonal)
     tiles = []
 
-    tiles << tile - @board_size if tile >= @board_size
-    tiles << tile - 1 if tile % @board_size > 0
-    tiles << tile + 1 if tile % @board_size < @board_size - 1
-    tiles << tile + @board_size if tile / @board_size < @board_size - 1
+    tiles << tile - board_size if tile >= board_size
+    tiles << tile - 1 if tile % board_size > 0
+    tiles << tile + 1 if tile % board_size < board_size - 1
+    tiles << tile + board_size if tile / board_size < board_size - 1
 
     if diagonal
-      tiles << tile - @board_size - 1 if tile >= @board_size && tile % @board_size > 0
-      tiles << tile - @board_size + 1 if tile >= @board_size && tile % @board_size < @board_size - 1
-      tiles << tile + @board_size - 1 if tile / @board_size < @board_size - 1 && tile % @board_size > 0
-      tiles << tile + @board_size + 1 if tile / @board_size < @board_size - 1 && tile % @board_size < @board_size - 1
+      tiles << tile - board_size - 1 if tile >= board_size && tile % board_size > 0
+      tiles << tile - board_size + 1 if tile >= board_size && tile % board_size < board_size - 1
+      tiles << tile + board_size - 1 if tile / board_size < board_size - 1 && tile % board_size > 0
+      tiles << tile + board_size + 1 if tile / board_size < board_size - 1 && tile % board_size < board_size - 1
     end
 
     tiles
   end
 
   def check_adjacent(loc, type)
-    return loc - @board_size if @board[loc - @board_size] == type && loc - @board_size >= 0
+    return loc - board_size if @board[loc - board_size] == type && loc - board_size >= 0
 
-    return loc - 1 if @board[loc - 1] == type && loc % @board_size != 0
+    return loc - 1 if board[loc - 1] == type && loc % board_size != 0
 
-    return loc + 1 if @board[loc + 1] == type && loc % @board_size != @board_size - 1
+    return loc + 1 if board[loc + 1] == type && loc % board_size != board_size - 1
 
-    return loc + @board_size if @board[loc + @board_size] == type && loc / @board_size != @board_size - 1
+    return loc + board_size if board[loc + board_size] == type && loc / board_size != board_size - 1
 
     false
   end
 
   def coords_to_index(x, y)
-    (y * @board_size) + x
+    (y * board_size) + x
   end
 
   def create_river
-    center = rand((@board_size * @board_size) - 1)
+    center = rand((board_size * board_size) - 1)
     loc = center
 
     placed = 0
@@ -43,23 +43,23 @@ module WorldGeneration
 
       case direction
       when RestoConstants::UP
-        if loc >= @board_size
-          loc -= @board_size
+        if loc >= board_size
+          loc -= board_size
         end
       when RestoConstants::DOWN
-        if loc <= (@board_size * @board_size) - 1 - @board_size
-          loc += @board_size
+        if loc <= (board_size * board_size) - 1 - board_size
+          loc += board_size
         end
       when RestoConstants::LEFT
-        if loc % @board_size < @board_size - 1
+        if loc % board_size < board_size - 1
           loc += 1
         end
       else
-        if loc % @board_size > 0
+        if loc % board_size > 0
           loc -= 1
         end
       end
-      if @board[loc] != RestoConstants::WATER
+      if board[loc] != RestoConstants::WATER
         @board[loc] = RestoConstants::WATER
         placed += 1
         @water += 1
@@ -68,13 +68,13 @@ module WorldGeneration
   end
 
   def create_lake
-    center = rand((@board_size * @board_size) - 1)
-    centerx = center % @board_size
-    centery = center / @board_size
+    center = rand((board_size * board_size) - 1)
+    centerx = center % board_size
+    centery = center / board_size
 
     (centerx - 2..centerx + 2).each do |x|
       (centery - 2..centery + 2).each do |y|
-        if distance_probability(x - centerx, y - centery) > rand && @board[coords_to_index(x, y)] != RestoConstants::WATER
+        if distance_probability(x - centerx, y - centery) > rand && board[coords_to_index(x, y)] != RestoConstants::WATER
           @board[coords_to_index(x, y)] = RestoConstants::WATER
           @water += 1
         end
@@ -100,14 +100,13 @@ module WorldGeneration
   end
 
   def generate_world
-    @board = Array.new(@board_size * @board_size, RestoConstants::CRACKED)
+    @board = Array.new(board_size * board_size, RestoConstants::CRACKED)
     @water = 0
     @water_used = 0
 
     create_random_water
 
     create_random_water if rand > 0.5
-
   end
 
   def get_tiles(type)
@@ -126,7 +125,7 @@ module WorldGeneration
       coord = tiles.sample
       tile = check_adjacent(coord, 5)
       if tile != false
-        if @board[tile] == 5
+        if board[tile] == 5
           @board[tile] = 1
           placed += 1
         end

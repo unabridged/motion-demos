@@ -51,13 +51,13 @@ class RestorationGame < ViewComponent::Base
     direction = event.target.data["value"].to_i
     case direction
     when RestoConstants::UP
-      @view_corner -= @board_size if @view_corner >= @board_size
+      @view_corner -= board_size if view_corner >= board_size
     when RestoConstants::DOWN
-      @view_corner += @board_size if @view_corner / @board_size < @board_size - @view_size
+      @view_corner += board_size if view_corner / board_size < board_size - view_size
     when RestoConstants::LEFT
-      @view_corner -= 1 if @view_corner % @board_size > 0
+      @view_corner -= 1 if view_corner % board_size > 0
     when RestoConstants::RIGHT
-      @view_corner +=1 if @view_corner % @board_size < @board_size - @view_size
+      @view_corner +=1 if view_corner % board_size < board_size - view_size
     end
   end
 
@@ -68,54 +68,54 @@ class RestorationGame < ViewComponent::Base
   private
 
   def evaluate(tile)
-    case @board[tile]
+    case board[tile]
     when RestoConstants::DIRT
       if tile_health(tile) < 2
-        @board[tile] = RestoConstants::CRACKED
+        board[tile] = RestoConstants::CRACKED
       elsif tile_health(tile) > 4 && (check_adjacent(tile, 2) || check_adjacent(tile, 3) || check_adjacent(tile, 4))
-        @board[tile] = RestoConstants::GRASS
+        board[tile] = RestoConstants::GRASS
       end
     when RestoConstants::GRASS
       if tile_health(tile) < 4
-        @board[tile] = RestoConstants::DIRT
+        board[tile] = RestoConstants::DIRT
       elsif tile_health(tile) > 6
         @seeds_to_give += 0.25
       end
     when RestoConstants::TREE
       if tile_health(tile) < 6
-        @board[tile] = RestoConstants::GRASS
+        board[tile] = RestoConstants::GRASS
       elsif tile_health(tile) > 7
         @saplings_to_give += 1
       end
     when RestoConstants::BERRIES
       if tile_health(tile) < 5
-        @board[tile] = RestoConstants::GRASS
+        board[tile] = RestoConstants::GRASS
       elsif tile_health(tile) > 7
         @seeds_to_give += 0.5
       end
     when RestoConstants::CRACKED
       if tile_health(tile) > 3
-        @board[tile] = RestoConstants::DIRT
+        board[tile] = RestoConstants::DIRT
       end
     end
   end
 
   def place(loc)
-    return if (@board[loc] == 0) || (@board[loc] == 5) || (@board[loc] == 4)
+    return if (board[loc] == 0) || (board[loc] == 5) || (board[loc] == 4)
     case @selected
-    when 2
-      if @seeds > 0 && @board[loc] == RestoConstants::DIRT
-        @board[loc] = @selected
+    when RestoConstants::GRASS
+      if @seeds > 0 && board[loc] == RestoConstants::DIRT
+        board[loc] = selected
         @seeds -= 1
       end
-    when 3
-      if @saplings > 4 && @board[loc] == RestoConstants::GRASS
-        @board[loc] = @selected
+    when RestoConstants::TREE
+      if @saplings > 4 && board[loc] == RestoConstants::GRASS
+        board[loc] = selected
         @saplings -= 5
       end
-    when 4
-      if @seeds > 1 && @board[loc] == RestoConstants::GRASS
-        @board[loc] = @selected
+    when RestoConstants::BERRIES
+      if @seeds > 1 && board[loc] == RestoConstants::GRASS
+        board[loc] = selected
         @seeds -= 2
       end
     end
@@ -126,7 +126,7 @@ class RestorationGame < ViewComponent::Base
     tiles = adjacent_tiles(tile, true)
 
     tiles.each do |t|
-      case @board[t]
+      case board[t]
       when RestoConstants::WATER
         health += 2
       when RestoConstants::GRASS
@@ -146,17 +146,17 @@ class RestorationGame < ViewComponent::Base
     @saplings_to_give = 0
     @seeds_to_give = 0
     @time_passed += 1
-    @board.each_with_index do |b, i|
-      waterchk += 2 if b == 3
-      waterchk += 0.5 if b == 2
-      waterchk += 1 if b == 4
+    board.each_with_index do |b, i|
+      waterchk += 2 if b == RestoConstants::TREE
+      waterchk += 0.5 if b == RestoConstants::GRASS
+      waterchk += 1 if b == RestoConstants::BERRIES
       evaluate(i)
     end
 
     check_win if @time_passed % 2 == 0
     if (time_passed % 10).zero?
-      @saplings += @saplings_to_give
-      @seeds += @seeds_to_give
+      @saplings += saplings_to_give
+      @seeds += seeds_to_give
     end
     @water_used = waterchk
   end
