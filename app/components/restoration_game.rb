@@ -27,7 +27,7 @@ class RestorationGame < ViewComponent::Base
   end
 
   def check_win
-    if get_tiles(5).size == 0 && @won == 0
+    if get_tiles(RestoConstants::CRACKED).size == 0 && @won == 0
       @won = 1
       @show_win_msg = 1
     end
@@ -72,7 +72,7 @@ class RestorationGame < ViewComponent::Base
     when RestoConstants::DIRT
       if tile_health(tile) < 2
         board[tile] = RestoConstants::CRACKED
-      elsif tile_health(tile) > 4 && (check_adjacent(tile, 2) || check_adjacent(tile, 3) || check_adjacent(tile, 4))
+      elsif tile_health(tile) > 4 && (check_adjacent(tile, RestoConstants::GRASS) || check_adjacent(tile, RestoConstants::TREE) || check_adjacent(tile, RestoConstants::BERRIES))
         board[tile] = RestoConstants::GRASS
       end
     when RestoConstants::GRASS
@@ -98,6 +98,10 @@ class RestorationGame < ViewComponent::Base
         board[tile] = RestoConstants::DIRT
       end
     end
+  end
+
+  def evaluate_water
+
   end
 
   def place(loc)
@@ -147,17 +151,32 @@ class RestorationGame < ViewComponent::Base
     @seeds_to_give = 0
     @time_passed += 1
     board.each_with_index do |b, i|
-      waterchk += 2 if b == RestoConstants::TREE
-      waterchk += 0.5 if b == RestoConstants::GRASS
-      waterchk += 1 if b == RestoConstants::BERRIES
+      waterchk += water_used(b)
       evaluate(i)
     end
+    @water_used = waterchk
+
+    evaluate_water
 
     check_win if @time_passed % 2 == 0
     if (time_passed % 10).zero?
       @saplings += saplings_to_give
       @seeds += seeds_to_give
     end
-    @water_used = waterchk
+  end
+
+  def water_used(type)
+    case type
+    when RestoConstants::DIRT
+      0.25
+    when RestoConstants::GRASS
+      0.5
+    when RestoConstants::BERRIES
+      1
+    when RestoConstants::TREE
+      2
+    else
+      0
+    end
   end
 end

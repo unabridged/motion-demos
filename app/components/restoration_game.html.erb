@@ -55,6 +55,7 @@
   <section class="selector">
     <%= button_tag "Info", class: "info", data: { motion: "toggle_info_msg", value: "1" } %>
     Day <%= @time_passed %><br />
+    Water used: <%= @water_used %> / <%= @water %><br />
     Place:
     <%= button_tag "#{seeds.to_i}", class: "grass", data: { motion: "change_selected", value: "2" } %>
     <%= button_tag "#{(seeds/2).to_i}", class: "berries", data: { motion: "change_selected", value: "4" } %>
