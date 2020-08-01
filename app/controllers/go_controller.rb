@@ -8,9 +8,6 @@ class GoController < ApplicationController
   def create
     game = Go::Game.create
 
-    # TODO: Games persist in memory for 1 hour, remove when shift to DB persistence
-    GoGameCleanupJob.set(wait: 1.hour).perform_later(key: game.key)
-
     redirect_to go_path(id: game.key)
   end
 

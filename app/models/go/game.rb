@@ -22,13 +22,16 @@ module Go
     end
 
     def self.delete(key:)
+      puts "deleting game #{key}"
       @active_games.delete(key)
     end
 
     # some of these could be removed, i was using the readers to test with
     attr_reader :board, :current, :captures, :groups, :key, :move, :size
+    attr_accessor :players
 
     def initialize(size: 9, key:)
+      @players = 0
       @size = size
       @move = 1 # TODO: track move number
       @board = (1..size).map { |_| (1..size).map { |_| nil } }

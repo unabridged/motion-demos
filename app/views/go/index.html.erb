@@ -12,10 +12,14 @@
         <%= f.text_field :id, class: "form-control" %>
       </div>
     </div>
-    <%= f.submit "Join Game", class: "btn btn-primary" %>
+    <div>
+      <%= f.submit "Join Game", class: "btn btn-primary" %>
+    </div>
   <% end %>
+</fieldset>
 
+<div class="mt-4 bg-warning text-center">
   <% flash.each do |name, msg| -%>
     <%= content_tag :div, msg, class: name %>
   <% end -%>
-</fieldset>
+</div>
