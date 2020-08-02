@@ -38,6 +38,7 @@ module Go
       @current = :black
       @captures = {"black" => 0, "white" => 0}
       @groups = {black: [], white: []}
+      @kos = {black: nil, white: nil}
 
       @key = key
       Game.update(key: key, game: self)
@@ -49,7 +50,7 @@ module Go
     end
 
     def legal_move?(pos)
-      return true unless occupied?(pos)
+      return true unless occupied?(pos) || @kos[@current] == pos
     end
 
     # TODO: this could be private, currently tested as a public method
@@ -68,8 +69,9 @@ module Go
     def place(pos)
       @board[pos.i][pos.j] = Stone.new(current, pos, move)
       UpdateGroups.call(game: self, pos: pos)
+      remove_ko
       opponent = current == :black ? :white : :black
-      capture(opponent)
+      capture(opponent, pos)
       capture(current)
       next_player
       self
@@ -77,18 +79,33 @@ module Go
 
     private
 
-    def capture(color)
+    def capture(color, pos = nil)
       captured = @groups[color].select { |grp| liberties(grp).zero? }
 
       captured.each do |grp|
         grp.each { |pos| @board[pos.i][pos.j] = nil }
+        @kos[opponent] = grp.first if pos && ko?(grp, pos)
         @captures[color.to_s] += grp.length
         @groups[color].delete(grp) # TODO: deleting groups makes it hard to undo, or go back in time
       end
     end
 
+    def ko?(captured_group, move)
+      return if captured_group.size > 1
+
+      liberties([move]) == 1
+    end
+
+    def remove_ko
+      @kos[@current] = nil
+    end
+
     def occupied?(pos)
       board[pos.i][pos.j]
+    end
+
+    def opponent
+      current == :black ? :white : :black
     end
   end
 end
