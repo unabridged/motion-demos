@@ -7,6 +7,7 @@ class ClickerGameComponent < ViewComponent::Base
   delegate :channel, to: :game
   delegate :score, to: :player
 
+  after_disconnect :destroy_player
   map_motion :click
   map_motion :lucky_click
 
@@ -36,7 +37,7 @@ class ClickerGameComponent < ViewComponent::Base
     player.score_points(scored)
   end
 
-  def disconnected
+  def destroy_player
     player.destroy
     game.destroy if game.clicker_players.count == 0
 
