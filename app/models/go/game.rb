@@ -27,7 +27,7 @@ module Go
     end
 
     # some of these could be removed, i was using the readers to test with
-    attr_reader :board, :current, :captures, :groups, :key, :move, :size
+    attr_reader :board, :current, :captures, :groups, :key, :kos, :move, :size
     attr_accessor :players
 
     def initialize(size: 9, key:)
@@ -50,7 +50,7 @@ module Go
     end
 
     def legal_move?(pos)
-      return true unless occupied?(pos) || @kos[@current] == pos
+      return true unless occupied?(pos) || kos[@current] == pos
     end
 
     # TODO: this could be private, currently tested as a public method
@@ -60,16 +60,11 @@ module Go
         .count { |pos| !occupied?(pos) }
     end
 
-    # TODO: this could be private, currently tested as a public method
-    def next_player
-      @current = current == :black ? :white : :black
-    end
-
     # TODO: add illegal moves, including Ko rule
     def place(pos)
       @board[pos.i][pos.j] = Stone.new(current, pos, move)
       UpdateGroups.call(game: self, pos: pos)
-      remove_ko
+      ko_clear
       opponent = current == :black ? :white : :black
       capture(opponent, pos)
       capture(current)
@@ -96,8 +91,12 @@ module Go
       liberties([move]) == 1
     end
 
-    def remove_ko
+    def ko_clear
       @kos[@current] = nil
+    end
+
+    def next_player
+      @current = current == :black ? :white : :black
     end
 
     def occupied?(pos)
