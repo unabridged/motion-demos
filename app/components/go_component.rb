@@ -2,6 +2,7 @@
 class GoComponent < ViewComponent::Base
   include Motion::Component
 
+  after_connect :update_game
   after_disconnect :remove_player
 
   map_motion :place
@@ -21,7 +22,7 @@ class GoComponent < ViewComponent::Base
     return unless @game.legal_move?(pos)
 
     @game = @game.place(pos) # place returns self, the updated game
-    ::Go::Game.update(key: @key, game: @game)
+    update_game
     broadcast_next_turn
   end
 
@@ -56,6 +57,10 @@ class GoComponent < ViewComponent::Base
 
   def size
     @game.size
+  end
+
+  def update_game
+    ::Go::Game.update(key: @key, game: @game)
   end
 
   def update_game_display
