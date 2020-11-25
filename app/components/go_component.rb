@@ -2,15 +2,16 @@
 class GoComponent < ViewComponent::Base
   include Motion::Component
 
-  after_connect :update_game
+  after_connect :connected
   after_disconnect :remove_player
 
   map_motion :place
 
   def initialize(game:)
+    puts "component initialize: #{game}"
     @game = game
-    @game.players += 1
-    @key = @game.key
+    puts "component initialize instance var: #{@game}"
+    @key = game.key
     update_game_display
     stream_from "go:#{@key}", :next_turn
   end
@@ -32,7 +33,7 @@ class GoComponent < ViewComponent::Base
     if @game.players.zero?
       ::Go::Game.delete(key: @key)
     else
-      ::Go::Game.update(key: @key, game: @game)
+      update_game
     end
   end
 
@@ -40,6 +41,16 @@ class GoComponent < ViewComponent::Base
 
   def broadcast_next_turn
     ActionCable.server.broadcast(game_channel, "move")
+  end
+
+  def connected
+    # puts "component connected before find: #{@game}"
+    # @game = ::Go::Game.find(key: @key)
+    puts "component connected after find: #{@game}"
+    @game.players += 1
+    update_game
+    puts "component connected after update: #{@game}"
+    update_game_display
   end
 
   def game_channel
@@ -50,7 +61,7 @@ class GoComponent < ViewComponent::Base
     ::Go::Pos.new((index / size), index.modulo(size))
   end
 
-  def next_turn(_message)
+  def next_turn(_message = nil)
     @game = ::Go::Game.find(key: @key)
     update_game_display
   end

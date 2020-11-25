@@ -1,0 +1,7 @@
+* Motion Go
+  
+An implementation of the ancient strategy game known as Go, Weiqi, Baduk.
+
+** Game State
+
+The game state lives  [[../app/models/go/]]

@@ -7,6 +7,7 @@ class GoController < ApplicationController
 
   def create
     game = Go::Game.create
+    puts "create: #{game}"
 
     redirect_to go_path(id: game.key)
   end
@@ -17,6 +18,7 @@ class GoController < ApplicationController
 
   def show
     game = Go::Game.find(key: key) || nil
+    puts "show: #{game}"
 
     unless game
       # rubocop:disable Style/AndOr

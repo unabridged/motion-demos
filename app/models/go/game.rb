@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Go
   # this class represents everything needed to build a square Go board,
   # track the state of the game, and possibly produce a game record based
@@ -18,6 +20,7 @@ module Go
     end
 
     def self.update(key:, game:)
+      puts "model updating: #{game}"
       @active_games[key] = game
     end
 
