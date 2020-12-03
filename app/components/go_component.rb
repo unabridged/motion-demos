@@ -1,4 +1,4 @@
-# A ViewVomponent with Motion handling multiplayer interactive Go games
+# A ViewComponent with Motion handling multiplayer interactive Go games
 class GoComponent < ViewComponent::Base
   include Motion::Component
 
@@ -18,6 +18,7 @@ class GoComponent < ViewComponent::Base
 
   def place(event)
     index = event.target.data[:index].to_i
+    # add @current symbol to the board array at index i
     pos = index_to_pos(index)
 
     return unless @game.legal_move?(pos)
@@ -74,9 +75,22 @@ class GoComponent < ViewComponent::Base
     ::Go::Game.update(key: @key, game: @game)
   end
 
+  # TODO: refactor to use a simple Hash/Struct in this component
+  # {
+  #   key: "abcd",
+  #   board: Array<nil, :black, :white>,
+  #   current: :black | :white,
+  #   captures: { "black": [], "white": [] },
+  # }
+
   def update_game_display
+    # Array of 81 points, either nil, :black, :white
     @board = @game.display
+
+    # color of the current player :black | :white
     @current = @game.current
+
+    # { "black": [], "white": [] }
     @captures = @game.captures
   end
 end

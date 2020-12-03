@@ -1,4 +1,5 @@
 <div class="go">
+  <!-- separate into individual components? -->
   <div class="board <%= @current %>">
     <% @board.each_with_index do |v,i| %>
     <%= button_tag "", class: v, data: { motion: "place", index: i } %>
