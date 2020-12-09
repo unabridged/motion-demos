@@ -1,0 +1,49 @@
+* Motion Go
+
+An implementation of the ancient strategy game known as Go, Weiqi, Baduk.
+
+** Game State
+
+The game state classes live in  [[../app/models/go/]], namespaced in the ~Go~ module.
+
+[[../app/models/go/game.rb][Go::Game]] represents the entire game state. Here, we have a 9x9 go board, where
+each point on the board is a [[../app/models/go/pos.rb/][Go::Pos]]. The top left of the board would be (0,0)
+and the bottom right would be (8,8), making 81 points in total.
+[[../app/assets/images/grid.svg]]
+As the game proceeds, [[../app/models/go/stone.rb][Go::Stone]]s are placed on the points of the board.
+The logic in the main Game class handles figuring out when stones are
+captured and need to be removed from the board.
+
+*** TODO Persisting Game State
+
+Currently, there is no persistence to saving game state. Ideally, state
+could be persisted as a tree, but for our purposes we can start with
+a sequence of moves.
+
+The Go::Stone class keeps track of the position, color, and move number
+of stones played, so this could potentially be used as a way of persisting
+the state of the game. We could say:
+
+  - A Game
+    - has many Stones
+    - has an id
+    - has many players (at least 2)
+  - A Stone
+    - belongs to a game
+    - has a color (black or white)
+    - has a position (an x,y pair)
+    - has a sequence number (when it was played)
+
+This may not be the best way to represent these things, but its how it is
+set up at this point. If we can persist these to the database, then we
+can rebuild a board by "replaying" the stones in sequence.
+
+The controller would need to update a Game by creating a new Stone record
+for each move played.
+
+*** TODO Rebuilding a Game from persisted state
+
+As mentioned above, loading a game from the DB could be done by replaying
+the stones. I think this should be fairly trivial using the ~Go::Game#place~
+method.
+
