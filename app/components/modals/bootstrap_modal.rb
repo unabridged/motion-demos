@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 module Modals
+  # Bootstrap Modal with Motion
   class BootstrapModal < ViewComponent::Base
     include Motion::Component
 
     attr_reader :selected, :content
     map_motion :dismiss
 
-    def initialize(selected:, show_trigger:, modal_channel:, content:)
+    def initialize(selected:, show_trigger:, on_dismiss:, content:)
       @selected = selected
       @show_trigger = show_trigger
-      @modal_channel = modal_channel
+      @on_dismiss = on_dismiss
       @content = content
     end
 
@@ -28,15 +31,9 @@ module Modals
       # So make sure you either:
       # a. do not change parent state from a child while modal is open
       # b. only change parent state when modal is going to close
-      return unless event.target.data["value"] == "dismissable"
+      return unless event.target.data['value'] == 'dismissable'
 
-      broadcast_user_dismissed_modal
-    end
-
-    private
-
-    def broadcast_user_dismissed_modal
-      ActionCable.server.broadcast(@modal_channel, {event: "dismiss-modal"})
+      @on_dismiss.call({ event: 'dismiss-modal' })
     end
   end
 end
