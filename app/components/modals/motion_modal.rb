@@ -30,7 +30,7 @@ module Modals
 
     def fade_out
       # This actually closes the modal, 0.1s later
-      @on_dismiss.call({ event: 'dismiss-modal' })
+      @on_dismiss.call({event: "dismiss-modal"})
 
       stop_periodic_timer :fade_out
     end
@@ -39,7 +39,7 @@ module Modals
     ## Map motion events
     def dismiss(event)
       # Did they click inside the modal, or click a button or outside modal to close
-      return unless event.target.data['value'] == 'dismissable'
+      return unless event.target.data["value"] == "dismissable"
 
       @show = false
 
@@ -49,7 +49,7 @@ module Modals
 
     # This adds a class that bootstrap adds with JS and causes a css animation
     def modal_show_class
-      show ? 'show' : nil
+      show ? "show" : nil
     end
 
     # This adds style that bootstrap adds with JS

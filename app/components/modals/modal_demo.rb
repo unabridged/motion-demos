@@ -44,11 +44,11 @@ module Modals
     end
 
     def selection(event)
-      @selected = event.target.data['value']
+      @selected = event.target.data["value"]
     end
 
     def mode(event)
-      @modal_mode = event.target.data['value'].to_sym
+      @modal_mode = event.target.data["value"].to_sym
     end
 
     def dismiss(_msg)
