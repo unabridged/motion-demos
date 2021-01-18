@@ -248,6 +248,7 @@ DEPENDENCIES
   devise
   honeybadger
   listen (~> 3.2)
+  mocha
   motion
   pg
   pry-rails
