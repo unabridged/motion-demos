@@ -25,7 +25,7 @@ jobs:
     # change this to (see https://github.com/ruby/setup-ruby#versioning):
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7.1
+        ruby-version: 2.7.2
     - name: Install sqlite3
       run: sudo apt install sqlite3 libsqlite3-dev
     - name: Install dependencies
