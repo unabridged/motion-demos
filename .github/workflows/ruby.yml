@@ -30,7 +30,7 @@ jobs:
       run: sudo apt install sqlite3 libsqlite3-dev
     - name: Install dependencies
       run: bundle install
-    # # - name: Run tests
-      # run: bundle exec rake
+    - name: Run tests
+      run: bundle exec rake
     - name: Standard Lint
       run: bundle exec standardrb
