@@ -1,24 +1,6 @@
 <div>
   <section>
-    <h3>Select a number to display inside the modal.</h3>
-    <ul>
-      <% 5.times do |i| %>
-        <li>
-          <button
-            data-motion="selection"
-            data-value="<%= i + 1 %>"
-            class="<%= (selected == (i + 1).to_s ? 'active' : nil) %>"
-            <%= modal_mode == :modal ? 'data-toggle=modal data-target=#exampleModal' : nil %>
-          >
-            <%= numbers_to_words(i + 1) %>
-          </button>
-        </li>
-      <% end %>
-    </ul>
-  </section>
-
-  <section>
-    <h3>Select a mode of triggering the modal.</h3>
+    <h3>Select a way to trigger the modal.</h3>
     <ul>
       <li>
         <button data-motion="mode" data-value="motion" class="<%= modal_mode == :motion ? 'active' : nil %>">
@@ -39,14 +21,33 @@
   </section>
 
   <section>
+    <h3>Select a number to display inside the modal.</h3>
+    <ul>
+      <% 5.times do |i| %>
+        <li>
+          <button
+            data-motion="selection"
+            data-value="<%= i + 1 %>"
+            class="<%= (selected == (i + 1).to_s ? 'active' : nil) %>"
+            <%= modal_mode == :modal ? 'data-toggle=modal data-target=#exampleModal' : nil %>
+          >
+            <%= numbers_to_words(i + 1) %>
+          </button>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+  <section>
     <h4>Current state </h4>
     <p>Selected: <%= selected %></p>
 
     <p>Mode: <%= modal_mode %></p>
     <p><%= content %></p>
   </section>
+
   <%= render Modals::BootstrapModal.new(on_dismiss: bind(:dismiss), show_trigger: show_bootstrap_trigger?, selected: selected, content: content) %>
   <% if open_motion_modal? %>
-    <%= render Modals::MotionModal.new(on_dismiss: bind(:dismiss), selected: "1", content: "show_bootstrap_trigger") %>
+    <%= render Modals::MotionModal.new(on_dismiss: bind(:dismiss), selected: "1", content: "Show Bootstrap Trigger") %>
   <% end %>
 </div>
