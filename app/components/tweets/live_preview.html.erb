@@ -1,0 +1,8 @@
+<section>
+<% unless saved? %>
+  <%= render Tweets::Form.new(tweet: tweet, on_change: bind(:preview)) %>
+<% end %>
+
+
+<%= render Tweets::Display.new(tweet: tweet) %>
+</section>

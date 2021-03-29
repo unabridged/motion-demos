@@ -1,0 +1,17 @@
+<%= form_with model: tweet, url: "/", data: { motion: 'input->validate submit->save' } do |f| %>
+  <div class="form-group row">
+    <%= f.label :content, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.text_area :content, class: "form-control", data: { field: :content } %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <%= f.submit "Submit", class: "btn btn-primary #{"disabled" if disabled?}", disabled: disabled? %>
+      <% if disabled? %>
+        <span class="ml-2">You must fill out the tweet.</span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get "/calculator", to: "demos#calculator", as: :calculator_demo
   get "/form", to: "demos#form", as: :form_demo
   get "/modal", to: "demos#modal", as: :modal_demo
+  get "/live-preview", to: "demos#live_preview", as: :live_preview
 
   resources :go, only: [:show, :create, :index] do
     post :join, on: :collection
