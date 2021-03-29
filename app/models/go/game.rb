@@ -33,7 +33,7 @@ module Go
     attr_reader :board, :current, :captures, :groups, :key, :kos, :move, :size
     attr_accessor :players
 
-    def initialize(size: 9, key:)
+    def initialize(key:, size: 9)
       @players = 0
       @size = size
       @move = 1 # TODO: track move number
