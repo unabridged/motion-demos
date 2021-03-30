@@ -1,0 +1,140 @@
+.live-preview {
+  $min-width: 250px;
+  $max-width: 550px;
+  $padding-zero: 0;
+  $padding-small: 4px;
+  $padding-medium: 8px;
+  $padding-large: 16px;
+  $font-large: 18px;
+  $font-medium: 14px;
+  $black: rgb(101, 119, 134);
+  $grey: rgb(204, 214, 221);
+  $twitter-blue: rgb(29, 161, 242);
+
+  $img-width: 24px;
+  $img-height: $img-width;
+
+  textarea {
+    width: $max-width;
+    height: $min-width;
+  }
+
+  .tweet {
+    display: flex;
+    align-items: stretch;
+    flex-basis: auto;
+    flex-direction: column;
+    flex-shrink: 0;
+    margin: $padding-large 0;
+    font-size: $font-medium;
+
+    &.tweet-border {
+      border-radius: $padding-large;
+      border-width: 1px;
+      border-style: solid;
+      box-sizing: border-box;
+      min-width: $min-width;
+      max-width: $max-width;
+      overflow: hidden;
+
+      &.draft {
+        border-color: $grey;
+        opacity: 80%;
+      }
+
+      &.sent {
+        border-color: $black;
+      }
+    }
+
+    article {
+      padding: $padding-medium $padding-large $padding-small;
+    }
+
+    svg {
+      width: $img-width;
+      height: $img-height;
+      fill: currentcolor;
+    }
+
+    .tweet-header {
+      display: flex;
+      -moz-box-direction: normal;
+      -moz-box-orient: horizontal;
+      flex-direction: row;
+      padding: $padding-medium $padding-zero;
+    }
+
+
+    .tweet-pic {
+      min-width: $img-width * 2;
+      min-height: $img-height * 2;
+      border-radius: 100%;
+      border: 1px solid $black;
+      overflow: hidden;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .tweet-from {
+      width: 100%;
+      margin: $padding-zero $padding-small;
+    }
+
+    .tweet-bird {
+      color: $twitter-blue;
+      fill: currentcolor;
+    }
+
+    .tweet-fullname {
+      font-weight: bold;
+    }
+
+    .tweet-content {
+      padding: $padding-medium $padding-zero $padding-zero;
+      margin-bottom: $padding-zero;
+      overflow-x: auto;
+      font-size: $font-large;
+      font-family: inherit;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .tweet-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: $padding-medium $padding-zero;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: $padding-medium $padding-zero
+    }
+
+
+    .link {
+      width: auto;
+      height: $img-height;
+      padding: $padding-small;
+
+      span {
+        margin: $padding-zero $padding-small;
+      }
+    }
+
+    .tweet-username, .tweet-time, .link {
+      color: $black;
+    }
+
+    .links, .tweet-footer {
+      color: $grey;
+    }
+  }
+}
+

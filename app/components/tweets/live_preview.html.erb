@@ -1,8 +1,18 @@
-<section>
-<% unless saved? %>
-  <%= render Tweets::Form.new(tweet: tweet, on_change: bind(:preview)) %>
-<% end %>
+<div class="live-preview">
+  <section id="preview">
+    <h2>New Tweet</h2>
+    <h3>Body</h3>
+    <%= render Tweets::Form.new(tweet: tweet, on_change: bind(:preview)) %>
+    <% if tweet.content.present? %>
+      <h3>Preview</h3>
+      <%= render Tweets::Display.new(tweet: tweet) %>
+    <% end %>
+  </section>
 
-
-<%= render Tweets::Display.new(tweet: tweet) %>
-</section>
+  <section id="feed">
+    <h3>Current Feed</h3>
+    <% feed.each do |tweet| %>
+      <%= render Tweets::Display.new(tweet: tweet) %>
+    <% end %>
+  </section>
+</div>
