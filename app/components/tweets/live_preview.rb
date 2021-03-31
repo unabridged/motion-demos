@@ -1,6 +1,7 @@
 module Tweets
   class LivePreview < ViewComponent::Base
     include Motion::Component
+    delegate :validation_messages, :valid_class, :show_svg, to: :helpers
 
     attr_reader :tweet, :feed
 

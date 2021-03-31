@@ -3,6 +3,7 @@ module Tweets
     # This component does not need Motion, it is only for displaying
     attr_reader :tweet
     delegate :hearts, :retweets, to: :tweet
+    delegate :show_svg, to: :helpers
 
     def initialize(tweet: Tweet.new)
       @tweet = tweet
