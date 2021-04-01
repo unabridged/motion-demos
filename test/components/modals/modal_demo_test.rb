@@ -13,7 +13,7 @@ module Modals
       it "shows 3 sections for mode, selection, and current state" do
         result = render_inline(subject).to_html
 
-        assert_match("Select a mode of triggering the modal", result)
+        assert_match("Select a way to trigger the modal", result)
         assert_match("Select a number to display inside the modal", result)
         assert_match("Current state ", result)
       end
