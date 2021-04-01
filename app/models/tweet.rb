@@ -2,7 +2,7 @@ class Tweet
   # No need for db in this example, but ActiveModel is useful
   include ActiveModel::Model
 
-  attr_accessor :user, :content, :id
+  attr_accessor :content, :id
   attr_writer :tweeted_at, :hearts, :retweets
 
   validates_length_of :content, maximum: 280, allow_blank: false
