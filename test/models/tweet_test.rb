@@ -1,77 +1,80 @@
 require "test_helper"
 
-binding.pry
-class TweetTest < Minitest::Test
+class Tweetit < Minitest::Spec
   subject { Tweet.new }
 
-  test "#id" do
-    assert subject.responds_to?(:id)
+  it "works for #id" do
+    assert subject.respond_to?(:id)
   end
 
-  test "#id=" do
+  it "works for #id=" do
     subject.id = 1
     assert_equal 1, subject.id
   end
 
-  test "#content" do
-    assert subject.responds_to?(:content)
+  it "works for #content" do
+    assert subject.respond_to?(:content)
   end
 
-  test "#content=" do
+  it "works for #content=" do
     subject.content = "foo"
     assert_equal "foo", subject.content
   end
 
-  test "#retweets" do
+  it "works for #retweets" do
     assert_equal 0, subject.retweets
   end
 
-  test "#retweets=" do
+  it "works for #retweets=" do
     subject.retweets += 1
     assert_equal 1, subject.retweets
   end
 
-  test "#hearts" do
+  it "works for #hearts" do
     assert_equal 0, subject.hearts
   end
 
-  test "#hearts=" do
+  it "works for #hearts=" do
     subject.hearts += 1
     assert_equal 1, subject.hearts
   end
 
-  test "#full_name" do
+  it "works for #full_name" do
     assert_equal "User Full Name", subject.full_name
   end
 
-  test "#username" do
+  it "works for #username" do
     assert_equal "@username", subject.username
   end
 
-  test "#tweeted_at" do
+  it "works for #tweeted_at" do
     assert_kind_of Time, subject.tweeted_at
   end
 
-  test "#increment" do
-    assert_kind_of Time, subject.tweeted_at
+  it "works for #increment" do
+    %i(hearts retweets).each do |method_name|
+      init = subject.send(method_name)
+      subject.increment(method_name, 2)
+      assert_equal init + 2, subject.send(method_name)
+    end
   end
 
   describe "#validations" do
-    test "content cannot be blank" do
+    it "works for content cannot be blank" do
       subject.content = ""
       refute subject.valid?
       refute_empty subject.errors[:content]
     end
 
-    test "content cannot be more than 280 chars" do
+    it "works for content cannot be more than 280 chars" do
       subject.content = "d" * 281
       refute subject.valid?
       refute_empty subject.errors[:content]
     end
 
-    test "content can be 280 chars" do
+    it "works for content can be 280 chars" do
       subject.content = "d" * 280
-      refute subject.valid?
+      assert subject.valid?
       assert_empty subject.errors[:content]
     end
   end

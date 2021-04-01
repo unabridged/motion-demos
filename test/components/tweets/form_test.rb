@@ -67,7 +67,7 @@ module Tweets
     end
 
     describe "rendering" do
-      context "multi edition mode" do
+      describe "multi edition mode" do
         it "shows 3 cards with headers in multi edition mode" do
           result = render_inline(subject).to_html
 
