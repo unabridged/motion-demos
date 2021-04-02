@@ -1,4 +1,4 @@
-<%= form_with model: tweet, url: "#", data: { motion: 'input->validate submit->save' } do |f| %>
+<%= form_with model: tweet, local: true, url: "#", data: { motion: 'input->validate submit->save' } do |f| %>
   <div class="form-group">
     <%= f.label :content, "Tweet" %>
     <div>
