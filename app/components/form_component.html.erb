@@ -1,4 +1,4 @@
-<%= form_with model: @signup, url: "/form", data: { motion: 'change->validate submit->save' } do |f| %>
+<%= form_with model: @signup, url: "/form", local: true, data: { motion: 'change->validate submit->save' } do |f| %>
   <div class="form-group row">
     <%= f.label :name, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
