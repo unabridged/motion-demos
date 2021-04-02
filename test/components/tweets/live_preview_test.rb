@@ -98,7 +98,7 @@ module Tweets
         end
       end
 
-      # NOTE: #update_tweet_stats is mocked, so the test is for currently functionality, ie - a mock
+      # NOTE: #update_tweet_stats is mocked, so the test is for current functionality, ie - a mock
       describe "#update_tweet_stats" do
         let(:feed) { Array.new(3) { |i| Tweet.new(hearts: i, retweets: i) } }
         let(:hearts_retweets) { -> { feed.map { |tw| "#{tw.hearts}-#{tw.retweets}" }.join } }
