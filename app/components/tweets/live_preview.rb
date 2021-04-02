@@ -40,7 +40,7 @@ module Tweets
 
     # Mock method to update a tweet using a msg
     def update_stat(tweet, _msg)
-      update = %i(hearts retweets).sample
+      update = %i[hearts retweets].sample
       tweet.increment(update)
     end
   end

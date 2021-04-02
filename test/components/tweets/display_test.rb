@@ -18,15 +18,15 @@ module Tweets
 
       it "shows username, svg, and full name in header" do
         assert_selector ".tweet-header" do
-          assert_selector ".tweet-fullname", { count: 1, text: "User Full Name" }
-          assert_selector ".tweet-username", { count: 1, text: "@username" }
+          assert_selector ".tweet-fullname", {count: 1, text: "User Full Name"}
+          assert_selector ".tweet-username", {count: 1, text: "@username"}
           assert_selector "svg"
         end
       end
 
       it "shows content and time in body" do
         assert_selector ".tweet-body" do
-          assert_selector ".tweet-content", { count: 1, text: content }
+          assert_selector ".tweet-content", {count: 1, text: content}
           assert_selector ".tweet-time"
         end
       end

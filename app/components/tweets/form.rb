@@ -22,7 +22,7 @@ module Tweets
       return if disabled?
 
       # Mock calling save
-      on_change.call({ id: 1 })
+      on_change.call({id: 1})
     end
 
     def disabled?

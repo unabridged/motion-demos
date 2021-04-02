@@ -49,8 +49,8 @@ module Tweets
       it { assert_motion subject, :save }
 
       describe "#validate" do
-        let(:attrs) { { content: "new tweet" } }
-        let(:event) { motion_form_event(element: { formData: { tweet: attrs } }) }
+        let(:attrs) { {content: "new tweet"} }
+        let(:event) { motion_form_event(element: {formData: {tweet: attrs}}) }
 
         it "calls on change with attrs" do
           subject.on_change.expects(:call).with(broadcast_msg(attrs))
@@ -72,7 +72,7 @@ module Tweets
           before { subject.stubs(disabled?: false) }
 
           it "calls on change" do
-            subject.on_change.expects(:call).with({ id: 1 })
+            subject.on_change.expects(:call).with({id: 1})
             run_motion subject, :save
           end
         end

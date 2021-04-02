@@ -52,7 +52,7 @@ class Tweetit < Minitest::Spec
   end
 
   it "works for #increment" do
-    %i(hearts retweets).each do |method_name|
+    %i[hearts retweets].each do |method_name|
       init = subject.send(method_name)
       subject.increment(method_name, 2)
       assert_equal init + 2, subject.send(method_name)

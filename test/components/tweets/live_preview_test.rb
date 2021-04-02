@@ -29,7 +29,7 @@ module Tweets
 
         it "shows form and preview" do
           assert_selector "#preview" do
-            assert_selector ".tweet", { count: 1, text: "Tweet" }
+            assert_selector ".tweet", {count: 1, text: "Tweet"}
             assert_selector "form[data-motion-key]"
           end
         end
@@ -38,7 +38,7 @@ module Tweets
       describe "when tweet content is not present" do
         it "shows form but no preview" do
           assert_selector "#preview" do
-            refute_selector ".tweet", { count: 1, text: "Tweet" }
+            refute_selector ".tweet", {count: 1, text: "Tweet"}
             assert_selector "form[data-motion-key]"
           end
         end
@@ -57,7 +57,7 @@ module Tweets
 
         it "shows feed" do
           assert_selector "#feed" do
-            assert_selector ".tweet", { count: 3, text: "Tweet" }
+            assert_selector ".tweet", {count: 3, text: "Tweet"}
           end
         end
       end
@@ -68,7 +68,7 @@ module Tweets
 
       describe "#preview" do
         let(:preview) { -> { process_broadcast(subject, :preview, attrs) } }
-        let(:attrs) { { content: "My New Tweet" } }
+        let(:attrs) { {content: "My New Tweet"} }
 
         describe "when it updates attrs" do
           it "updates the tweet attrs" do
@@ -78,7 +78,7 @@ module Tweets
         end
 
         describe "when it updates id" do
-          let(:attrs) { { id: 5 } }
+          let(:attrs) { {id: 5} }
 
           it "updates the id on the tweet" do
             preview.call
@@ -104,7 +104,7 @@ module Tweets
         let(:hearts_retweets) { -> { feed.map { |tw| "#{tw.hearts}-#{tw.retweets}" }.join } }
         let(:hearts) { feed.map(&:he) }
         let(:preview) { -> { process_broadcast(subject, :update_tweet_stats, attrs) } }
-        let(:attrs) { { id: 1, content: "My New Tweet" } }
+        let(:attrs) { {id: 1, content: "My New Tweet"} }
 
         describe "when there is a feed" do
           it "updates the attrs of a tweet" do
