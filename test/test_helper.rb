@@ -13,10 +13,6 @@ def run_motion(component, motion_name, event = motion_event)
   component.process_motion(motion_name.to_s, event)
 end
 
-def motion_event(attrs = {})
-  Motion::Event.new(ActiveSupport::JSON.decode(attrs.to_json))
-end
-
 def callback_stub(method_name = :bound)
   Motion::Callback.new(BindMockComponent.new, method_name)
 end
