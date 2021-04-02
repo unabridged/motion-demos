@@ -52,6 +52,11 @@ group :production do
   gem "redis", "~> 4.0"
 end
 
+group :test do
+  gem "mocha"
+  gem "capybara"
+end
+
 gem "motion"
 gem "view_component"
 gem "bootstrap", "~> 4.5"

@@ -60,19 +60,19 @@ class Tweetit < Minitest::Spec
   end
 
   describe "#validations" do
-    it "works for content cannot be blank" do
+    it "#content cannot be blank" do
       subject.content = ""
       refute subject.valid?
       refute_empty subject.errors[:content]
     end
 
-    it "works for content cannot be more than 280 chars" do
+    it "#content cannot be more than 280 chars" do
       subject.content = "d" * 281
       refute subject.valid?
       refute_empty subject.errors[:content]
     end
 
-    it "works for content can be 280 chars" do
+    it "#content can be 280 chars" do
       subject.content = "d" * 280
       assert subject.valid?
       assert_empty subject.errors[:content]

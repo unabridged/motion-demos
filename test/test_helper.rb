@@ -14,6 +14,16 @@ def run_motion(component, motion_name, event = motion_event)
   component.process_motion(motion_name.to_s, event)
 end
 
+def assert_timer(component, method_name, interval)
+  assert_equal interval, component.periodic_timers[method_name.to_s]
+end
+
+def motion_event(attrs = {})
+  event = Motion::Event.new(ActiveSupport::JSON.decode(attrs.to_json))
+  event.element.instance_variable_set("@form_data", attrs.slice(:formData))
+  event
+end
+
 def callback_stub(method_name = :bound)
   Motion::Callback.new(BindMockComponent.new, method_name)
 end

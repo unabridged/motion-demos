@@ -5,31 +5,38 @@ require "test_helper"
 module Tweets
   class DisplayTest < ViewComponent::TestCase
     include Motion::TestHelpers
-    include ActionDispatch::Assertions::SelectorAssertions
 
     let(:klass) { Tweets::Display }
-    let(:tweet) { Tweet.new }
+    let(:content) { "My First Tweet" }
+    let(:tweet) { Tweet.new(content: content) }
     subject { klass.new(tweet: tweet) }
 
     describe "rendering" do
       before do
-        @response_from_page = render_inline(subject).to_html
+        render_inline(subject)
       end
 
       it "shows username, svg, and full name in header" do
-        @response_from_page = render_inline(subject).to_html
-
-        assert_select ".tweet-header" do
-          assert_select ".tweet-fullname", { count: 1, text: "User Full Name" }
-          assert_select ".tweet-username", { count: 1, text: "@username" }
-          assert_select "svg", 1
+        assert_selector ".tweet-header" do
+          assert_selector ".tweet-fullname", { count: 1, text: "User Full Name" }
+          assert_selector ".tweet-username", { count: 1, text: "@username" }
+          assert_selector "svg"
         end
       end
-    end
 
-    # assert_select needs response_from_page
-    def response_from_page
-      @response_from_page
+      it "shows content and time in body" do
+        assert_selector ".tweet-body" do
+          assert_selector ".tweet-content", { count: 1, text: content }
+          assert_selector ".tweet-time"
+        end
+      end
+
+      it "shows hearts and retweets in footer" do
+        assert_selector ".tweet-footer" do
+          assert_selector ".link-heart"
+          assert_selector ".link-retweet"
+        end
+      end
     end
   end
 end
