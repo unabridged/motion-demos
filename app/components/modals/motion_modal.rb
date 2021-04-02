@@ -5,14 +5,14 @@ module Modals
   class MotionModal < ViewComponent::Base
     include Motion::Component
 
-    attr_reader :selected, :content, :show
+    attr_reader :selected, :body, :show
 
     map_motion :dismiss
 
-    def initialize(on_dismiss:, selected:, content:)
+    def initialize(on_dismiss:, selected:, body:)
       @on_dismiss = on_dismiss
       @selected = selected
-      @content = content
+      @body = body
       @show = false
 
       every 0.1.second, :fade_in

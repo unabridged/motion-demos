@@ -31,7 +31,7 @@ module Modals
       @modal_mode = :motion
     end
 
-    def content
+    def body
       CONTENT_DESCRIPTION[modal_mode]
     end
 

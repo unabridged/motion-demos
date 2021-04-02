@@ -8,9 +8,9 @@ module Modals
     let(:klass) { Modals::MotionModal }
     let(:on_dismiss) { callback_stub }
     let(:selected) { 1 }
-    let(:content) { "some content" }
+    let(:body) { "some content" }
 
-    subject { klass.new(selected: selected, on_dismiss: on_dismiss, content: content) }
+    subject { klass.new(selected: selected, on_dismiss: on_dismiss, body: body) }
 
     describe "#initialize" do
       it "sets show to false" do

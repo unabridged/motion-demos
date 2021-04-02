@@ -47,8 +47,8 @@
     </ul>
   </section>
 
-  <%= render Modals::BootstrapModal.new(on_dismiss: bind(:dismiss), show_trigger: show_bootstrap_trigger?, selected: selected, content: content) %>
+  <%= render Modals::BootstrapModal.new(on_dismiss: bind(:dismiss), show_trigger: show_bootstrap_trigger?, selected: selected, body: body) %>
   <% if open_motion_modal? %>
-    <%= render Modals::MotionModal.new(on_dismiss: bind(:dismiss), selected: "1", content: content) %>
+    <%= render Modals::MotionModal.new(on_dismiss: bind(:dismiss), selected: selected, body: body) %>
   <% end %>
 </div>

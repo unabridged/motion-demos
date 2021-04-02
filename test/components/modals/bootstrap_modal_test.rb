@@ -9,9 +9,9 @@ module Modals
     let(:on_dismiss) { callback_stub }
     let(:selected) { 1 }
     let(:show) { true }
-    let(:content) { "Some content" }
+    let(:body) { "Some content" }
 
-    subject { klass.new(selected: selected, show_trigger: show, on_dismiss: on_dismiss, content: content) }
+    subject { klass.new(selected: selected, show_trigger: show, on_dismiss: on_dismiss, body: body) }
 
     describe "rendering" do
       it "renders as a motion component" do

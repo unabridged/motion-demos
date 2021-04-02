@@ -5,14 +5,14 @@ module Modals
   class BootstrapModal < ViewComponent::Base
     include Motion::Component
 
-    attr_reader :selected, :content
+    attr_reader :selected, :body
     map_motion :dismiss
 
-    def initialize(selected:, show_trigger:, on_dismiss:, content:)
+    def initialize(selected:, show_trigger:, on_dismiss:, body:)
       @selected = selected
       @show_trigger = show_trigger
       @on_dismiss = on_dismiss
-      @content = content
+      @body = body
     end
 
     def show_button?
