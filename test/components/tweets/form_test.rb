@@ -9,7 +9,8 @@ module Tweets
     let(:klass) { Tweets::Form }
     let(:tweet) { Tweet.new }
     let(:on_change) { callback_stub }
-    subject { klass.new(tweet: tweet, on_change: on_change) }
+    let(:new_tweet) { false }
+    subject { klass.new(tweet: tweet, on_change: on_change, new_tweet: new_tweet) }
 
     describe "rendering" do
       it "shows form with textarea and submit button" do

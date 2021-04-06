@@ -3,14 +3,15 @@ module Tweets
     include Motion::Component
     delegate :validation_messages, :valid_class, to: :helpers
 
-    attr_reader :tweet, :on_change
+    attr_reader :tweet, :on_change, :new_tweet
     map_motion :validate
     map_motion :save
 
-    def initialize(tweet:, on_change:)
+    def initialize(tweet:, on_change:, new_tweet:)
       @tweet = tweet
-      tweet.validate
       @on_change = on_change
+      @new_tweet = new_tweet
+      tweet.validate unless new_tweet
     end
 
     def validate(event)

@@ -2,7 +2,7 @@
   <section id="preview">
     <h2>New Tweet</h2>
     <h3>Body</h3>
-    <%= render Tweets::Form.new(tweet: tweet, on_change: bind(:preview)) %>
+    <%= render Tweets::Form.new(tweet: tweet, on_change: bind(:preview), new_tweet: fresh_tweet) %>
     <% if tweet.content.present? %>
       <h3>Preview</h3>
       <%= render Tweets::Display.new(tweet: tweet) %>

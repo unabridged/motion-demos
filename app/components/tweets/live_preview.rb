@@ -3,15 +3,17 @@ module Tweets
     include Motion::Component
     delegate :validation_messages, :valid_class, :show_svg, to: :helpers
 
-    attr_reader :tweet, :feed
+    attr_reader :tweet, :feed, :fresh_tweet
 
     def initialize(tweet: Tweet.new, feed: [])
       @tweet = tweet
       @feed = feed
+      @fresh_tweet = true
     end
 
     def preview(attrs)
       tweet.assign_attributes(attrs.merge(tweeted_at: Time.current))
+      @fresh_tweet = false
       new_tweet if tweet.id.present?
     end
 
@@ -20,6 +22,7 @@ module Tweets
     def new_tweet
       feed.unshift(tweet)
       @tweet = Tweet.new
+      @fresh_tweet = true
     end
 
     # Mock getting an update from a tweet in the feed
