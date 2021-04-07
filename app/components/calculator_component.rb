@@ -28,7 +28,8 @@ class CalculatorComponent < ViewComponent::Base
 
   def add_char(event)
     str = event.target.data[:char].dup
-    if @buffer == "0"
+    if ["0", ""].include?(@buffer)
+      str = "0." if str == "."
       @buffer = str
     else
       @buffer << str
@@ -36,23 +37,24 @@ class CalculatorComponent < ViewComponent::Base
   end
 
   def operation(event)
-    event_op = event.target.data[:op].to_sym
+    event_op = event_operation(event)
+    return unless event_op
+
     @op = event_op if overwrite_operation?(event_op)
-    # Return if there's not anything to operate on
-    return if buffer.blank?
+    return unless buffer.present?
 
     calculate
-    next_ops(drop_decimals(buffer.to_f), event_op)
+    next_ops(buffer, event_op)
   end
 
   def change_sign
     amt = (current_value.to_f * -1)
-    change_current(drop_decimals(amt))
+    change_current(amt)
   end
 
   def percent
     amt = (current_value.to_f / 100.0)
-    change_current(drop_decimals(amt))
+    change_current(amt)
   end
 
   def equals
@@ -78,7 +80,19 @@ class CalculatorComponent < ViewComponent::Base
     return unless op && operand_one && buffer.present?
 
     total = operand_one.send(op, buffer.to_f)
-    @buffer = drop_decimals(total)
+    change_current(total)
+  end
+
+  # Use this when you're not performing an operation but need to change current_value (%, +/-)
+  def change_current(val)
+    val = drop_decimals(val.to_f)
+    ivar, ival = \
+      if buffer.blank?
+        ["@operand_one", val]
+      else
+        ["@buffer", val.to_s]
+      end
+    instance_variable_set(ivar, ival)
   end
 
   def drop_decimals(num)
@@ -89,19 +103,8 @@ class CalculatorComponent < ViewComponent::Base
     end
   end
 
-  # Use this when you're not performing an operation but need to change current_value (%, +/-)
-  def change_current(val)
-    ivar, ival = \
-      if buffer.blank?
-        ["@operand_one", val.to_f]
-      else
-        ["@buffer", val.to_s]
-      end
-    instance_variable_set(ivar, ival)
-  end
-
   def next_ops(current_buffer, operation)
-    @operand_one = current_buffer
+    @operand_one = drop_decimals(current_buffer.to_f)
     @op = operation
     clear_buffer
   end
@@ -121,7 +124,7 @@ class CalculatorComponent < ViewComponent::Base
 
   def overwrite_operation?(new_operation)
     # ie - if they clicked two operations in a row without adding numbers, use the last one
-    op_changed = new_operation.present? && new_operation != op
+    op_changed = new_operation != op
     op_changed && buffer.blank?
   end
 end

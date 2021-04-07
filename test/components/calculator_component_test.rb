@@ -72,6 +72,22 @@ class CalculatorComponentTest < ViewComponent::TestCase
           num.times { run_motion(subject, motion, event) }
         end
       end
+
+      it "allows the creation of decimals less than 1" do
+        assert_changes -> { subject.current_value.dup }, from: "0", to: "0.#{num_value}" do
+          run_motion(subject, motion, motion_event(dot_params))
+          num.times { run_motion(subject, motion, event.dup) }
+        end
+      end
+
+      it "allows the creation of decimals less than 1 if buffer starts empty" do
+        subject.instance_variable_set("@buffer", "")
+        subject.instance_variable_set("@operand_one", 21)
+        assert_changes -> { subject.current_value.to_s.dup }, from: "21", to: "0.#{num_value}" do
+          run_motion(subject, motion, motion_event(dot_params))
+          num.times { run_motion(subject, motion, event.dup) }
+        end
+      end
     end
 
     describe "#operation" do
@@ -151,15 +167,15 @@ class CalculatorComponentTest < ViewComponent::TestCase
         describe "when operand is set" do
           let(:operand_one) { 21 }
           let(:init_op) { %w[+ - * /].sample }
-          let(:after_operation) { operand_one.send(init_op, buffer.to_f) }
+          let(:after_operation) { format_decimals(operand_one.send(init_op, buffer.to_f)).to_s }
 
           # Scenario when user typed in two numbers (stored in buffer & operand_one),
           # but they have not been calculated yet, and instead of hitting equals,
           # the user typed another operation, so we need to calculate the previous operation
           # and free up buffer for them to type in a third number
           it "performs operation using int_op" do
-            assert_changes -> { subject.current_value.to_f },
-              from: buffer.to_f, to: after_operation do
+            assert_changes -> { subject.current_value.to_s },
+              from: buffer, to: after_operation do
               run_motion(subject, motion, event)
             end
           end
@@ -174,6 +190,10 @@ class CalculatorComponentTest < ViewComponent::TestCase
       let(:event) { motion_event(params) }
       let(:buffer) { "7" }
       let(:operand_one) { 21 }
+      let(:current_value) do
+        val = buffer.blank? ? operand_one : buffer.to_f
+        format_decimals(val).to_s
+      end
       before do
         subject.instance_variable_set("@op", op)
         subject.instance_variable_set("@operand_one", operand_one)
@@ -201,9 +221,9 @@ class CalculatorComponentTest < ViewComponent::TestCase
           # and calculator is ready to accept another number but user types in equals
           it "allows user to press equals, continue typing in a number, and then equals again" do
             new_num = "3"
-            new_value = operand_one.send(op, new_num.to_f)
+            new_value = format_decimals(operand_one.to_f.send(op, new_num.to_f))
             add_char_params = {target: {attributes: {"data-char" => new_num}}}
-            assert_changes -> { subject.current_value.to_f }, from: operand_one.to_f, to: new_value.to_f do
+            assert_changes -> { subject.current_value.to_s }, from: current_value, to: new_value.to_s do
               run_motion(subject, motion, event)
               run_motion(subject, :add_char, motion_event(add_char_params))
               run_motion(subject, motion, event)
@@ -257,12 +277,12 @@ class CalculatorComponentTest < ViewComponent::TestCase
 
         describe "when operand is set" do
           let(:operand_one) { 21 }
-          let(:after_operation) { operand_one.send(op, buffer.to_f) }
+          let(:after_operation) { format_decimals(operand_one.send(op, buffer.to_f)).to_s }
 
           # Scenario when user typed in two numbers, an operation, and pressed equals
           it "performs operation using op" do
-            assert_changes -> { subject.current_value.to_f },
-              from: buffer.to_f, to: after_operation do
+            assert_changes -> { subject.current_value.to_s },
+              from: buffer, to: after_operation do
               run_motion(subject, motion, event)
             end
           end
@@ -275,8 +295,11 @@ class CalculatorComponentTest < ViewComponent::TestCase
       let(:op) { %w[+ - * /].sample }
       let(:buffer) { ["7", ""].sample }
       let(:operand_one) { [21, nil].sample }
-      let(:current_value) { buffer.blank? ? operand_one : buffer }
-      let(:percent) { current_value.to_f / 100.0 }
+      let(:current_value) do
+        val = buffer.blank? ? operand_one : buffer.to_f
+        format_decimals(val).to_s
+      end
+      let(:percent) { format_decimals(current_value.to_f / 100.0) }
       before do
         subject.instance_variable_set("@op", op)
         subject.instance_variable_set("@operand_one", operand_one)
@@ -290,11 +313,11 @@ class CalculatorComponentTest < ViewComponent::TestCase
       end
 
       describe "when both are zero" do
-        let(:buffer) { "" }
+        let(:buffer) { "0" }
         let(:operand_one) { nil }
 
         it "no change in value percent" do
-          assert_no_changes -> { subject.current_value.to_f }, from: "0".to_f do
+          assert_no_changes -> { subject.current_value.to_s } do
             run_motion(subject, motion)
           end
         end
@@ -306,7 +329,7 @@ class CalculatorComponentTest < ViewComponent::TestCase
         let(:operand_one) { config.second }
 
         it "changes value by percent" do
-          assert_changes -> { subject.current_value.to_f }, from: current_value.to_f, to: percent.to_f do
+          assert_changes -> { subject.current_value.to_s }, from: current_value, to: percent.to_s do
             run_motion(subject, motion)
           end
         end
@@ -323,10 +346,10 @@ class CalculatorComponentTest < ViewComponent::TestCase
           let(:config) { [["", 21], ["7", nil]].sample }
           let(:buffer) { config.first }
           let(:operand_one) { config.second }
-          let(:final_value) { percent.to_f.send(op, new_num.to_f) }
+          let(:final_value) { percent.send(op, new_num.to_f) }
 
           it "allows user to press +/- and then type in numbers and operations and will work" do
-            assert_changes -> { subject.current_value.to_f }, from: current_value.to_f, to: final_value.to_f do
+            assert_changes -> { subject.current_value.to_s }, from: current_value, to: final_value.to_s do
               run_motion(subject, motion)
               run_motion(subject, :operation, motion_event(add_op_params))
               run_motion(subject, :add_char, motion_event(add_char_params))
@@ -336,11 +359,11 @@ class CalculatorComponentTest < ViewComponent::TestCase
         end
 
         describe "when buffer and operand are set" do
-          let(:val_after_first_char) { operand_one.to_f.send(op, percent.to_f) }
+          let(:val_after_first_char) { operand_one.send(op, percent) }
           let(:final_value) { val_after_first_char.send(op, new_num.to_f) }
 
           it "allows user to press +/- and then type in numbers and operations and will work" do
-            assert_changes -> { subject.current_value.to_f }, from: current_value.to_f, to: final_value.to_f do
+            assert_changes -> { subject.current_value.to_s }, from: current_value, to: final_value.to_s do
               run_motion(subject, motion)
               run_motion(subject, :operation, motion_event(add_op_params))
               run_motion(subject, :add_char, motion_event(add_char_params))
@@ -356,8 +379,11 @@ class CalculatorComponentTest < ViewComponent::TestCase
       let(:op) { %w[+ - * /].sample }
       let(:buffer) { ["7", ""].sample }
       let(:operand_one) { [21, nil].sample }
-      let(:current_value) { buffer.blank? ? operand_one : buffer }
-      let(:change_sign) { current_value.to_f * -1 }
+      let(:current_value) do
+        val = buffer.blank? ? operand_one : buffer.to_f
+        format_decimals(val).to_s
+      end
+      let(:change_sign) { format_decimals(current_value.to_f * -1) }
       before do
         subject.instance_variable_set("@op", op)
         subject.instance_variable_set("@operand_one", operand_one)
@@ -371,11 +397,11 @@ class CalculatorComponentTest < ViewComponent::TestCase
       end
 
       describe "when both are zero" do
-        let(:buffer) { "" }
+        let(:buffer) { "0" }
         let(:operand_one) { nil }
 
         it "no change in value" do
-          assert_no_changes -> { subject.current_value.to_f }, from: "0".to_f do
+          assert_no_changes -> { subject.current_value.to_s } do
             run_motion(subject, motion)
           end
         end
@@ -387,19 +413,19 @@ class CalculatorComponentTest < ViewComponent::TestCase
         let(:operand_one) { config.second }
 
         it "changes value by sign" do
-          assert_changes -> { subject.current_value.to_f }, from: current_value.to_f, to: change_sign.to_f do
+          assert_changes -> { subject.current_value.to_s }, from: current_value, to: change_sign.to_s do
             run_motion(subject, motion)
           end
         end
 
         it "changes no value if run as multiple of two" do
-          assert_no_changes -> { subject.current_value.to_f } do
+          assert_no_changes -> { subject.current_value.to_s } do
             6.times { run_motion(subject, motion) }
           end
         end
 
         it "changes no value if run as mod 1 of 2" do
-          assert_changes -> { subject.current_value.to_f }, from: current_value.to_f, to: change_sign.to_f do
+          assert_changes -> { subject.current_value.to_s }, from: current_value, to: change_sign.to_s do
             5.times { run_motion(subject, motion) }
           end
         end
@@ -416,10 +442,10 @@ class CalculatorComponentTest < ViewComponent::TestCase
           let(:config) { [["", 21], ["7", nil]].sample }
           let(:buffer) { config.first }
           let(:operand_one) { config.second }
-          let(:final_value) { change_sign.to_f.send(op, new_num.to_f) }
+          let(:final_value) { format_decimals(change_sign.send(op, new_num.to_f)) }
 
           it "allows user to press +/- and then type in numbers and operations and will work" do
-            assert_changes -> { subject.current_value.to_f }, from: current_value.to_f, to: final_value.to_f do
+            assert_changes -> { subject.current_value.to_s }, from: current_value, to: final_value.to_s do
               run_motion(subject, motion)
               run_motion(subject, :operation, motion_event(add_op_params))
               run_motion(subject, :add_char, motion_event(add_char_params))
@@ -429,11 +455,11 @@ class CalculatorComponentTest < ViewComponent::TestCase
         end
 
         describe "when buffer and operand are set" do
-          let(:val_after_first_char) { operand_one.to_f.send(op, change_sign.to_f) }
-          let(:final_value) { val_after_first_char.send(op, new_num.to_f) }
+          let(:val_after_first_char) { operand_one.send(op, change_sign) }
+          let(:final_value) { format_decimals(val_after_first_char.send(op, new_num.to_f)) }
 
           it "allows user to press +/- and then type in numbers and operations and will work" do
-            assert_changes -> { subject.current_value.to_f }, from: current_value.to_f, to: final_value.to_f do
+            assert_changes -> { subject.current_value.to_s }, from: current_value, to: final_value.to_s do
               run_motion(subject, motion)
               run_motion(subject, :operation, motion_event(add_op_params))
               run_motion(subject, :add_char, motion_event(add_char_params))
@@ -463,10 +489,18 @@ class CalculatorComponentTest < ViewComponent::TestCase
       end
 
       it "resets current_value" do
-        assert_changes -> { subject.current_value }, from: buffer, to: nil do
+        assert_changes -> { subject.current_value }, from: buffer, to: 0 do
           run_motion(subject, motion)
         end
       end
+    end
+  end
+
+  def format_decimals(num)
+    if num == num.to_i
+      num.to_i
+    else
+      num
     end
   end
 end
