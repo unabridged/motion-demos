@@ -5,6 +5,11 @@
 @import "clicker_game";
 @import "go";
 @import "modal";
+@import "tweet";
+
+body {
+  box-sizing: border-box;
+}
 
 .calc-grid {
   display: grid;

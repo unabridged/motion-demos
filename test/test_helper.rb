@@ -3,6 +3,7 @@ require_relative "../config/environment"
 require "rails/test_help"
 
 require "minitest/spec"
+require "minitest/autorun"
 require "mocha/minitest"
 
 class BindMockComponent < ViewComponent::Base
@@ -11,6 +12,10 @@ end
 
 def run_motion(component, motion_name, event = motion_event)
   component.process_motion(motion_name.to_s, event)
+end
+
+def assert_timer(component, method_name, interval)
+  assert_equal interval, component.periodic_timers[method_name.to_s]
 end
 
 def callback_stub(method_name = :bound)

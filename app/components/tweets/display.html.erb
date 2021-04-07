@@ -1,0 +1,43 @@
+<section>
+  <div class="tweet tweet-border <%= tweet_status %>">
+   <article>
+      <div class="tweet-header">
+          <div class="tweet-pic">
+            <%= show_svg("user.svg") %>
+          </div>
+        <div class="tweet-from">
+          <div class="tweet-fullname">
+            <span><%= tweet.full_name %></span>
+          </div>
+          <div class="tweet-username">
+            <span><%= tweet.username %></span>
+          </div>
+         </div>
+        <%= show_svg("twitter.svg") %>
+      </div>
+      <div class="tweet-body">
+        <pre class="tweet-content"><%= tweet.content %></pre>
+        <div class="tweet-footer">
+          <span class="tweet-time">
+            <%= tweeted_at %>
+          </span>
+          <%= show_svg("info.svg") %>
+        </div>
+      </div>
+      <div class="links">
+        <div class="link link-heart">
+          <%= show_svg("heart.svg") %>
+          <span><%= hearts %></span>
+        </div>
+        <div class="link link-retweet">
+          <%= show_svg("comment.svg") %>
+          <span><%= retweets %></span>
+        </div>
+        <div class="link link-share">
+          <%= show_svg("link.svg") %>
+          <span>Copy Link to Tweet</span>
+        </div>
+      </div>
+   </article>
+  </div>
+</section>

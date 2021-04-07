@@ -1,0 +1,119 @@
+.live-preview {
+  $min-width: 250px;
+  $max-width: 550px;
+  $img-width: 24px;
+  $img-height: $img-width;
+  $padding-zero: 0;
+  $padding-small: 4px;
+  $padding-medium: 8px;
+  $padding-large: 16px;
+  $font-large: 18px;
+  $font-medium: 14px;
+  $dark-grey: rgb(101, 119, 134);
+  $grey: rgb(204, 214, 221);
+  $twitter-blue: rgb(29, 161, 242);
+
+  textarea {
+    width: $max-width;
+    height: $min-width;
+  }
+
+  .tweet {
+    display: flex;
+    flex-direction: column;
+    margin: $padding-large $padding-zero;
+    font-size: $font-medium;
+
+    &.tweet-border {
+      border-radius: $padding-large;
+      border-width: 1px;
+      border-style: solid;
+      min-width: $min-width;
+      max-width: $max-width;
+      overflow: hidden;
+
+      &.draft {
+        border-color: $grey;
+        opacity: 80%;
+      }
+
+      &.sent {
+        border-color: $dark-grey;
+      }
+    }
+
+    article {
+      padding: $padding-medium $padding-large $padding-small;
+    }
+
+    svg {
+      width: $img-width;
+      height: $img-height;
+      fill: currentcolor;
+    }
+
+    .tweet-pic {
+      min-width: $img-width * 2;
+      min-height: $img-height * 2;
+      border-radius: 100%;
+      border: 1px solid $dark-grey;
+      overflow: hidden;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .tweet-from {
+      width: 100%;
+      margin: $padding-zero $padding-small;
+    }
+
+    .tweet-bird {
+      color: $twitter-blue;
+    }
+
+    .tweet-fullname {
+      font-weight: bold;
+    }
+
+    .tweet-content {
+      padding: $padding-medium $padding-zero $padding-zero;
+      margin-bottom: $padding-zero;
+      overflow-x: auto;
+      font-size: $font-large;
+      font-family: inherit;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .tweet-header, .tweet-footer, .links {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: $padding-medium $padding-zero;
+    }
+
+    .tweet-footer {
+      padding: $padding-medium $padding-zero $padding-zero;
+    }
+
+    .link {
+      width: auto;
+
+      span {
+        margin: $padding-zero $padding-small;
+      }
+    }
+
+    .tweet-username, .tweet-time, .links {
+      color: $dark-grey;
+    }
+
+    .tweet-footer {
+      color: $grey;
+    }
+  }
+}
+

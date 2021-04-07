@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-12">
+    <%= link_to "Back to All Demos", root_path %>
+    <h1>Motion Demos - Live Preview</h1>
+    <p>A pure-Ruby implementation of Live Preview, referencing an alternative approach to (<a href="https://nts.strzibny.name/rails-stimulus-live-preview/">Rails and Stimulus</a>).</p>
+
+    <ul>
+      <li>No JS is used to execute live preview, only Ruby</li>
+      <li>The page is never reloaded</li>
+      <li>No frontend model/store/reducer required, all state is managed in a Ruby class on the server</li>
+    </ul>
+  </div>
+
+
+  <section class="my-4 col-sm-12 col-md-8">
+    <%= render Tweets::LivePreview.new %>
+  </section>
+</div>

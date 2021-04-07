@@ -41,15 +41,16 @@ group :development do
   gem "standard"
 end
 
-group :test do
-  gem "mocha"
-end
-
 group :production do
   gem "pg"
   gem "honeybadger"
   # Use Redis adapter to run Action Cable in production
   gem "redis", "~> 4.0"
+end
+
+group :test do
+  gem "mocha"
+  gem "capybara"
 end
 
 gem "motion"
