@@ -13,6 +13,8 @@ class CalculatorComponent < ViewComponent::Base
   #   value from all previous operations.
   attr_reader :buffer, :op, :operand_one
 
+  OPERATIONS = %w[+ - * /].freeze
+
   map_motion :clear
   map_motion :change_sign
   map_motion :percent
@@ -112,8 +114,14 @@ class CalculatorComponent < ViewComponent::Base
     @buffer = ""
   end
 
+  def event_operation(event)
+    op = event.target.data[:op]
+    op.to_sym if OPERATIONS.include?(op)
+  end
+
   def overwrite_operation?(new_operation)
     # ie - if they clicked two operations in a row without adding numbers, use the last one
-    new_operation != op && buffer.blank?
+    op_changed = new_operation.present? && new_operation != op
+    op_changed && buffer.blank?
   end
 end

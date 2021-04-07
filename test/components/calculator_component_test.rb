@@ -88,6 +88,22 @@ class CalculatorComponentTest < ViewComponent::TestCase
         subject.instance_variable_set("@buffer", buffer)
       end
 
+      describe "when operation is not supported" do
+        let(:op) { :malevolent_op }
+        # User has hacked DOM to return another value
+        it "doesn't change value" do
+          assert_no_changes -> { subject.current_value.to_s } do
+            run_motion(subject, motion, event)
+          end
+        end
+
+        it "does not set op" do
+          assert_no_changes -> { subject.op } do
+            run_motion(subject, motion, event)
+          end
+        end
+      end
+
       describe "when buffer is blank" do
         # Scenario when user has typed in one number (stored in operand_one) and an operation
         # and calculator is ready to accept another number but user types in operation again
