@@ -4,6 +4,9 @@ button {
   &.active {
     border: 0.25em solid $primary-color;
   }
+  &.active::before {
+    content: '✓';
+  }
 }
 
 #modal-demos {

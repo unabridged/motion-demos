@@ -3,17 +3,17 @@
     <h2>Select a way to trigger the modal.</h2>
     <ul class="list-unstyled triggers">
       <li>
-        <button data-motion="mode" data-value="motion" class="btn btn-outline-primary <%= modal_mode == :motion ? 'active' : nil %>">
+        <button data-motion="mode" data-value="motion" class="btn btn-outline-primary <%= modal_mode == :motion ? 'active' : nil %>" aria-pressed="<%= modal_mode == :motion %>">
           Motion Modal - triggered by Motion upon selection
         </button>
       </li>
       <li>
-        <button data-motion="mode" data-value="modal_with_trigger" class="btn btn-outline-primary <%= modal_mode == :modal_with_trigger ? 'active' : nil %>">
+        <button data-motion="mode" data-value="modal_with_trigger" class="btn btn-outline-primary <%= modal_mode == :modal_with_trigger ? 'active' : nil %>" aria-pressed="<%= modal_mode == :motion %>">
           Bootstrap Modal - triggered by Bootstrap trigger button
         </button>
       </li>
       <li>
-        <button data-motion="mode" data-value="modal" class="btn btn-outline-primary <%= modal_mode == :modal ? 'active' : nil %>">
+        <button data-motion="mode" data-value="modal" class="btn btn-outline-primary <%= modal_mode == :modal ? 'active' : nil %>" aria-pressed="<%= modal_mode == :motion %>">
           Bootstrap Modal - triggered by Bootstrap upon selection
         </button>
       </li>
