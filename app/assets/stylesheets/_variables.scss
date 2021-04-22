@@ -1,7 +1,4 @@
-
-
 $primary-color: #0a406b; // dark blue
-
 $primary-color-dark: #24364d; // darker blue
 $primary-color-light: lighten($primary-color, 20%); // lighter blue
 $secondary-color: #5d9f3d; // green
@@ -17,6 +14,12 @@ $red: #FF4B3E;
 // bootstrap overrides
 $primary: $primary-color;
 $secondary: $secondary-color-dark;
+
+$navbar-light-color:                rgba(0,0,0, .7) !default;
+$navbar-light-hover-color:          rgba(0,0,0, .9) !default;
+$navbar-light-active-color:         rgba(0,0,0, .8) !default;
+$navbar-light-disabled-color:       rgba(0,0,0, .5) !default;
+
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
