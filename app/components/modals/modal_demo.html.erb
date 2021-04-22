@@ -1,6 +1,6 @@
 <div>
   <section>
-    <h3>Select a way to trigger the modal.</h3>
+    <h2>Select a way to trigger the modal.</h2>
     <ul>
       <li>
         <button data-motion="mode" data-value="motion" class="<%= modal_mode == :motion ? 'active' : nil %>">
@@ -21,7 +21,7 @@
   </section>
 
   <section>
-    <h4>Current state </h4>
+    <h2>Current state </h2>
     <p>Selected: <%= selected %></p>
 
     <p>Mode: <%= modal_mode %></p>
@@ -29,8 +29,8 @@
   </section>
 
   <section>
-    <h3>Select a number to display inside the modal.</h3>
-    <h6>Selecting the number will trigger the modal except for the Bootstrap trigger.</h6>
+    <h2>Select a number to display inside the modal.</h2>
+    <p>Selecting the number will trigger the modal except for the Bootstrap trigger.</p>
     <ul>
       <% 5.times do |i| %>
         <li>
