@@ -1,26 +1,17 @@
-# README
+# Motion Demos
 
-[see them live](https://motion-demos.herokuapp.com/)
+[See the demos live](https://motion-demos.herokuapp.com/)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project contains a set of demos for [Motion](https://github.com/unabridged/motion), a library for building reactive, real-time frontend UI components in your Rails application using pure Ruby.
 
-Things you may want to cover:
+## Contributing to Motion Demos
+Have an idea for a demo, or see an issue with existing demo? [Open an issue](https://github.com/unabridged/motion-demos/issues).Want to contribute a new demo or improve an existing demo? We welcome pull requests!
 
-* Ruby version
+Issues with Motion itself should go in the [main Motion repository](https://github.com/unabridged/motion/issues).
 
-* System dependencies
+### Development Scripts
+Run setup: `bin/setup`
 
-* Configuration
+Run tests: `bundle exec rake`
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Run the linter: `bundle exec standardrb`
