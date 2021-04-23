@@ -1,19 +1,19 @@
-<div>
+<div id="modal-demos">
   <section>
-    <h3>Select a way to trigger the modal.</h3>
-    <ul>
+    <h2>Select a way to trigger the modal.</h2>
+    <ul class="list-unstyled triggers">
       <li>
-        <button data-motion="mode" data-value="motion" class="<%= modal_mode == :motion ? 'active' : nil %>">
+        <button data-motion="mode" data-value="motion" class="btn btn-outline-primary <%= modal_mode == :motion ? 'active' : nil %>" aria-pressed="<%= modal_mode == :motion %>">
           Motion Modal - triggered by Motion upon selection
         </button>
       </li>
       <li>
-        <button data-motion="mode" data-value="modal_with_trigger" class="<%= modal_mode == :modal_with_trigger ? 'active' : nil %>">
+        <button data-motion="mode" data-value="modal_with_trigger" class="btn btn-outline-primary <%= modal_mode == :modal_with_trigger ? 'active' : nil %>" aria-pressed="<%= modal_mode == :motion %>">
           Bootstrap Modal - triggered by Bootstrap trigger button
         </button>
       </li>
       <li>
-        <button data-motion="mode" data-value="modal" class="<%= modal_mode == :modal ? 'active' : nil %>">
+        <button data-motion="mode" data-value="modal" class="btn btn-outline-primary <%= modal_mode == :modal ? 'active' : nil %>" aria-pressed="<%= modal_mode == :motion %>">
           Bootstrap Modal - triggered by Bootstrap upon selection
         </button>
       </li>
@@ -21,7 +21,7 @@
   </section>
 
   <section>
-    <h4>Current state </h4>
+    <h2>Current state </h2>
     <p>Selected: <%= selected %></p>
 
     <p>Mode: <%= modal_mode %></p>
@@ -29,15 +29,15 @@
   </section>
 
   <section>
-    <h3>Select a number to display inside the modal.</h3>
-    <h6>Selecting the number will trigger the modal except for the Bootstrap trigger.</h6>
-    <ul>
+    <h2>Select a number to display inside the modal.</h2>
+    <p>Selecting the number will trigger the modal except for the Bootstrap trigger.</p>
+    <ul class="list-unstyled display-options">
       <% 5.times do |i| %>
         <li>
           <button
             data-motion="selection"
             data-value="<%= i + 1 %>"
-            class="<%= (selected == (i + 1).to_s ? 'active' : nil) %>"
+            class="btn btn-outline-primary <%= (selected == (i + 1).to_s ? 'active' : nil) %>"
             <%= modal_mode == :modal ? 'data-toggle=modal data-target=#exampleModal' : nil %>
           >
             <%= numbers_to_words(i + 1) %>

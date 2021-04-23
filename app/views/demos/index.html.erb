@@ -2,39 +2,45 @@
 <p><%= link_to "Motion", "https://github.com/unabridged/motion" %> is a library that allows you to build reactive frontend UI components in your Rails application using pure Ruby. The full source for these demos can be found on <%= link_to "Github", "https://github.com/unabridged/motion-demos" %>.</p>
 
 <h2>All Demos</h2>
-<ul class="list-group col-xs-12 col-md-8">
-  <%= link_to calculator_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
-    <h4>Calculator</h4>
-    <p>Allow complex frontend user interactions to generate results in real time with zero JS.</p>
-  <% end %>
-
-  <%= link_to form_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
-    <h4>Form Validation</h4>
-    <p>Validate user input in real time with no JS and no repeated code from server to client.</p>
-  <% end %>
-
-  <%= link_to clicker_games_path, class: "list-group-item list-group-item-action pt-4" do %>
-    <h4>Clicker Game</h4>
+<ul class="list-group col-xs-12 col-md-8 list-unstyled">
+  <li>
+    <%= link_to calculator_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
+      <h3>Calculator</h3>
+      <p>Allow complex frontend user interactions to generate results in real time with zero JS.</p>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to form_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
+      <h3>Form Validation</h3>
+      <p>Validate user input in real time with no JS and no repeated code from server to client.</p>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to clicker_games_path, class: "list-group-item list-group-item-action pt-4" do %>
+    <h3>Clicker Game</h3>
     <p>Multi-user game streaming real-time events between all players and updating UI accordingly.</p>
   <% end %>
-
-  <%= link_to clock_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
-    <h4>Clock Animation</h4>
+  </li>
+  <li>
+    <%= link_to clock_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
+    <h3>Clock Animation</h3>
     <p>See time, in different time zones, with css animations (progress bar).</p>
   <% end %>
-
-  <%= link_to modal_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
-    <h4>Modal Demo</h4>
+  </li>
+  <li>
+    <%= link_to modal_demo_path, class: "list-group-item list-group-item-action pt-4" do %>
+    <h3>Modal Demo</h3>
     <p>See how to work with modals with Bootstrap Modals.</p>
   <% end %>
-
-  <%= link_to live_preview_path, class: "list-group-item list-group-item-action pt-4" do %>
-    <h4>Live Preview</h4>
+  </li>
+  <li>
+    <%= link_to live_preview_path, class: "list-group-item list-group-item-action pt-4" do %>
+    <h3>Live Preview</h3>
     <p>Type in a form and see an immediate preview.</p>
   <% end %>
-
+  </li>
   <!-- <%= link_to go_index_path, class: "list-group-item list-group-item-action pt-4" do %> -->
-  <!--   <h4>Go, The Surrounding Game</h4> -->
+  <!--   <h3>Go, The Surrounding Game</h3> -->
   <!--   <p>Play a 9x9 game of Go with a friend and share the game link with observers.</p> -->
   <!-- <% end %> -->
 </ul>

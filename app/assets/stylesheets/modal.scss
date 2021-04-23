@@ -4,4 +4,23 @@ button {
   &.active {
     border: 0.25em solid $primary-color;
   }
+  &.active::before {
+    content: '✓';
+  }
+}
+
+#modal-demos {
+  .display-options {
+    display: flex;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+  .triggers {
+    button {
+      margin-bottom: 10px;
+    }
+    
+  }
 }
