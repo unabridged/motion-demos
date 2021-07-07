@@ -1,10 +1,10 @@
 <section class="grid">
   <div class="line">
-  <% (0..@size*@size-1).each_with_index do |coord, i| %>
-    <% if i % @size == 0 && i != 0 %>
+  <% (0..range).each_with_index do |coord, i| %>
+    <% if row_end?(i) %>
       </div><br /><div class="line">
     <% end %>
-    <% if @board[i] == 1 %>
+    <% if exploding?(i) %>
       <div class="tile explode" style="--count:<%= -((@count * 50)%1000) %>ms;" data-motion="explode" data-index="<%= coord %>">
     <% else %>
       <div class="tile" style="background-color: gray;" data-motion="explode" data-index="<%= coord %>">

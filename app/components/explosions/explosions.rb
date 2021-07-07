@@ -21,15 +21,27 @@ module Explosions
       @count = 0
     end
 
+    def exploding?(i)
+      @board[i] == 1
+    end
+
+    def range
+      @size * @size - 1
+    end
+
+    def row_end?(i)
+      i % @size == 0 && i != 0
+    end
+
     def update
       if @exploding
         @count += 1
 
         @board = @board.map.with_index { |val, i|
-          if val == 0 && distance(i, @center) == @count-1
-            val = 1
+          if val == 0 && distance(i, @center) == @count - 1
+            1
           else
-            val = 0
+            0
           end
         }
 
@@ -39,6 +51,8 @@ module Explosions
         end
       end
     end
+
+    private
 
     def distance(a, b)
       horiz = (a % size) - (b % size)
