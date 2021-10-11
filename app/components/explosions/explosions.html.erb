@@ -1,0 +1,14 @@
+<section class="grid">
+  <div class="line">
+  <% (0..range).each_with_index do |coord, i| %>
+    <% if row_end?(i) %>
+      </div><br /><div class="line">
+    <% end %>
+    <% if exploding?(i) %>
+      <div class="tile explode" style="--count:<%= -((@count * 50)%1000) %>ms;" data-motion="explode" data-index="<%= coord %>">
+    <% else %>
+      <div class="tile" style="background-color: gray;" data-motion="explode" data-index="<%= coord %>">
+    <% end %>
+    </div>
+  <% end %>
+</section>
