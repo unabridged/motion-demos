@@ -120,7 +120,7 @@ GEM
       nokogiri
       rails (>= 5.1)
     msgpack (1.4.2)
-    nio4r (2.5.7)
+    nio4r (2.5.8)
     nokogiri (1.11.2)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
@@ -138,7 +138,7 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (4.0.6)
-    puma (4.3.7)
+    puma (4.3.9)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -271,7 +271,7 @@ DEPENDENCIES
   motion
   pg
   pry-rails
-  puma (~> 4.1)
+  puma (~> 4.3)
   rails (~> 6.0.3, >= 6.0.3.1)
   redis (~> 4.0)
   sass-rails (>= 6)
